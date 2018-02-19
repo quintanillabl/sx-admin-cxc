@@ -1,0 +1,57 @@
+<td-layout-nav  navigationRoute="/clientes" color="accent">
+
+  <div td-toolbar-content layout="row" layout-align="start center" flex>
+
+    <button mat-icon-button td-menu-button tdLayoutToggle>
+      <mat-icon>menu</mat-icon>
+    </button>
+    <span [routerLink]="['/']" class="cursor-pointer"> Clientes </span>
+    <span flex></span>
+
+  </div>
+
+  <div layout class="page">
+
+    <mat-card flex>
+      <div layout flex layout-padding>
+        <span class="mat-title" >Catálogo de clientes</span>
+      </div>
+      <mat-divider></mat-divider>
+      <div layout layout-align="center" class="spinner-container" *ngIf="dataSource.loading$ | async">
+        <mat-spinner ></mat-spinner>
+      </div>
+      <mat-table class="clientes-table mat-elevation-z8" [dataSource]="dataSource" matSort
+                 matSortActive="nombre" matSortDirection="desc" matSortDisableClear>
+        <ng-container matColumnDef="clave">
+          <mat-header-cell *matHeaderCellDef>Clave</mat-header-cell>
+          <mat-cell *matCellDef="let cliente">{{cliente.clave}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="nombre">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>Nombre</mat-header-cell>
+          <mat-cell class="cursor-pointer" *matCellDef="let cliente">{{cliente.nombre}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="rfc">
+          <mat-header-cell *matHeaderCellDef>RFC</mat-header-cell>
+          <mat-cell *matCellDef="let cliente">{{cliente.rfc}}</mat-cell>
+        </ng-container>
+        <mat-header-row *matHeaderRowDef="columns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: columns" (click)="selectRow(row)"
+                 [ngClass]="{'selected': row.id === selected?.id }">
+        </mat-row>
+      </mat-table>
+
+    </mat-card>
+
+    <mat-card *ngIf="selected" flex>
+      <mat-card-title>{{selected.nombre}}</mat-card-title>
+      <mat-divider></mat-divider>
+    </mat-card>
+  </div>
+
+  <td-layout-footer>
+    <div layout="row" layout-align="start center">
+      <span class="md-caption">Copyright &copy; 2017 Luxsoft Mx. All rights reserved</span>
+    </div>
+  </td-layout-footer>
+
+</td-layout-nav>
