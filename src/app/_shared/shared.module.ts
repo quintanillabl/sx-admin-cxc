@@ -5,6 +5,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from './_material/material.module';
 import { CovalentModule } from './_covalent/covalent.module';
 
+// components
+import { components } from './components';
 
 @NgModule({
   imports: [
@@ -12,7 +14,7 @@ import { CovalentModule } from './_covalent/covalent.module';
     FormsModule,
     ReactiveFormsModule,
     MaterialModule,
-    CovalentModule,
+    CovalentModule
   ],
   exports: [
     CommonModule,
@@ -20,7 +22,8 @@ import { CovalentModule } from './_covalent/covalent.module';
     ReactiveFormsModule,
     MaterialModule,
     CovalentModule,
+    ...components
   ],
-  declarations: []
+  declarations: [...components]
 })
-export class SharedModule { }
+export class SharedModule {}

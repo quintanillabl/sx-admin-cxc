@@ -1,23 +1,33 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
 
-import { ClientesRoutingModule } from './clientes-routing.module';
-import { ClientesListComponent } from './containers/clientes-list/clientes-list.component';
+import { StoreModule } from '@ngrx/store';
+
+import { reducers } from './store/index';
+
 import { SharedModule } from '../_shared/shared.module';
-import { services } from './services';
+import { ClientesRoutingModule } from './clientes-routing.module';
+
+// components
+import * as fromComponents from './components';
+// containers
+import * as fromContainers from './containers';
+// services
+import * as fromServices from './services';
 
 @NgModule({
   imports: [
     SharedModule,
-    ClientesRoutingModule
+    ClientesRoutingModule,
+    StoreModule.forFeature('clientes', reducers)
   ],
-  declarations: [ClientesListComponent]
+  declarations: [...fromContainers.containers, ...fromComponents.components],
+  entryComponents: [...fromComponents.entryComponents]
 })
 export class ClientesModule {
-
   static forRoot(): ModuleWithProviders {
     return {
       ngModule: ClientesModule,
-      providers: [ services ]
+      providers: [...fromServices.services]
     };
   }
 }

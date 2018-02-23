@@ -20,4 +20,5 @@ export interface LineaDeCredito {
   saldo: number;
   postfechado: boolean;
   socio?: any;
+  revision?: boolean;
 }
