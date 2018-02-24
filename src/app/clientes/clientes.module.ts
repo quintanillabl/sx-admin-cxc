@@ -21,6 +21,7 @@ import * as fromServices from './services';
     StoreModule.forFeature('clientes', reducers)
   ],
   declarations: [...fromContainers.containers, ...fromComponents.components],
+  exports: [fromComponents.ClienteFieldComponent],
   entryComponents: [...fromComponents.entryComponents]
 })
 export class ClientesModule {

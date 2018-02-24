@@ -7,17 +7,21 @@ import { Observable } from 'rxjs/Observable';
   styles: []
 })
 export class MainPageComponent implements OnInit {
-
-  navigation: Array<{icon: string, route: string, title: string}> = [
+  navigation: Array<{ icon: string; route: string; title: string }> = [
     {
       icon: 'home',
       route: '/',
-      title: 'Inicio',
+      title: 'Inicio'
     },
     {
       icon: 'group',
       route: '/clientes',
       title: 'Clientes'
+    },
+    {
+      icon: 'insert_invitation',
+      route: '/solicitudes',
+      title: 'Solicitudes'
     },
     {
       icon: 'list',
@@ -32,7 +36,7 @@ export class MainPageComponent implements OnInit {
     {
       icon: 'color_lens',
       route: '/tableros',
-      title: 'Tableros',
+      title: 'Tableros'
     },
     {
       icon: 'settings',
@@ -41,29 +45,31 @@ export class MainPageComponent implements OnInit {
     }
   ];
 
-  usermenu: Array<{icon: string, route: string, title: string}> = [
+  usermenu: Array<{ icon: string; route: string; title: string }> = [
     {
       icon: 'swap_horiz',
       route: '.',
-      title: 'Cambio de usuario',
-    }, {
+      title: 'Cambio de usuario'
+    },
+    {
       icon: 'tune',
       route: '.',
-      title: 'Cuenta',
-    }, {
+      title: 'Cuenta'
+    },
+    {
       icon: 'exit_to_app',
       route: '.',
-      title: 'Salir del sistema',
-    }];
+      title: 'Salir del sistema'
+    }
+  ];
 
   modulo$: Observable<string>;
 
   sidenavWidth = 300;
 
-  constructor() { }
+  constructor() {}
 
   ngOnInit() {
     this.modulo$ = Observable.of('PENDIENTE');
   }
-
 }

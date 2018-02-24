@@ -9,8 +9,15 @@ const routes: Routes = [
     path: '',
     component: MainPageComponent,
     children: [
-      { path: '', component: HomePageComponent},
-      { path: 'clientes', loadChildren: './clientes/clientes.module#ClientesModule'},
+      { path: '', component: HomePageComponent },
+      {
+        path: 'clientes',
+        loadChildren: './clientes/clientes.module#ClientesModule'
+      },
+      {
+        path: 'solicitudes',
+        loadChildren: './solicitudes/solicitudes.module#SolicitudesModule'
+      }
     ]
   }
 ];
@@ -19,4 +26,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}
