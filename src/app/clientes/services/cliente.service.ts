@@ -49,4 +49,22 @@ export class ClienteService {
     const url = `${this.apiUrl}/${cliente.id}/facturas`;
     return this.http.get<Cliente[]>(url, { params: params });
   }
+
+  cxc(cliente: Cliente, filtro?: any): Observable<Cliente[]> {
+    let params = new HttpParams();
+    _.forIn(filtro, (value, key) => {
+      params = params.set(key, value);
+    });
+    const url = `${this.apiUrl}/${cliente.id}/cxc`;
+    return this.http.get<Cliente[]>(url, { params: params });
+  }
+
+  cobros(cliente: Cliente, filtro?: any): Observable<Cliente[]> {
+    let params = new HttpParams();
+    _.forIn(filtro, (value, key) => {
+      params = params.set(key, value);
+    });
+    const url = `${this.apiUrl}/${cliente.id}/cobros`;
+    return this.http.get<Cliente[]>(url, { params: params });
+  }
 }

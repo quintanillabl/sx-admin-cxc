@@ -23,7 +23,7 @@ export class ClienteCxcComponent implements OnInit {
     this.cliente$ = this.route.parent.data.map(data => data.cliente);
     this.cuentasPorCobrar$ = this.cliente$.switchMap(cliente => {
       return this.service
-        .facturas(cliente, { term: '' })
+        .cxc(cliente, { term: '' })
         .pipe(catchError(err => Observable.of(err)));
     });
   }
