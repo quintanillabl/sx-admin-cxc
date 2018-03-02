@@ -24,6 +24,11 @@ export class MainPageComponent implements OnInit {
       title: 'Solicitudes'
     },
     {
+      icon: 'file_download',
+      route: '/cobros',
+      title: 'Cobros'
+    },
+    {
       icon: 'list',
       route: '/cxc',
       title: 'CXC (Crédito)'

@@ -1,0 +1,6 @@
+<mat-card>
+  <sx-search-title title="Cobros registrados" (search)=onSearch($event)></sx-search-title>
+  <div>
+    <sx-cobros-table [cobros]="cobros$ | async" (select)="onSelect($event)"></sx-cobros-table>
+  </div>
+</mat-card>

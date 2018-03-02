@@ -1,30 +1,26 @@
-<td-layout-nav #navList
-  color="primary"
-  [toolbarTitle]="(media.registerQuery('gt-xs') | async) ? 'Cliente:' : ''"
-  navigationRoute="/">
+<td-layout-nav #navList color="primary" [toolbarTitle]="(media.registerQuery('gt-xs') | async) ? 'Cliente:' : ''" navigationRoute="/">
 
   <button mat-icon-button td-menu-button tdLayoutToggle>
     <mat-icon>menu</mat-icon>
   </button>
 
-  <div td-toolbar-content layout="row" layout-align="start center" flex >
+  <div td-toolbar-content layout="row" layout-align="start center" flex>
     <span class="pad-left">{{cliente.nombre}}</span>
-    <span flex ></span>
-    <button type="button" mat-icon-button (click)="cambiar()"><mat-icon>person</mat-icon></button>
+    <span flex></span>
+    <button type="button" mat-icon-button (click)="cambiar()">
+      <mat-icon>person</mat-icon>
+    </button>
   </div>
 
-  <td-layout-manage-list #manageList
-    [opened]="media.registerQuery('gt-sm') | async"
-    [mode]="(media.registerQuery('gt-sm') | async) ? 'side' :  'over'"
+  <td-layout-manage-list #manageList [opened]="media.registerQuery('gt-sm') | async" [mode]="(media.registerQuery('gt-sm') | async) ? 'side' :  'over'"
     [sidenavWidth]="!miniNav ? '257px' : '64px'">
 
     <div td-sidenav-content layout="column" layout-fill>
 
       <mat-nav-list flex [tdLayoutManageListClose]="!media.query('gt-sm')">
         <ng-template let-item let-index="index" let-last="last" ngFor [ngForOf]="navigation">
-          <a mat-list-item [routerLink]="[item.path]"  [routerLinkActive]="['active']">
-            <mat-icon matListIcon [matTooltip]="!miniNav ? '' : item.title"
-              matTooltipPosition="after">{{item.icon}}
+          <a mat-list-item [routerLink]="[item.path]" [routerLinkActive]="['active']">
+            <mat-icon matListIcon [matTooltip]="!miniNav ? '' : item.title" matTooltipPosition="after">{{item.icon}}
             </mat-icon>
             <span *ngIf="!miniNav">{{item.title}}</span>
           </a>
@@ -38,13 +34,13 @@
         <div layout="column" layout-fill>
           <mat-toolbar>Configuración</mat-toolbar>
           <div flex class="mat-content">
-              <pre>{{cliente | json}}</pre>
+            <pre>{{cliente | json}}</pre>
           </div>
         </div>
       </mat-sidenav>
 
       <td-layout-nav color="none">
-        <div td-toolbar-content flex layout="row" layout-align="start center">
+        <!-- <div td-toolbar-content flex layout="row" layout-align="start center">
           <button mat-icon-button tdLayoutManageListToggle>
             <mat-icon>apps</mat-icon>
           </button>
@@ -53,7 +49,7 @@
             <button matTooltip="Dashboard Settings" matTooltipPosition="before" type="button" mat-icon-button (click)="sidenav.open()">
             <mat-icon>settings</mat-icon>
           </button>
-        </div>
+        </div> -->
         <router-outlet></router-outlet>
 
       </td-layout-nav>

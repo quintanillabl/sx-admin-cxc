@@ -3,13 +3,15 @@ import { ClienteInfoCardComponent } from './cliente-info-card/cliente-info-card.
 import { ClienteCreditoCardComponent } from './cliente-credito-card/cliente-credito-card.component';
 import { ClienteCreditoFormComponent } from './cliente-credito-form/cliente-credito-form.component';
 import { ClienteFieldComponent } from './cliente-field/cliente-field.component';
+import { CxcTableComponent } from './cxc-table/cxc-table.component';
 
 export const components = [
   ClientesTableComponent,
   ClienteInfoCardComponent,
   ClienteCreditoCardComponent,
   ClienteCreditoFormComponent,
-  ClienteFieldComponent
+  ClienteFieldComponent,
+  CxcTableComponent
 ];
 export const entryComponents = [ClienteCreditoFormComponent];
 
@@ -18,3 +20,4 @@ export * from './cliente-info-card/cliente-info-card.component';
 export * from './cliente-credito-card/cliente-credito-card.component';
 export * from './cliente-credito-form/cliente-credito-form.component';
 export * from './cliente-field/cliente-field.component';
+export * from './cxc-table/cxc-table.component';

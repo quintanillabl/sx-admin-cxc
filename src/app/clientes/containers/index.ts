@@ -7,11 +7,13 @@ import { ClienteNotasComponent } from './cliente-notas/cliente-notas.component';
 import { ClienteCargosComponent } from './cliente-cargos/cliente-cargos.component';
 import { ClienteCobrosComponent } from './cliente-cobros/cliente-cobros.component';
 import { EstadoDeCuentaComponent } from './estado-de-cuenta/estado-de-cuenta.component';
+import { ClienteCxcComponent } from './cliente-cxc/cliente-cxc.component';
 
 export const containers: any[] = [
   ClientesListComponent,
   ClienteComponent,
   ClienteInfoComponent,
+  ClienteCxcComponent,
   ClienteVentasComponent,
   ClienteFacturasComponent,
   ClienteNotasComponent,
@@ -29,3 +31,4 @@ export * from './cliente-notas/cliente-notas.component';
 export * from './cliente-cargos/cliente-cargos.component';
 export * from './cliente-cobros/cliente-cobros.component';
 export * from './estado-de-cuenta/estado-de-cuenta.component';
+export * from './cliente-cxc/cliente-cxc.component';

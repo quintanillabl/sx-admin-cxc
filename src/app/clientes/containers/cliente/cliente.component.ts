@@ -13,6 +13,7 @@ export class ClienteComponent implements OnInit {
 
   navigation = [
     { path: 'info', title: 'Generales', icon: 'account_box' },
+    { path: 'cxc', title: 'Cuentas x Cobrar', icon: 'today' },
     { path: 'facturas', title: 'Facturas', icon: 'file_download' },
     { path: 'cobros', title: 'Cobros', icon: 'attach_money' },
     { path: 'bonificaciones', title: 'Bonificaciones', icon: 'file_upload' },

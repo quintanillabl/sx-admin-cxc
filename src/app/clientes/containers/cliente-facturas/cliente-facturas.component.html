@@ -1,2 +1,6 @@
-<h2>Lista de facturas</h2>
-<h3>{{ (cliente$ | async).nombre}}</h3>
+<mat-card>
+  <sx-search-title title="Registro de facturas"></sx-search-title>
+  <mat-divider></mat-divider>
+  <td-data-table #dataTable [data]="facturas$ | async" [columns]="columns">
+  </td-data-table>
+</mat-card>

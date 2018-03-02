@@ -25,6 +25,10 @@ const routes: Routes = [
           { path: '', redirectTo: 'info', pathMatch: 'full' },
           { path: 'info', component: fromContainers.ClienteInfoComponent },
           {
+            path: 'cxc',
+            component: fromContainers.ClienteCxcComponent
+          },
+          {
             path: 'facturas',
             component: fromContainers.ClienteFacturasComponent
           },

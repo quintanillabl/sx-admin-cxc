@@ -17,6 +17,10 @@ const routes: Routes = [
       {
         path: 'solicitudes',
         loadChildren: './solicitudes/solicitudes.module#SolicitudesModule'
+      },
+      {
+        path: 'cobros',
+        loadChildren: './cobros/cobros.module#CobrosModule'
       }
     ]
   }
