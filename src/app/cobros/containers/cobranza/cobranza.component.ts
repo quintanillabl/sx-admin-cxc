@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { TdMediaService } from '@covalent/core';
+import { MatDialog } from '@angular/material';
+import { FechaDialogComponent } from '../../../_shared/components';
+import { CobrosService } from '../../services';
 
 @Component({
   selector: 'sx-cobranza',
@@ -8,14 +12,62 @@ import { TdMediaService } from '@covalent/core';
 export class CobranzaComponent implements OnInit {
   navigation = [
     {
-      path: 'list',
+      path: 'cobros',
       title: 'Cobros',
       description: 'Registro de cobros',
-      icon: 'file_download'
+      icon: 'attach_money'
+    },
+    {
+      path: 'devoluciones',
+      title: 'Devoluciones',
+      description: 'Notas de devolución',
+      icon: 'keyboard_return'
+    },
+    {
+      path: 'bonificaciones',
+      title: 'Bonificación',
+      description: 'Notas de bonificación',
+      icon: 'system_update_alt'
+    },
+    {
+      path: 'cargos',
+      title: 'Cargos',
+      description: 'Notas de cargo',
+      icon: 'event_busy'
     }
   ];
 
-  constructor(public media: TdMediaService) {}
+  cartera: { clave: string; descripcion: string };
 
-  ngOnInit() {}
+  constructor(
+    public media: TdMediaService,
+    private route: ActivatedRoute,
+    private dialog: MatDialog,
+    private service: CobrosService
+  ) {}
+
+  ngOnInit() {
+    this.cartera = this.route.snapshot.data.cartera;
+  }
+
+  reporteDeCobranza() {
+    const dialogRef = this.dialog.open(FechaDialogComponent, {
+      data: { title: 'Reporte de cobranza' }
+    });
+    dialogRef.afterClosed().subscribe(fecha => {
+      if (fecha) {
+        this.service.reporteDeCobranza(fecha).subscribe(
+          res => {
+            const blob = new Blob([res], {
+              type: 'application/pdf'
+            });
+            // this.loadingService.resolve('saving');
+            const fileURL = window.URL.createObjectURL(blob);
+            window.open(fileURL, '_blank');
+          },
+          error2 => console.log(error2)
+        );
+      }
+    });
+  }
 }

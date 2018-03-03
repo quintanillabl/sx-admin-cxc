@@ -10,22 +10,29 @@
     <button mat-icon-button tdLayoutNavListOpen [hideWhenOpened]="true">
       <mat-icon>arrow_back</mat-icon>
     </button>
-    <span>Cobros</span>
+    <span>Cobranza</span>
     <span flex></span>
     <span layout>
       <span>Cartera: </span>
-      <span class="pad-left">CREDITO</span>
+      <span class="pad-left">{{cartera.descripcion}}</span>
     </span>
   </div>
   <mat-nav-list td-sidenav-content [tdLayoutNavListClose]="!media.query('gt-sm')">
     <ng-template let-item let-last="last" ngFor [ngForOf]="navigation">
-      <a mat-list-item [routerLink]="['list']" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact: false}">
+      <a mat-list-item [routerLink]="[item.path]" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact: false}">
         <mat-icon matListAvatar>{{item.icon}}</mat-icon>
         <h3 matLine> {{item.title}} </h3>
         <p matLine> {{item.description}} </p>
       </a>
       <mat-divider [inset]="true" *ngIf="!last"></mat-divider>
     </ng-template>
+    <h3 matSubheader>Reportes</h3>
+    <mat-list-item (click)="reporteDeCobranza()">
+      <mat-icon matListAvatar>insert_chart</mat-icon>
+      <h3 matLine> Cobranza </h3>
+      <p matLine> Reporte de cobranza </p>
+    </mat-list-item>
+    <mat-divider [inset]="true"></mat-divider>
   </mat-nav-list>
   <div>
     <router-outlet></router-outlet>

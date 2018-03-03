@@ -1,0 +1,39 @@
+<mat-card>
+  <div layout="row" layout-align="start center" class="pad-left-sm pad-right-sm">
+    <span class="push-left-sm">
+      <span class="mat-title">Notas de cargo </span>
+    </span>
+    <span flex></span>
+    <td-search-box #searchBox backIcon="arrow_back" class="push-right-sm" placeholder="Buscar" (searchDebounce)="search($event)"
+      [(ngModel)]="term" flex>
+    </td-search-box>
+
+    <span>
+      <button mat-icon-button [matMenuTriggerFor]="toolbarMenu">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+      <mat-menu #toolbarMenu="matMenu">
+        <button mat-menu-item (click)="load()">
+          <mat-icon>refresh</mat-icon> Refrescar
+        </button>
+        <button mat-menu-item [routerLink]="['create']">
+          <mat-icon>add</mat-icon> Nuevo
+        </button>
+
+      </mat-menu>
+    </span>
+  </div>
+  <mat-divider></mat-divider>
+
+  <td-data-table [columns]="columns" [data]="cargos$ | async" [style.height.px]="500">
+    <ng-template tdDataTableTemplate="folio" let-value="value" let-row="row">
+      <a class="tc-indigo-800" [routerLink]="['show', row.id]">{{value}}</a>
+    </ng-template>
+    <ng-template tdDataTableTemplate="cfdi" let-value="value" let-row="row">
+      <mat-icon class="tc-green-800" *ngIf="value" matTooltip="{{value.uuid}}">check
+      </mat-icon>
+    </ng-template>
+
+  </td-data-table>
+
+</mat-card>

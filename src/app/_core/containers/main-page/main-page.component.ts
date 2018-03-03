@@ -25,29 +25,29 @@ export class MainPageComponent implements OnInit {
     },
     {
       icon: 'file_download',
-      route: '/cobros',
-      title: 'Cobros'
+      route: '/cobranza/cre',
+      title: 'Cobranza (Crédito)'
     },
     {
       icon: 'list',
       route: '/cxc',
       title: 'CXC (Crédito)'
-    },
-    {
-      icon: 'list',
-      route: '/cxc/contado',
-      title: 'CXC (Contado)'
-    },
-    {
-      icon: 'color_lens',
-      route: '/tableros',
-      title: 'Tableros'
-    },
-    {
-      icon: 'settings',
-      route: '/configuracion',
-      title: 'Configuración'
     }
+    // {
+    //   icon: 'list',
+    //   route: '/cxc/contado',
+    //   title: 'CXC (Contado)'
+    // },
+    // {
+    //   icon: 'color_lens',
+    //   route: '/tableros',
+    //   title: 'Tableros'
+    // },
+    // {
+    //   icon: 'settings',
+    //   route: '/configuracion',
+    //   title: 'Configuración'
+    // }
   ];
 
   usermenu: Array<{ icon: string; route: string; title: string }> = [

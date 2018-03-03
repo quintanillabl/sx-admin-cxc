@@ -88,4 +88,15 @@ export class CobrosService {
       .put(url, {}, { params: params })
       .pipe(catchError(err => Observable.of(err)));
   }
+
+  reporteDeCobranza(fecha: Date) {
+    const url = `${this.apiUrl}/reporteDeCobranza`;
+    const params = new HttpParams().set('fecha', fecha.toISOString());
+    const headers = new HttpHeaders().set('Content-type', 'application/pdf');
+    return this.http.get(url, {
+      headers: headers,
+      params: params,
+      responseType: 'blob'
+    });
+  }
 }

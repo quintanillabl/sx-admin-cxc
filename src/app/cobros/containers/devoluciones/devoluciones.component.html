@@ -1,0 +1,71 @@
+<mat-card>
+
+
+  <div *tdLoading="'procesando'; type:'linar'; mode:'indeterminate'; strategy:'overlay'; color:'primary'" layout="row" layout-align="start center"
+    class="pad-left-sm pad-right-sm">
+    <span *ngIf="!searchBox.searchVisible" class="push-left-sm">
+      <span class="mat-title">Devoluciones {{pendientes ? 'por atender': 'atendidas'}}</span>
+    </span>
+    <span flex></span>
+    <span class="push-left-sm">
+      <span *ngIf="selectedRows.length && selectable" class="mat-body-1">{{selectedRows.length}} (s) seleccionado</span>
+    </span>
+    <td-search-box #searchBox backIcon="arrow_back" class="push-right-sm" placeholder="Buscar" (searchDebounce)="search($event)"
+      flex>
+    </td-search-box>
+    <mat-checkbox [(ngModel)]="pendientes">Pendientes</mat-checkbox>
+
+    <span>
+      <button mat-icon-button [matMenuTriggerFor]="toolbarMenu">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+      <mat-menu #toolbarMenu="matMenu">
+        <button mat-menu-item (click)="load()">
+          <mat-icon>refresh</mat-icon> Refrescar
+        </button>
+        <button mat-menu-item (click)="atender()" [disabled]="selectedRows.length === 0">
+          <mat-icon>brush</mat-icon>
+          <span>Atender</span>
+        </button>
+      </mat-menu>
+    </span>
+
+  </div>
+  <mat-divider></mat-divider>
+  <td-data-table #dataTable [data]="filteredData" [columns]="columns" [selectable]="selectable" [clickable]="false" [multiple]="false"
+    [sortable]="true" [sortBy]="sortBy" [(ngModel)]="selectedRows" [sortOrder]="sortOrder" (sortChange)="sort($event)" [style.height.px]="420">
+    <ng-template tdDataTableTemplate="documento" let-value="value" let-row="row">
+      <span class="tc-indigo-800" [routerLink]="['show', row.id]">
+        {{value}}
+      </span>
+    </ng-template>
+    <ng-template tdDataTableTemplate="nota" let-value="value" let-row="row">
+      <div layout layout-align="center" class="pad-left" *ngIf="value">
+        <a mat-button [routerLink]="['show', value.id]" color="accent" flex>
+          <span>{{value?.serie}}</span>
+          <span>{{value?.folio}}</span>
+          <mat-icon color="accent" *ngIf="value.cfdi">notifications</mat-icon>
+          <mat-icon color="warning" *ngIf="!value.cfdi" matTooltip="Pendiente de timbrado">notifications_off</mat-icon>
+        </a>
+      </div>
+    </ng-template>
+    <ng-template tdDataTableTemplate="factura" let-value="value" let-row="row">
+      <span class="tc-indigo-800">
+        {{row.venta.tipo}} - {{value}}
+      </span>
+    </ng-template>
+  </td-data-table>
+  <div class="md-padding" *ngIf="!dataTable.hasData" layout="row" layout-align="center center">
+    <h3>No hay regisros.</h3>
+  </div>
+  <td-paging-bar #pagingBar [pageSize]="pageSize" [total]="filteredTotal" (change)="page($event)">
+    <span hide-xs>Registros por página:</span>
+    <mat-select [style.width.px]="50" [(ngModel)]="pageSize">
+      <mat-option *ngFor="let size of [50,100,200,500]" [value]="size">
+        {{size}}
+      </mat-option>
+    </mat-select>
+    {{pagingBar.range}}
+    <span hide-xs>of {{pagingBar.total}}</span>
+  </td-paging-bar>
+</mat-card>

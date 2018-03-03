@@ -6,7 +6,7 @@ import { MaterialModule } from './_material/material.module';
 import { CovalentModule } from './_covalent/covalent.module';
 
 // components
-import { components } from './components';
+import { components, entyComponents } from './components';
 
 @NgModule({
   imports: [
@@ -24,6 +24,7 @@ import { components } from './components';
     CovalentModule,
     ...components
   ],
-  declarations: [...components]
+  declarations: [...components],
+  entryComponents: [...entyComponents]
 })
 export class SharedModule {}

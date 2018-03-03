@@ -1,0 +1,85 @@
+<mat-card>
+  <mat-card-title-group layout>
+    <mat-card-title>Nota de cargo:
+      <span class="pad-right pad-left" class="tc-indigo-800">
+        {{nota?.tipo}} - {{nota?.folio}}
+      </span>
+      <span class="pad-left">{{nota?.cliente?.nombre}}</span>
+      <span flex></span>
+      <span class="pad-right">({{nota?.fecha | date: 'dd/MM/yyyy'}})</span>
+    </mat-card-title>
+
+  </mat-card-title-group>
+  <mat-divider></mat-divider>
+  <div layout="column" class="pad-left pad-right">
+
+    <div layout>
+
+      <mat-form-field class="pad-right">
+        <input placeholder="Cálculo" matInput [value]="nota?.tipoDeCalculo" [disabled]="true">
+      </mat-form-field>
+
+      <mat-form-field class="pad-right">
+        <input placeholder="Forma de pago" matInput [value]="nota?.formaDePago" [disabled]="true">
+      </mat-form-field>
+
+      <mat-form-field class="pad-right">
+        <input placeholder="Uso de CFDI" matInput [value]="nota?.usoDeCfdi" [disabled]="true">
+      </mat-form-field>
+
+      <mat-form-field flex>
+        <textarea matInput placeholder="Comentario" [value]="nota?.comentario" [disabled]="true" matTextareaAutosize matAutosizeMinRows="1">
+        </textarea>
+      </mat-form-field>
+    </div>
+
+    <div layout>
+      <mat-form-field class="pad-right" flex="50">
+        <input type="text" placeholder="CFDI" matInput [value]="nota?.cfdi?.uuid" [disabled]="true">
+      </mat-form-field>
+      <span flex></span>
+      <mat-form-field class="pad-right" [style.width.px]="100">
+        <input type="text" placeholder="Cargo" matInput [disabled]="true" [value]="nota?.cargo">
+        <span matSuffix>%</span>
+      </mat-form-field>
+
+      <mat-form-field class="pad-right" [style.width.px]="150">
+        <input placeholder="Total" matInput value="{{nota?.total | currency}}" class="text-right" [disabled]="true">
+      </mat-form-field>
+
+    </div>
+  </div>
+  <mat-divider></mat-divider>
+  <td-data-table [columns]="columns" [data]="nota?.partidas" [style.height.px]="270">
+    <ng-template tdDataTableTemplate="documentoFecha" let-value="value" let-row="row">
+      {{value | date: 'dd/MM/yyyy'}}
+    </ng-template>
+    <ng-template tdDataTableTemplate="documentoTotal" let-value="value" let-row="row">
+      {{value | currency}}
+    </ng-template>
+    <ng-template tdDataTableTemplate="documentoSaldo" let-value="value" let-row="row">
+      {{value | currency}}
+    </ng-template>
+    <ng-template tdDataTableTemplate="total" let-value="value" let-row="row">
+      {{value | currency}}
+    </ng-template>
+
+  </td-data-table>
+  <mat-card-actions *tdLoading="'processing'; mode:'indeterminate'; type:'circle'; strategy:'overlay'; color:'accent'">
+    <button type="button" mat-button (click)="onCancel()"> Cancelar</button>
+    <button mat-button color="accent" type="button" *ngIf="!nota?.cfdi" [routerLink]="['../../edit', nota?.id]">
+      <mat-icon>edit</mat-icon> Editar
+    </button>
+    <ng-container *ngIf="nota?.cfdi">
+      <button mat-button type="button" (click)="print(nota)">
+        <mat-icon>print</mat-icon> Imprimir
+      </button>
+      <button mat-button type="button" (click)="mostrarXml(nota)">
+        <mat-icon>dvr</mat-icon> Ver XML
+      </button>
+      <button mat-button type="button" (click)="email(nota)">
+        <mat-icon>email</mat-icon> Email
+      </button>
+    </ng-container>
+  </mat-card-actions>
+</mat-card>

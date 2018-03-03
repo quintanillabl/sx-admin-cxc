@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Observable';
 
 import { Cobro } from '../../models/cobro';
 import { CobrosService } from '../../services';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'sx-cobros',
@@ -13,16 +13,25 @@ import { Router } from '@angular/router';
 export class CobrosComponent implements OnInit {
   cobros$: Observable<Cobro[]>;
   term = '';
+  cartera: { clave: string; descripcion: string };
 
-  constructor(private servie: CobrosService, private router: Router) {}
+  constructor(
+    private servie: CobrosService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {}
 
   ngOnInit() {
-    this.load();
+    this.route.parent.data.subscribe(data => {
+      // console.log('Parent data: ', data);
+      this.cartera = data.cartera;
+      this.load();
+    });
   }
 
   load() {
     this.cobros$ = this.servie.cobrosMonetarios({
-      cartera: 'CRE',
+      cartera: this.cartera.clave,
       term: this.term
     });
   }
@@ -33,6 +42,7 @@ export class CobrosComponent implements OnInit {
   }
 
   onSelect(cobro: Cobro) {
-    this.router.navigate(['cobros', cobro.id]);
+    const path = `cobranza/${this.cartera.clave.toLowerCase()}/cobros`;
+    this.router.navigate([path, cobro.id]);
   }
 }

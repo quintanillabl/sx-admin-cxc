@@ -1,0 +1,47 @@
+<mat-card>
+  <div layout="row" layout-align="start center" class="pad-left-sm pad-right-sm">
+    <span *ngIf="!searchBox.searchVisible" class="push-left-sm">
+      <span class="mat-title">Notas de bonificación</span>
+    </span>
+    <span flex></span>
+    <td-search-box #searchBox backIcon="arrow_back" class="push-right-sm" placeholder="Buscar" [debounce]="500" (searchDebounce)="search($event)"
+      flex>
+    </td-search-box>
+    <span>
+      <button mat-icon-button [matMenuTriggerFor]="toolbarMenu">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+      <mat-menu #toolbarMenu="matMenu">
+        <button mat-menu-item (click)="load()">
+          <mat-icon>refresh</mat-icon> Refrescar
+        </button>
+        <button mat-menu-item [routerLink]="['create']">
+          <mat-icon>add</mat-icon> Nuevo
+        </button>
+      </mat-menu>
+    </span>
+  </div>
+  <mat-divider></mat-divider>
+  <td-data-table #dataTable [data]="notas$ | async" [columns]="columns" [sortable]="true" [sortBy]="sortBy" [sortOrder]="sortOrder"
+    (sortChange)="sort($event)" [style.height.px]="420">
+    <ng-template tdDataTableTemplate="folio" let-value="value" let-row="row">
+      <a [routerLink]="['show', row.id]" color="accent">
+        <span>{{row?.folio}}</span>
+      </a>
+    </ng-template>
+    <ng-template tdDataTableTemplate="nota" let-value="value" let-row="row">
+      <div layout layout-align="center" class="pad-left" *ngIf="value">
+        <a mat-button [routerLink]="['show', value.id]" color="accent" flex>
+          <span>{{value?.serie}}</span>
+          <span>{{value?.folio}}</span>
+          <mat-icon color="accent" *ngIf="value.cfdi">notifications</mat-icon>
+          <mat-icon color="warning" *ngIf="!value.cfdi" matTooltip="Pendiente de timbrado">notifications_off</mat-icon>
+        </a>
+      </div>
+    </ng-template>
+    <ng-template tdDataTableTemplate="timbrado" let-value="value" let-row="row">
+      <mat-icon class="tc-green-800" *ngIf="row.cfdi" matTooltip="{{row.cfdi?.uuid}}">check</mat-icon>
+    </ng-template>
+  </td-data-table>
+
+</mat-card>
