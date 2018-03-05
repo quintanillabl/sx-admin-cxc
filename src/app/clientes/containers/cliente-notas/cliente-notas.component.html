@@ -1,8 +1,7 @@
 <mat-card>
   <sx-search-title title="Notas ({{tipo}})"></sx-search-title>
   <mat-divider></mat-divider>
-  <td-data-table #dataTable [data]="notas$ | async" [columns]="columns" [sortable]="true" [sortBy]="sortBy" [sortOrder]="sortOrder"
-    (sortChange)="sort($event)" [style.height.px]="420">
+  <td-data-table #dataTable [data]="notas$ | async" [columns]="columns" [sortable]="true" [style.height.px]="420">
     <ng-template tdDataTableTemplate="folio" let-value="value" let-row="row">
       <a color="accent" flex (click)="onSelect(row)" class="cursor-pointer">
         <span>{{row?.folio}}</span>

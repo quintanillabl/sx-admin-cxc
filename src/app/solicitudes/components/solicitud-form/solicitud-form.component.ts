@@ -1,6 +1,9 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Inject } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { MatDialogRef } from '@angular/material';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+
+import * as moment from 'moment';
+import { SolicitudDeDeposito } from '../../models';
 
 @Component({
   selector: 'sx-solicitud-form',
@@ -9,19 +12,29 @@ import { MatDialogRef } from '@angular/material';
 export class SolicitudFormComponent implements OnInit {
   form: FormGroup;
 
-  @Input() solicitud = {};
+  solicitud: SolicitudDeDeposito;
 
   constructor(
     private fb: FormBuilder,
-    private dialogRef: MatDialogRef<SolicitudFormComponent>
-  ) {}
+    private dialogRef: MatDialogRef<SolicitudFormComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any
+  ) {
+    this.solicitud = data.solicitud;
+  }
 
   ngOnInit() {
     this.buildForm();
+    if (this.solicitud) {
+      this.form.patchValue(this.solicitud);
+      this.form
+        .get('fechaDeposito')
+        .setValue(moment(this.solicitud.fechaDeposito).toDate());
+    }
   }
 
   buildForm() {
     this.form = this.fb.group({
+      id: [null],
       tipo: ['CRE', Validators.required],
       cliente: [null, Validators.required],
       efectivo: 0.0,

@@ -7,7 +7,7 @@
   </sx-search-title>
   <mat-divider></mat-divider>
   <div *tdLoading="'loading'; mode:'indeterminate'; type:'circle'; strategy:'overlay'; color:'accent'">
-    <sx-solicitudes-table [solicitudes]="solicitudes$ | async"></sx-solicitudes-table>
+    <sx-solicitudes-table [solicitudes]="solicitudes$ | async" (select)="onSelect($event)"></sx-solicitudes-table>
   </div>
 
 </mat-card>

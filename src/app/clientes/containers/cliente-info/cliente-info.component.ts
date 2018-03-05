@@ -12,7 +12,6 @@ import { ClienteService, CreditoService } from '../../services';
   templateUrl: `./cliente-info.component.html`
 })
 export class ClienteInfoComponent implements OnInit {
-  cliente: Cliente;
   cliente$: Observable<Cliente>;
 
   constructor(
@@ -23,11 +22,13 @@ export class ClienteInfoComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.route.parent.data.subscribe(data => {
-      this.cliente = data.cliente;
-    });
-
     this.cliente$ = this.route.parent.data.map(data => data.cliente);
+  }
+  load() {
+    this.cliente$ = this.route.parent.data.switchMap(data =>
+      this.clienteService.get(data.cliente.id)
+    );
+    // this.cliente$ = this.clienteService.get()
   }
 
   onEditCliente(cliente: Cliente) {}
@@ -41,9 +42,10 @@ export class ClienteInfoComponent implements OnInit {
     dialogRef.afterClosed().subscribe(res => {
       if (res) {
         console.log('Actualizando credito: ', res);
-        this.creditoService
-          .update(cliente, res)
-          .subscribe(rr => console.log(rr));
+        this.creditoService.update(cliente, res).subscribe(rr => {
+          console.log(rr);
+          this.load();
+        });
       }
     });
   }

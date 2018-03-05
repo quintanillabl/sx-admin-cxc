@@ -14,6 +14,7 @@ import { ClienteService } from '../../services';
 })
 export class ClienteComponent implements OnInit {
   cliente: Cliente;
+  miniNav = false;
 
   navigation = [
     { path: 'info', title: 'Generales', icon: 'account_box' },

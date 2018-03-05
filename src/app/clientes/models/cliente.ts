@@ -9,6 +9,8 @@ export interface Cliente {
   direccion?: {};
   telefonos?: Array<any>;
   cfdiMail?: string;
+  activo?: boolean;
+  chequeDevuelto?: number;
 }
 
 export interface LineaDeCredito {

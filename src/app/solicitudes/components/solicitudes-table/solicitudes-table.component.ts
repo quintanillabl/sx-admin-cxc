@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ITdDataTableColumn } from '@covalent/core';
 import { DatePipe, CurrencyPipe } from '@angular/common';
 
@@ -10,6 +10,7 @@ import { SolicitudService } from '../../services/solicitud.service';
 })
 export class SolicitudesTableComponent implements OnInit {
   @Input() solicitudes: Array<any>;
+  @Output() select = new EventEmitter();
   columns: ITdDataTableColumn[] = [
     { name: 'folio', label: 'Folio', sortable: true, numeric: true, width: 70 },
     {
@@ -24,6 +25,12 @@ export class SolicitudesTableComponent implements OnInit {
       label: 'Fecha Dep',
       numeric: false,
       format: date => this.datePipe.transform(date, 'dd/MM/yyyy'),
+      width: 90
+    },
+    {
+      name: 'referencia',
+      label: 'Ref',
+      numeric: false,
       width: 90
     },
     {

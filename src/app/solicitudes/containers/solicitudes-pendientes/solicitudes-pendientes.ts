@@ -27,14 +27,14 @@ export class SolicitudesPendientesComponent implements OnInit {
   load() {
     this._loadingService.register('loading');
     this.solicitudes$ = this.service
-      .pendientes()
+      .list({ pendientes: true, cartera: 'CRE' })
       .pipe(
         finalize(() => this._loadingService.resolve('loading')),
         catchError(err => this.handleError(err))
       );
   }
 
-  search(term) {
+  onSearch(term) {
     this.term = term;
     this.load();
   }
@@ -46,7 +46,8 @@ export class SolicitudesPendientesComponent implements OnInit {
 
   insert() {
     const dialogRef = this.dialog.open(SolicitudFormComponent, {
-      width: '650px'
+      width: '650px',
+      data: { solicitud: null }
     });
 
     dialogRef.afterClosed().subscribe(val => {
@@ -55,6 +56,29 @@ export class SolicitudesPendientesComponent implements OnInit {
         this._loadingService.register('loading');
         this.service
           .save(val)
+          .pipe(
+            finalize(() => this._loadingService.resolve('loading')),
+            catchError(err => this.handleError(err))
+          )
+          .subscribe(res => {
+            this.load();
+          });
+      }
+    });
+  }
+
+  onSelect(solicitud) {
+    const dialogRef = this.dialog.open(SolicitudFormComponent, {
+      width: '650px',
+      data: { solicitud: solicitud }
+    });
+
+    dialogRef.afterClosed().subscribe(val => {
+      if (val) {
+        console.log('Actualizando solicitud : ', val);
+        this._loadingService.register('loading');
+        this.service
+          .update(val)
           .pipe(
             finalize(() => this._loadingService.resolve('loading')),
             catchError(err => this.handleError(err))

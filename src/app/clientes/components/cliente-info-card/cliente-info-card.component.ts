@@ -4,7 +4,8 @@ import {
   Input,
   Output,
   EventEmitter,
-  ChangeDetectionStrategy
+  ChangeDetectionStrategy,
+  OnChanges
 } from '@angular/core';
 import { Cliente } from '../../models';
 
@@ -13,7 +14,7 @@ import { Cliente } from '../../models';
   templateUrl: './cliente-info-card.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ClienteInfoCardComponent implements OnInit {
+export class ClienteInfoCardComponent implements OnInit, OnChanges {
   @Output() editar = new EventEmitter();
 
   @Input() cliente: Cliente;
@@ -21,4 +22,8 @@ export class ClienteInfoCardComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {}
+
+  ngOnChanges(changes) {
+    console.log('Changes: ', changes);
+  }
 }

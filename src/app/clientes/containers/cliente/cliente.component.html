@@ -20,7 +20,7 @@
       <mat-nav-list flex [tdLayoutManageListClose]="!media.query('gt-sm')">
         <ng-template let-item let-index="index" let-last="last" ngFor [ngForOf]="navigation">
           <a mat-list-item [routerLink]="[item.path]" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact: false}">
-            <mat-icon matListIcon [matTooltip]="!miniNav ? '' : item.title" matTooltipPosition="after">{{item.icon}}
+            <mat-icon matListIcon matTooltipPosition="after">{{item.icon}}
             </mat-icon>
             <span *ngIf="!miniNav">{{item.title}}</span>
           </a>
