@@ -7,20 +7,17 @@ import { Observable } from 'rxjs/Observable';
   styles: []
 })
 export class HomePageComponent implements OnInit {
-
   header$: Observable<string>;
   application$: Observable<any>;
 
-  constructor() { }
+  constructor() {}
 
   ngOnInit() {
-    this.header$ = Observable.of('ToolbarHeader');
-    this.application$ = Observable.of(
-      {
-        name: 'SX-ADMIN-MODULE_NAME',
-        descripcion: 'Module description',
-        image: '/assets/images/logo_papelsa.jpg'
-      });
+    this.header$ = Observable.of('SIIPAPX CxC');
+    this.application$ = Observable.of({
+      name: 'SIIPAPX CxC',
+      descripcion: 'Módulo de cuentas por cobrar de SIIPAPX',
+      image: '/assets/images/logo_papelsa.jpg'
+    });
   }
-
 }

@@ -69,7 +69,7 @@ export class ClienteFacturasComponent implements OnInit {
   ngOnInit() {
     this.cliente$ = this.route.parent.data.map(data => data.cliente);
     this.facturas$ = this.cliente$.switchMap(cliente => {
-      console.log('Buscando facturas para : ', cliente);
+      // console.log('Buscando facturas para : ', cliente);
       return this.service
         .facturas(cliente, { term: '' })
         .pipe(catchError(err => Observable.of(err)));

@@ -27,12 +27,8 @@ export class MainPageComponent implements OnInit {
       icon: 'file_download',
       route: '/cobranza/cre',
       title: 'Cobranza (Crédito)'
-    },
-    {
-      icon: 'list',
-      route: '/cxc',
-      title: 'CXC (Crédito)'
     }
+
     // {
     //   icon: 'list',
     //   route: '/cxc/contado',

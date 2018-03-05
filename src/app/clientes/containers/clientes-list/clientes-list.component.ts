@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 
@@ -27,26 +27,44 @@ import { Cliente } from '../../models';
   `
   ]
 })
-export class ClientesListComponent implements OnInit {
+export class ClientesListComponent implements OnInit, OnDestroy {
   columns = ['clave', 'nombre', 'rfc'];
   dataSource: ClientesDataSource;
 
   selected: Cliente;
 
+  filter: { term: string } = { term: '' };
+
+  key = 'CXC_CLIENTES_FILTER';
+
   constructor(
     private service: ClienteService,
     private router: Router,
     private store: Store<fromStore.ClientesState>
-  ) {}
+  ) {
+    this.dataSource = new ClientesDataSource(this.service);
+  }
 
   ngOnInit() {
-    this.dataSource = new ClientesDataSource(this.service);
-    this.dataSource.loadClientes();
-    this.store.select('clientes').subscribe(state => console.log(state));
+    this.filter = JSON.parse(localStorage.getItem(this.key)) || { term: '' };
+    this.load();
+  }
+
+  ngOnDestroy() {
+    localStorage.setItem(this.key, JSON.stringify(this.filter));
   }
 
   onSelect(cliente: Cliente) {
     this.selected = cliente;
     this.router.navigate(['clientes', cliente.id]);
+  }
+
+  onSearch(term) {
+    this.filter.term = term;
+    this.load();
+  }
+
+  load() {
+    this.dataSource.loadClientes(this.filter.term);
   }
 }

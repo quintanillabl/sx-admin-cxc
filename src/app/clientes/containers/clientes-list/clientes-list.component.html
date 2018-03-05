@@ -10,9 +10,10 @@
 
   <div layout class="page">
     <mat-card flex>
-      <div layout flex layout-padding>
+      <!-- <div layout flex layout-padding>
         <span class="mat-title">Catálogo de clientes</span>
-      </div>
+      </div> -->
+      <sx-search-title title="Catálogo de clientes" (search)="onSearch($event)"></sx-search-title>
       <mat-divider></mat-divider>
       <div layout layout-align="center" class="spinner-container" *ngIf="dataSource.loading$ | async">
         <mat-spinner></mat-spinner>

@@ -32,7 +32,7 @@
           <span>Por aplicar: </span>
           <span class="pad-left tc-indigo-800">{{porAplicar | currency: 'USD':1.2-2}}</span>
         </span>
-        <span>
+        <span *tdLoading="'saving'; mode:'indeterminate'; type:'circle'; strategy:'overlay'; ">
           <button mat-raised-button (click)="aplicar()" color="primary" *ngIf="cobro.disponible > 0" [disabled]="porAplicar <= 0.0">Aplicar
             <mat-icon>check</mat-icon>
           </button>

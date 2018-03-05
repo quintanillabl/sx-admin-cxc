@@ -27,7 +27,7 @@ export class SolicitudFormComponent implements OnInit {
       efectivo: 0.0,
       cheque: 0.0,
       transferencia: 0.0,
-      fechaDeDeposito: [null, Validators.required],
+      fechaDeposito: [null, Validators.required],
       referencia: [''],
       banco: [null, Validators.required],
       cuenta: [null, Validators.required],
@@ -46,7 +46,7 @@ export class SolicitudFormComponent implements OnInit {
     const efectivo = this.form.get('efectivo').value || 0.0;
     const cheque = this.form.get('cheque').value || 0.0;
     const transferencia = this.form.get('transferencia').value || 0.0;
-    const fechaDeDeposito: Date = this.form.get('fechaDeDeposito').value;
+    const fechaDeposito: Date = this.form.get('fechaDeposito').value;
     const cliente = this.form.get('cliente').value;
     const entity = {
       ...this.form.value,
@@ -56,7 +56,7 @@ export class SolicitudFormComponent implements OnInit {
       cheque: cheque as number,
       efectivo: efectivo as number,
       transferencia: transferencia as number,
-      fechaDeDeposito: fechaDeDeposito.toISOString(),
+      fechaDeposito: fechaDeposito.toISOString(),
       comentario: null
     };
     return entity;

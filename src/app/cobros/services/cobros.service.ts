@@ -6,6 +6,7 @@ import * as _ from 'lodash';
 import { ConfigService } from '../../utils/config.service';
 import { Cobro } from '../models/cobro';
 import { catchError } from 'rxjs/operators';
+import { Cliente } from '../../clientes/models';
 
 @Injectable()
 export class CobrosService {
@@ -89,9 +90,11 @@ export class CobrosService {
       .pipe(catchError(err => Observable.of(err)));
   }
 
-  reporteDeCobranza(fecha: Date) {
+  reporteDeCobranza(fecha: Date, cartera: string) {
     const url = `${this.apiUrl}/reporteDeCobranza`;
-    const params = new HttpParams().set('fecha', fecha.toISOString());
+    const params = new HttpParams()
+      .set('fecha', fecha.toISOString())
+      .set('cartera', cartera);
     const headers = new HttpHeaders().set('Content-type', 'application/pdf');
     return this.http.get(url, {
       headers: headers,

@@ -35,12 +35,12 @@ const routes: Routes = [
           {
             path: 'bonificaciones',
             component: fromContainers.ClienteNotasComponent,
-            data: { tipo: 'BON' }
+            data: { tipo: 'BONIFICACION' }
           },
           {
             path: 'devoluciones',
             component: fromContainers.ClienteNotasComponent,
-            data: { tipo: 'DEV' }
+            data: { tipo: 'DEVOLUCION' }
           },
           {
             path: 'cobros',

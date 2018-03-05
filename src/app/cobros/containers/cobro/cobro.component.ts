@@ -6,7 +6,7 @@ import * as _ from 'lodash';
 
 import { Cobro } from '../../models/cobro';
 import { CobrosService } from '../../services';
-import { TdDialogService } from '@covalent/core';
+import { TdDialogService, TdLoadingService } from '@covalent/core';
 
 @Component({
   selector: 'sx-cobro',
@@ -27,7 +27,8 @@ export class CobroComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private service: CobrosService,
-    private dialogService: TdDialogService
+    private dialogService: TdDialogService,
+    private loadingService: TdLoadingService
   ) {}
 
   ngOnInit() {
@@ -86,13 +87,20 @@ export class CobroComponent implements OnInit {
   }
 
   doAplicarSeleccion() {
+    this.loadingService.register('saving');
     const pago = { ...this.cobro };
     pago.pendientesDeAplicar = this.selectedCuentasPorPagar.map((item: any) => {
       return { id: item.id };
     });
-    this.service.update(pago).subscribe(res => {
-      console.log('Res: ', res);
-      this.reload();
-    });
+    this.service
+      .update(pago)
+      .pipe(
+        finalize(() => this.loadingService.resolve('saving')),
+        catchError(err => Observable.of(err))
+      )
+      .subscribe(res => {
+        // console.log('Res: ', res);
+        this.reload();
+      });
   }
 }

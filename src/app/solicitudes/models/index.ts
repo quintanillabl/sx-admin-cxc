@@ -1,1 +1,1 @@
-export * from './solicitud';
+export * from './solicitudDeDeposito';

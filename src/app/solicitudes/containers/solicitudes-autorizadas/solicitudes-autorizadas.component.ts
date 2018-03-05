@@ -1,13 +1,45 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
+import { MatDialog } from '@angular/material';
+
+import { SolicitudFormComponent } from '../../components';
+import { SolicitudService } from '../../services/solicitud.service';
+import { TdLoadingService } from '@covalent/core';
+import { finalize, delay, catchError } from 'rxjs/operators';
 
 @Component({
   selector: 'sx-solicitudes-autorizadas',
-  template: `
-    <h1>Registro de solicitudes autorizadas</h1>
-  `
+  templateUrl: './solicitudes-autorizadas.component.html'
 })
 export class SolicitudesAutorizadasComponent implements OnInit {
-  constructor() {}
+  solicitudes$: Observable<Array<any>>;
+  term = '';
+  constructor(
+    private service: SolicitudService,
+    private _loadingService: TdLoadingService
+  ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.load();
+  }
+
+  load() {
+    this._loadingService.register('loading');
+    this.solicitudes$ = this.service
+      .autorizadas({ term: this.term, cartera: 'CRE' })
+      .pipe(
+        finalize(() => this._loadingService.resolve('loading')),
+        catchError(err => this.handleError(err))
+      );
+  }
+
+  onSearch(term) {
+    this.term = term;
+    this.load();
+  }
+
+  handleError(error) {
+    console.error(error);
+    return Observable.of([]);
+  }
 }

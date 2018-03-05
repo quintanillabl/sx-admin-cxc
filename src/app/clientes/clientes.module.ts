@@ -13,6 +13,7 @@ import * as fromComponents from './components';
 import * as fromContainers from './containers';
 // services
 import * as fromServices from './services';
+import { CurrencyPipe, DatePipe } from '@angular/common';
 
 @NgModule({
   imports: [
@@ -28,7 +29,7 @@ export class ClientesModule {
   static forRoot(): ModuleWithProviders {
     return {
       ngModule: ClientesModule,
-      providers: [...fromServices.services]
+      providers: [...fromServices.services, DatePipe, CurrencyPipe]
     };
   }
 }

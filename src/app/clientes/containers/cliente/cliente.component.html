@@ -19,13 +19,19 @@
 
       <mat-nav-list flex [tdLayoutManageListClose]="!media.query('gt-sm')">
         <ng-template let-item let-index="index" let-last="last" ngFor [ngForOf]="navigation">
-          <a mat-list-item [routerLink]="[item.path]" [routerLinkActive]="['active']">
+          <a mat-list-item [routerLink]="[item.path]" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact: false}">
             <mat-icon matListIcon [matTooltip]="!miniNav ? '' : item.title" matTooltipPosition="after">{{item.icon}}
             </mat-icon>
             <span *ngIf="!miniNav">{{item.title}}</span>
           </a>
         </ng-template>
         <mat-divider></mat-divider>
+        <h3 matSubheader>Reportes</h3>
+        <mat-list-item (click)="estadoDeCuenta()">
+          <mat-icon matListAvatar>insert_chart</mat-icon>
+          <h3 matLine> Estado de cuenta </h3>
+        </mat-list-item>
+        <mat-divider [inset]="true"></mat-divider>
       </mat-nav-list>
     </div>
 
@@ -46,7 +52,7 @@
           </button>
           <span hide-xs>Title</span>
           <span flex></span>
-            <button matTooltip="Dashboard Settings" matTooltipPosition="before" type="button" mat-icon-button (click)="sidenav.open()">
+          <button matTooltip="Dashboard Settings" matTooltipPosition="before" type="button" mat-icon-button (click)="sidenav.open()">
             <mat-icon>settings</mat-icon>
           </button>
         </div> -->

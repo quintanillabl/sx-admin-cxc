@@ -56,7 +56,7 @@ export class CobranzaComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(fecha => {
       if (fecha) {
-        this.service.reporteDeCobranza(fecha).subscribe(
+        this.service.reporteDeCobranza(fecha, this.cartera.clave).subscribe(
           res => {
             const blob = new Blob([res], {
               type: 'application/pdf'

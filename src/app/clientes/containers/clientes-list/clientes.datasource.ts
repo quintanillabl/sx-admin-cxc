@@ -10,6 +10,8 @@ export class ClientesDataSource implements DataSource<Cliente> {
   private clientesSubject = new BehaviorSubject<Cliente[]>([]);
   private loadingSubject = new BehaviorSubject<boolean>(false);
 
+  term = '';
+
   public loading$ = this.loadingSubject.asObservable();
 
   constructor(private service: ClienteService) {}

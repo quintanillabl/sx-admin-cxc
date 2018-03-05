@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import * as _ from 'lodash';
 
@@ -59,6 +59,15 @@ export class ClienteService {
     return this.http.get<Cliente[]>(url, { params: params });
   }
 
+  notas(cliente: Cliente, filtro?: any): Observable<any[]> {
+    let params = new HttpParams();
+    _.forIn(filtro, (value, key) => {
+      params = params.set(key, value);
+    });
+    const url = `${this.apiUrl}/${cliente.id}/notas`;
+    return this.http.get<any[]>(url, { params: params });
+  }
+
   cobros(cliente: Cliente, filtro?: any): Observable<Cliente[]> {
     let params = new HttpParams();
     _.forIn(filtro, (value, key) => {
@@ -66,5 +75,19 @@ export class ClienteService {
     });
     const url = `${this.apiUrl}/${cliente.id}/cobros`;
     return this.http.get<Cliente[]>(url, { params: params });
+  }
+
+  estadoDeCuenta(cliente: Cliente, fecha: Date, cartera: string) {
+    const url = `${this.apiUrl}/estadoDeCuenta`;
+    const params = new HttpParams()
+      .set('fecha', fecha.toISOString())
+      .set('cartera', cartera)
+      .set('cliente', cliente.id);
+    const headers = new HttpHeaders().set('Content-type', 'application/pdf');
+    return this.http.get(url, {
+      headers: headers,
+      params: params,
+      responseType: 'blob'
+    });
   }
 }

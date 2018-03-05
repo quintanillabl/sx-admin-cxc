@@ -124,7 +124,7 @@ export class CxcTableComponent implements OnInit, OnChanges {
   }
 
   filter(): void {
-    let newData: any[] = this.data;
+    let newData: any[] = this.data ? this.data : [];
     const excludedColumns: string[] = this.columns
       .filter((column: ITdDataTableColumn) => {
         return (
