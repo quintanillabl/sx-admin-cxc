@@ -42,6 +42,10 @@ export class NotadecargoFormComponent implements OnInit, OnChanges, OnDestroy {
 
   destroy$ = new Subject<boolean>();
 
+  totalFacturas = 0.0;
+
+  saldoFacturas = 0.0;
+
   constructor(private fb: FormBuilder) {
     this.buildForm();
   }
@@ -79,23 +83,26 @@ export class NotadecargoFormComponent implements OnInit, OnChanges, OnDestroy {
       comentario: null,
       partidas: this.fb.array([])
     });
+    this.observarTipoDeCalculo();
     this.subscribers();
   }
 
   private subscribers() {
     // Listen to import
+    /*
     this.form
       .get('tipoDeCalculo')
       .valueChanges.takeUntil(this.destroy$)
       .subscribe(importe => {
-        this.actualizarTotal();
+        this.actualizar();
       });
+      */
 
     this.form
       .get('cargo')
       .valueChanges.takeUntil(this.destroy$)
       .subscribe(importe => {
-        this.actualizarTotal();
+        this.actualizar();
       });
   }
 
@@ -112,7 +119,35 @@ export class NotadecargoFormComponent implements OnInit, OnChanges, OnDestroy {
     return entity;
   }
 
-  private actualizarTotal() {
+  private observarTipoDeCalculo() {
+    this.form
+      .get('tipoDeCalculo')
+      .valueChanges.takeUntil(this.destroy$)
+      .subscribe((tipo: string) => {
+        switch (tipo) {
+          case 'PORCENTAJE':
+            this.calculoPorcentual();
+            this.actualizar();
+            break;
+          case 'PRORRATEO':
+            this.calculoProrrateo();
+            this.actualizar();
+            break;
+        }
+      });
+  }
+
+  calculoPorcentual() {
+    this.form.get('total').disable();
+    this.form.get('cargo').enable();
+  }
+
+  calculoProrrateo() {
+    this.form.get('total').enable();
+    this.form.get('cargo').disable();
+  }
+
+  private actualizar() {
     const tipo = this.form.get('tipoDeCalculo').value;
     if (tipo === 'PORCENTAJE') {
       const cargo = _.toNumber(this.form.get('cargo').value);
@@ -125,7 +160,7 @@ export class NotadecargoFormComponent implements OnInit, OnChanges, OnDestroy {
         this.form.get('total').setValue(_.round(total, 2));
       }
     } else {
-      this.form.get('cargo').setValue(0.0);
+      console.log('Prorrateando el cargo......');
     }
   }
 
@@ -152,13 +187,13 @@ export class NotadecargoFormComponent implements OnInit, OnChanges, OnDestroy {
         };
         this.partidas.push(new FormControl(det));
       });
-      this.actualizarTotal();
+      this.actualizar();
     }
   }
 
   onDeletePartida(index: number) {
     this.partidas.removeAt(index);
-    this.actualizarTotal();
+    this.actualizar();
   }
 
   get partidas() {

@@ -29,7 +29,7 @@
           <span matSuffix>%</span>
         </mat-form-field>
         <mat-form-field class="pad-right" [style.width.px]="150">
-          <input type="text" formControlName="total" sxOnlyNumbers placeholder="Total" matInput>
+          <input type="text" formControlName="total" type="number" placeholder="Total" matInput>
         </mat-form-field>
         <sx-forma-de-pago [parent]="form"></sx-forma-de-pago>
         <sx-uso-cfdi [parent]="form" flex class="pad-sm-left"></sx-uso-cfdi>
