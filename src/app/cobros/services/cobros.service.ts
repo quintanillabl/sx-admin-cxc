@@ -31,6 +31,17 @@ export class CobrosService {
       .pipe(catchError(err => Observable.of(err)));
   }
 
+  disponibles(filtro: {} = {}): Observable<Cobro[]> {
+    let params = new HttpParams();
+    _.forIn(filtro, (value, key) => {
+      params = params.set(key, value);
+    });
+    const url = `${this.apiUrl}/disponibles`;
+    return this.http
+      .get<Cobro[]>(url, { params: params })
+      .pipe(catchError(err => Observable.of(err)));
+  }
+
   cobrosMonetarios(filtro: any = {}) {
     let params = new HttpParams();
     _.forIn(filtro, (value, key) => {

@@ -24,6 +24,7 @@ export interface Cobro {
   aplicado?: number;
   comentario?: string;
   pendientesDeAplicar?: Array<any>;
+  fechaDeAplicacion?: string;
 }
 
 export interface CobroTarjeta {

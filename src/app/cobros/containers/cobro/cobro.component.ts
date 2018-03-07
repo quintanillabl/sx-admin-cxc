@@ -7,6 +7,8 @@ import * as _ from 'lodash';
 import { Cobro } from '../../models/cobro';
 import { CobrosService } from '../../services';
 import { TdDialogService, TdLoadingService } from '@covalent/core';
+import { MatDialog } from '@angular/material';
+import { FechaDialogComponent } from '../../../_shared/components';
 
 @Component({
   selector: 'sx-cobro',
@@ -28,12 +30,13 @@ export class CobroComponent implements OnInit {
     private route: ActivatedRoute,
     private service: CobrosService,
     private dialogService: TdDialogService,
-    private loadingService: TdLoadingService
+    private loadingService: TdLoadingService,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit() {
     this.cobro = this.route.snapshot.data.cobro;
-    console.log('Administracion de cobro: ', this.cobro);
+    // console.log('Administracion de cobro: ', this.cobro);
     this.cargarPendientes();
   }
 
@@ -68,6 +71,16 @@ export class CobroComponent implements OnInit {
 
   aplicar() {
     if (this.porAplicar > 0) {
+      const dialogRef = this.dialog.open(FechaDialogComponent, {
+        data: { title: `Aplicar ${_.round(this.porAplicar, 2)} en fecha` }
+      });
+      dialogRef.afterClosed().subscribe(fecha => {
+        if (fecha) {
+          // console.log('Aplicar en: ', fecha);
+          this.doAplicarSeleccion(fecha);
+        }
+      });
+      /*
       this.dialogService
         .openConfirm({
           title: 'Aplicar pago',
@@ -83,12 +96,14 @@ export class CobroComponent implements OnInit {
             this.doAplicarSeleccion();
           }
         });
+        */
     }
   }
 
-  doAplicarSeleccion() {
+  doAplicarSeleccion(fecha: Date) {
     this.loadingService.register('saving');
     const pago = { ...this.cobro };
+    pago.fechaDeAplicacion = fecha.toISOString();
     pago.pendientesDeAplicar = this.selectedCuentasPorPagar.map((item: any) => {
       return { id: item.id };
     });

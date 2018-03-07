@@ -14,6 +14,7 @@ export class CobrosComponent implements OnInit {
   cobros$: Observable<Cobro[]>;
   term = '';
   cartera: { clave: string; descripcion: string };
+  _disponibles = true;
 
   constructor(
     private servie: CobrosService,
@@ -30,10 +31,17 @@ export class CobrosComponent implements OnInit {
   }
 
   load() {
-    this.cobros$ = this.servie.cobrosMonetarios({
-      cartera: this.cartera.clave,
-      term: this.term
-    });
+    if (this.disponibles) {
+      this.cobros$ = this.servie.disponibles({
+        cartera: this.cartera.clave,
+        term: this.term
+      });
+    } else {
+      this.cobros$ = this.servie.list({
+        cartera: this.cartera.clave,
+        term: this.term
+      });
+    }
   }
 
   onSearch(event) {
@@ -44,5 +52,13 @@ export class CobrosComponent implements OnInit {
   onSelect(cobro: Cobro) {
     const path = `cobranza/${this.cartera.clave.toLowerCase()}/cobros`;
     this.router.navigate([path, cobro.id]);
+  }
+
+  get disponibles() {
+    return this._disponibles;
+  }
+  set disponibles(val) {
+    this._disponibles = val;
+    this.load();
   }
 }

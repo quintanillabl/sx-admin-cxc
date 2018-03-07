@@ -10,6 +10,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
     <span flex></span>
     <td-search-box class="push-right-sm" placeholder="{{searchLabel}}" flex (searchDebounce)="search.emit($event)">
     </td-search-box>
+    <ng-content select=".options"></ng-content>
     <span>
       <button mat-icon-button [matMenuTriggerFor]="toolbarMenu">
         <mat-icon>more_vert</mat-icon>

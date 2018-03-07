@@ -1,5 +1,8 @@
 <mat-card>
-  <sx-search-title title="Cobros registrados" (search)=onSearch($event)></sx-search-title>
+  <sx-search-title title="Cobros registrados" (search)=onSearch($event)>
+    <mat-checkbox [(ngModel)]="disponibles" class="options">Disponibles</mat-checkbox>
+  </sx-search-title>
+
   <div>
     <sx-cobros-table [cobros]="cobros$ | async" (select)="onSelect($event)"></sx-cobros-table>
   </div>

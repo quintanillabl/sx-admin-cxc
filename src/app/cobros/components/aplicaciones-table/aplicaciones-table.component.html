@@ -15,7 +15,7 @@
 <mat-divider></mat-divider>
 <td-data-table #dataTable [data]="filteredData" [columns]="columns" [selectable]="selectable" [clickable]="true" [multiple]="true"
   [sortable]="true" [sortBy]="sortBy" [(ngModel)]="selectedRows" [sortOrder]="sortOrder" (sortChange)="sort($event)" (rowSelect)="selectionChange()"
-  (selectAll)="selectionChange()">
+  (selectAll)="selectionChange()" [style.height.px]="300">
 </td-data-table>
 <div class="md-padding" *ngIf="!dataTable.hasData" layout="row" layout-align="center center">
   <h3>No hay cuentas por cobrar.</h3>

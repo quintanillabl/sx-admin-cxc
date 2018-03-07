@@ -45,18 +45,18 @@ export class AplicacionesTableComponent implements OnInit, OnChanges {
       label: 'Docto',
       filter: true,
       sortable: true,
-      width: 90
+      width: 100
     },
     {
       name: 'fecha',
       label: 'Fecha',
-      width: 90,
+      width: 110,
       format: date => this.datePipe.transform(date, 'dd/MM/yyyy')
     },
     {
       name: 'cuentaPorCobrar.total',
       label: 'Tot Dcto',
-      width: 110,
+      width: 150,
       numeric: true,
       sortable: true,
       filter: true,
@@ -66,7 +66,7 @@ export class AplicacionesTableComponent implements OnInit, OnChanges {
     {
       name: 'cuentaPorCobrar.saldo',
       label: 'Saldo Dcto',
-      width: 110,
+      width: 140,
       numeric: true,
       sortable: true,
       filter: true,
@@ -76,7 +76,7 @@ export class AplicacionesTableComponent implements OnInit, OnChanges {
     {
       name: 'importe',
       label: 'Aplicado',
-      width: 110,
+      width: 140,
       numeric: true,
       sortable: true,
       filter: true,
