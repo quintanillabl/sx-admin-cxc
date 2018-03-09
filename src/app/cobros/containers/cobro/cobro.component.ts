@@ -118,4 +118,30 @@ export class CobroComponent implements OnInit {
         this.reload();
       });
   }
+
+  saldar(cobro: Cobro) {
+    this.dialogService
+      .openConfirm({
+        title: 'Cobros',
+        message: 'Saldar el disponible de: $ ' + cobro.disponible,
+        acceptButton: 'Aceptar',
+        cancelButton: 'Cancelar'
+      })
+      .afterClosed()
+      .subscribe(res => {
+        if (res) {
+          console.log('Saldando disponible de cobro: ', cobro);
+          this.loadingService.register('saldando');
+          this.service
+            .saldar(cobro)
+            .pipe(
+              catchError(err => Observable.of(err)),
+              finalize(() => this.loadingService.resolve('saldando'))
+            )
+            .subscribe(cc => {
+              this.reload();
+            });
+        }
+      });
+  }
 }

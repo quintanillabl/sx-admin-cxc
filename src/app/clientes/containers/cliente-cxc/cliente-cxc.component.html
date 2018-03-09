@@ -1,3 +1,7 @@
 <mat-card>
-  <sx-cxc-table [data]="cuentasPorCobrar$ | async"></sx-cxc-table>
+  <ng-template tdLoading [tdLoadingUntil]="!procesando" tdLoadingStrategy="overlay">
+    <sx-cxc-table [data]="cuentasPorCobrar$ | async" [selectedRows]="selected" (reload)="load()">
+      <button class="actions" mat-menu-item (click)="saldar()"> Saldar </button>
+    </sx-cxc-table>
+  </ng-template>
 </mat-card>

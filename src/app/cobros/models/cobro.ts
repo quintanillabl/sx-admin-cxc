@@ -9,6 +9,7 @@ export interface Cobro {
   tipoDeCambio: number;
   importe: number;
   disponible: number;
+  diferencia?: number;
   referencia?: string;
   primeraAplicacion?: string;
   anticipo?: boolean;

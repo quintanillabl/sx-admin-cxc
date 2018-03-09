@@ -1,6 +1,7 @@
 <mat-card>
-  <sx-search-title title="Registro de facturas"></sx-search-title>
+  <sx-search-title title="Registro de facturas" (search)="onSearch($event)"></sx-search-title>
   <mat-divider></mat-divider>
-  <td-data-table #dataTable [data]="facturas$ | async" [columns]="columns">
-  </td-data-table>
+  <div *tdLoading="let facturas until facturas$ | async; type: 'circle'; color: 'accent'">
+    <td-data-table #dataTable [data]="facturas" [columns]="columns"></td-data-table>
+  </div>
 </mat-card>

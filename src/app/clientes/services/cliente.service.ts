@@ -5,12 +5,13 @@ import * as _ from 'lodash';
 
 import { ConfigService } from 'app/utils/config.service';
 import { Cliente } from '../models';
+import { catchError } from 'rxjs/operators';
 
 @Injectable()
 export class ClienteService {
   private apiUrl: string;
 
-  constructor(private http: HttpClient, config: ConfigService) {
+  constructor(private http: HttpClient, private config: ConfigService) {
     this.apiUrl = config.buildApiUrl('clientes');
   }
 
@@ -57,6 +58,11 @@ export class ClienteService {
     });
     const url = `${this.apiUrl}/${cliente.id}/cxc`;
     return this.http.get<Cliente[]>(url, { params: params });
+  }
+
+  saldarCxc(cxcId) {
+    const url = this.config.buildApiUrl(`cuentasPorCobrar/saldar/${cxcId}`);
+    return this.http.put(url, {}).pipe(catchError(err => Observable.of(err)));
   }
 
   notas(cliente: Cliente, filtro?: any): Observable<any[]> {

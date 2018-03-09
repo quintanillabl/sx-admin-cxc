@@ -8,6 +8,7 @@ import { ITdDataTableColumn } from '@covalent/core';
 
 import { Cliente } from '../../models';
 import { ClienteService } from '../../services';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 @Component({
   selector: 'sx-cliente-facturas',
@@ -17,6 +18,8 @@ import { ClienteService } from '../../services';
 export class ClienteFacturasComponent implements OnInit {
   cliente$: Observable<Cliente>;
   facturas$: Observable<any>;
+  term = '';
+  search$ = new BehaviorSubject<string>('');
 
   columns: ITdDataTableColumn[] = [
     { name: 'sucursal', label: 'Sucursal', sortable: true, width: 120 },
@@ -68,11 +71,24 @@ export class ClienteFacturasComponent implements OnInit {
 
   ngOnInit() {
     this.cliente$ = this.route.parent.data.map(data => data.cliente);
+    this.search$
+      .debounceTime(400)
+      .distinctUntilChanged()
+      .subscribe(term => {
+        this.term = term;
+        this.load();
+      });
+  }
+
+  load() {
     this.facturas$ = this.cliente$.switchMap(cliente => {
-      // console.log('Buscando facturas para : ', cliente);
       return this.service
-        .facturas(cliente, { term: '' })
+        .facturas(cliente, { term: this.term })
         .pipe(catchError(err => Observable.of(err)));
     });
+  }
+
+  onSearch(term) {
+    this.search$.next(term);
   }
 }

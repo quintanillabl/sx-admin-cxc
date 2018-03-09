@@ -80,6 +80,11 @@ export class CobrosService {
     return this.http.delete(url);
   }
 
+  saldar(com: Cobro) {
+    const url = `${this.apiUrl}/saldar/${com.id}`;
+    return this.http.put(url, com);
+  }
+
   sucursales(): Observable<any> {
     const params = new HttpParams().set('activas', 'activas');
     const url = this.config.buildApiUrl('sucursales');

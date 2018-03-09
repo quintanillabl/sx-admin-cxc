@@ -83,7 +83,7 @@ export class CxcTableComponent implements OnInit, OnChanges {
   currentPage = 1;
   pageSize = 10;
   sortBy = 'fecha';
-  selectedRows: any[] = [];
+  @Input() selectedRows: any[] = [];
   sortOrder: TdDataTableSortingOrder = TdDataTableSortingOrder.Ascending;
 
   constructor(

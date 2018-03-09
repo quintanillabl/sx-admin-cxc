@@ -11,6 +11,14 @@
   <button mat-icon-button (click)="reload.emit($event)">
     <mat-icon>refresh</mat-icon>
   </button>
+  <span>
+    <button mat-icon-button [matMenuTriggerFor]="toolbarMenu">
+      <mat-icon>more_vert</mat-icon>
+    </button>
+    <mat-menu #toolbarMenu="matMenu">
+      <ng-content select=".actions"></ng-content>
+    </mat-menu>
+  </span>
 </div>
 <mat-divider></mat-divider>
 <td-data-table #dataTable [data]="filteredData" [columns]="columns" [selectable]="selectable" [clickable]="true" [multiple]="true"
