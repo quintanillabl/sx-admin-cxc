@@ -81,4 +81,18 @@ export class NotadecargoService {
   delete(id: string) {
     return this.http.delete(this.apiUrl + '/' + id);
   }
+
+  reporteDeNotasDeCargo(fechaInicial: Date, fechaFinal: Date, origen: string) {
+    const params = new HttpParams()
+      .set('fechaInicial', fechaInicial.toISOString())
+      .set('fechaFinal', fechaFinal.toISOString())
+      .set('ORIGEN', origen);
+    const headers = new HttpHeaders().set('Content-type', 'application/pdf');
+    const url = `${this.apiUrl}/reporteDeNotasDeCargo`;
+    return this.http.get(url, {
+      headers: headers,
+      params: params,
+      responseType: 'blob'
+    });
+  }
 }

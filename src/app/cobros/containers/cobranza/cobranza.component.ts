@@ -18,6 +18,12 @@ export class CobranzaComponent implements OnInit {
       icon: 'attach_money'
     },
     {
+      path: 'revisiones',
+      title: 'Revisión',
+      description: 'Revisión y cobro',
+      icon: 'event_note'
+    },
+    {
       path: 'devoluciones',
       title: 'Devoluciones',
       description: 'Notas de devolución',
@@ -48,6 +54,9 @@ export class CobranzaComponent implements OnInit {
 
   ngOnInit() {
     this.cartera = this.route.snapshot.data.cartera;
+    if (this.cartera.clave === 'CON') {
+      this.navigation.splice(0, 1); // Contado no ocupa Cobros
+    }
   }
 
   reporteDeCobranza() {

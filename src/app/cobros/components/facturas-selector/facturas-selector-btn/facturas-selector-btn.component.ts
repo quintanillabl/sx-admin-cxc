@@ -19,6 +19,8 @@ export class FacturasSelectorBtnComponent implements OnInit {
 
   @Input() cliente: any;
 
+  @Input() cartera = 'CRE';
+
   @Input() disabled = false;
 
   constructor(private dialog: MatDialog) {}
@@ -31,7 +33,8 @@ export class FacturasSelectorBtnComponent implements OnInit {
       width: '850px',
       height: '700px',
       data: {
-        cliente: this.cliente
+        cliente: this.cliente,
+        cartera: this.cartera
       }
     });
     dialogRef.afterClosed().subscribe(facturas => {

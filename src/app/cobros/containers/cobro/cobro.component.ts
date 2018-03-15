@@ -51,7 +51,7 @@ export class CobroComponent implements OnInit {
   cargarPendientes() {
     this.selectedCuentasPorPagar = [];
     this.pendientes$ = this.service
-      .cuentasPorCobrar(this.cobro.cliente)
+      .cuentasPorCobrar(this.cobro.cliente, 'CRE')
       .pipe(catchError(err => Observable.of(err)));
   }
 

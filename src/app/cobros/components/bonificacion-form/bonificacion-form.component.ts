@@ -197,7 +197,7 @@ export class BonificacionFormComponent implements OnInit, OnDestroy {
       base === 'Saldo' ? this.saldoFacturas : this.totalFacturas;
     if (this.form.get('tipoDeCalculo').value === 'PORCENTAJE') {
       const importe = importeBase * (this.descuentoNeto / 100);
-      this.form.get('importe').setValue(importe);
+      this.form.get('importe').setValue(_.round(importe, 2));
     }
   }
 

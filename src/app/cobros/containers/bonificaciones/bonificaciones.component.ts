@@ -14,6 +14,9 @@ import {
 
 import { NotascxcService } from '../../services';
 import { Cartera } from '../../models/cartera';
+import { MatDialog } from '@angular/material';
+import { PeriodoDialogComponent } from '../../../_shared/components';
+import { Periodo } from '../../../_core/models/periodo';
 
 @Component({
   selector: 'sx-bonificaciones',
@@ -38,6 +41,11 @@ export class BonificacionesComponent implements OnInit {
       label: 'Fecha',
       width: 100,
       format: date => this.datePipe.transform(date, 'dd/MM/yyyy')
+    },
+    {
+      name: 'tipoCartera',
+      label: 'Tipo',
+      width: 60
     },
     {
       name: 'cliente.nombre',
@@ -76,7 +84,8 @@ export class BonificacionesComponent implements OnInit {
     private dialogService: TdDialogService,
     private loadingService: TdLoadingService,
     private service: NotascxcService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit() {
@@ -110,6 +119,33 @@ export class BonificacionesComponent implements OnInit {
       this.sortBy,
       this.sortOrder
     );
+  }
+
+  reporteDeNotasDeCredito() {
+    const ref = this.dialog.open(PeriodoDialogComponent, {});
+    ref.afterClosed().subscribe((periodo: Periodo) => {
+      if (periodo) {
+        console.log('Periodo: ', periodo);
+        console.log('Cartera: ', this.cartera.clave);
+        this.service
+          .reporteDeNotasDeCredito(
+            periodo.fechaInicial,
+            periodo.fechaFinal,
+            this.cartera.clave
+          )
+          .subscribe(
+            res => {
+              const blob = new Blob([res], {
+                type: 'application/pdf'
+              });
+              // this.loadingService.resolve('saving');
+              const fileURL = window.URL.createObjectURL(blob);
+              window.open(fileURL, '_blank');
+            },
+            error2 => console.log(error2)
+          );
+      }
+    });
   }
 
   handelError2(response) {

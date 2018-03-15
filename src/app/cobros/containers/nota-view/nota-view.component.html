@@ -12,12 +12,26 @@
       <mat-list flex>
         <mat-list-item>Fecha: {{nota.fecha | date:'dd/MM/yyyy'}}</mat-list-item>
         <mat-divider [inset]="true"></mat-divider>
-        <mat-list-item>Cartera: {{nota.tipoCartera}}</mat-list-item>
+        <mat-list-item>
+          <span mat-line>
+            Cartera: {{nota.tipoCartera}}
+          </span>
+          <span mat-line>
+            Serie: {{nota.serie}} Folio: {{nota.folio}}
+          </span>
+
+        </mat-list-item>
         <mat-divider [inset]="true"></mat-divider>
         <mat-list-item>Total: {{nota.total | currency}}</mat-list-item>
         <mat-divider [inset]="true"></mat-divider>
         <mat-list-item>
-          Disponible: {{nota.disponible | currency}}
+          <span mat-line>
+            Disponible: {{nota.disponible | currency}}
+          </span>
+          <span mat-line>
+            Cobro: {{nota?.cobro?.id}}
+          </span>
+
         </mat-list-item>
         <mat-divider [inset]="true"></mat-divider>
         <mat-list-item>UUID: {{nota?.cfdi?.uuid}}</mat-list-item>

@@ -120,7 +120,7 @@ export class DevolucionesComponent implements OnInit {
     this.service
       .buscarRmd({
         pendientes: this.pendientes,
-        cartera: this.cartera.clave.toLowerCase(),
+        cartera: this.cartera.clave,
         term: this.term
       })
       .do(() => (this.procesando = true))
@@ -163,15 +163,13 @@ export class DevolucionesComponent implements OnInit {
 
   generarNota(nota) {
     this.service
-      .generarNotaDeDevolucion(nota, this.cartera.clave.toLowerCase())
+      .generarNotaDeDevolucion(nota, this.cartera.clave)
       .do(() => (this.procesando = true))
       .catch(error => this.handelError2(error))
       .finally(() => (this.procesando = false))
       .subscribe((res: any) => {
         console.log('Notas generadas: ', res);
-        // this.router.navigate(['cxc/notas/bonificaciones/show', res.id]);
         this.router.navigate(['show', res.id], { relativeTo: this.route });
-        // this.timbrar(nota)
       });
   }
 

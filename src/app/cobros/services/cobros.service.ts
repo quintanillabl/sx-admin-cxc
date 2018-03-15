@@ -91,11 +91,15 @@ export class CobrosService {
     return this.http.get<Observable<any>>(url, { params: params });
   }
 
-  cuentasPorCobrar(cliente: { id: string; nombre: string }): Observable<any> {
+  cuentasPorCobrar(
+    cliente: { id: string; nombre: string },
+    cartera
+  ): Observable<any> {
+    const params = new HttpParams().set('cartera', cartera);
     const url = this.config.buildApiUrl(
       `cuentasPorCobrar/pendientes/${cliente.id}`
     );
-    return this.http.get<Observable<any>>(url);
+    return this.http.get<Observable<any>>(url, { params: params });
   }
 
   aplicarCobro(cobro: Cobro, cxc: any) {

@@ -7,6 +7,9 @@ import { NotaDeCargo } from '../../models/notaDeCargo';
 import { NotadecargoService } from '../../services';
 import { ITdDataTableColumn } from '@covalent/core';
 import { Cartera } from '../../models/cartera';
+import { MatDialog } from '@angular/material';
+import { PeriodoDialogComponent } from '../../../_shared/components';
+import { Periodo } from '../../../_core/models/periodo';
 
 @Component({
   selector: 'sx-cargos',
@@ -51,7 +54,8 @@ export class CargosComponent implements OnInit {
     private currencyPipe: CurrencyPipe,
     private router: Router,
     private route: ActivatedRoute,
-    private service: NotadecargoService
+    private service: NotadecargoService,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit() {
@@ -65,6 +69,33 @@ export class CargosComponent implements OnInit {
     this.cargos$ = this.service.list({
       cartera: this.cartera.clave.toLowerCase(),
       term: this.term
+    });
+  }
+
+  reporteDeNotasDeCargo() {
+    const ref = this.dialog.open(PeriodoDialogComponent, {});
+    ref.afterClosed().subscribe((periodo: Periodo) => {
+      if (periodo) {
+        // console.log('Periodo: ', periodo);
+        // console.log('Cartera: ', this.cartera.clave);
+        this.service
+          .reporteDeNotasDeCargo(
+            periodo.fechaInicial,
+            periodo.fechaFinal,
+            this.cartera.clave
+          )
+          .subscribe(
+            res => {
+              const blob = new Blob([res], {
+                type: 'application/pdf'
+              });
+              // this.loadingService.resolve('saving');
+              const fileURL = window.URL.createObjectURL(blob);
+              window.open(fileURL, '_blank');
+            },
+            error2 => console.log(error2)
+          );
+      }
     });
   }
 

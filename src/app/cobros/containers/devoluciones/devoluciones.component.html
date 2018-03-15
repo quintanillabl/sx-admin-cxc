@@ -35,9 +35,7 @@
   <td-data-table #dataTable [data]="filteredData" [columns]="columns" [selectable]="selectable" [clickable]="false" [multiple]="false"
     [sortable]="true" [sortBy]="sortBy" [(ngModel)]="selectedRows" [sortOrder]="sortOrder" (sortChange)="sort($event)" [style.height.px]="420">
     <ng-template tdDataTableTemplate="documento" let-value="value" let-row="row">
-      <span class="tc-indigo-800" [routerLink]="['show', row.id]">
-        {{value}}
-      </span>
+      <span class="tc-indigo-800 ">{{value}}</span>
     </ng-template>
     <ng-template tdDataTableTemplate="nota" let-value="value" let-row="row">
       <div layout layout-align="center" class="pad-left" *ngIf="value">

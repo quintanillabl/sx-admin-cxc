@@ -31,7 +31,10 @@ export class NotaViewComponent implements OnInit {
         console.log('Params: ', params);
         return this.service.get(params.get('id'));
       })
-      .subscribe(nota => (this.nota = nota));
+      .subscribe(nota => {
+        this.nota = nota;
+        console.log('Nota:', nota);
+      });
   }
 
   reload() {
@@ -62,7 +65,14 @@ export class NotaViewComponent implements OnInit {
   }
 
   timbrar(nota) {
-    console.log('Timbrando: ', nota);
+    if (nota.sw2) {
+      this.dialogService.openAlert({
+        title: 'Error',
+        message: 'Nota de credito CFDI 3.2 no se puede timbrar',
+        closeButton: 'Cerrar'
+      });
+      return;
+    }
 
     this.loadingService.register('procesando');
     if (!nota.cfdi) {
@@ -165,12 +175,13 @@ export class NotaViewComponent implements OnInit {
   }
 
   delete(nota) {
+    console.log('Eliminando nota: ', nota);
     if (nota.cfdi) {
       return;
     }
     this.dialogService
       .openConfirm({
-        message: ` Eliminar la nota: ${nota.documento}`,
+        message: ` Eliminar la nota: ${nota.folio}`,
         title: `Elminación de nota de credito`,
         acceptButton: 'Aceptar',
         cancelButton: 'Cancelar'
@@ -183,10 +194,19 @@ export class NotaViewComponent implements OnInit {
             .delete(nota.id)
             .catch(error2 => this.handelError2(error2))
             .finally(() => this.loadingService.resolve('procesando'))
-            .subscribe(res => {
-              this.router.navigate(['/cxc/notas']);
+            .subscribe(ok => {
+              this.goToParent(nota);
             });
         }
       });
+  }
+
+  goToParent(nota: any) {
+    const tipo = nota.tipo.startsWith('DEV')
+      ? 'devoluciones'
+      : 'bonificaciones';
+    const cartera = nota.tipoCartera.toLowerCase();
+    const url = `/cobranza/${cartera}/${tipo}`;
+    this.router.navigate([url]);
   }
 }

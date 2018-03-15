@@ -60,6 +60,7 @@ export class FacturasSelectorComponent implements OnInit {
   procesando = false;
 
   cliente: any;
+  cartera;
 
   constructor(
     public dialogRef: MatDialogRef<FacturasSelectorComponent>,
@@ -69,6 +70,7 @@ export class FacturasSelectorComponent implements OnInit {
     private currencyPipe: CurrencyPipe
   ) {
     this.cliente = data.cliente;
+    this.cartera = data.cartera || 'CRE';
   }
 
   ngOnInit() {
@@ -77,7 +79,11 @@ export class FacturasSelectorComponent implements OnInit {
       .distinctUntilChanged()
       .switchMap(term =>
         this.service
-          .buscarFacturasPendientes({ term: term, cliente: this.cliente.id })
+          .buscarFacturasPendientes({
+            term: term,
+            cliente: this.cliente.id,
+            cartera: this.cartera
+          })
           .do(() => (this.procesando = true))
           .catch(error => Observable.of([]))
           .finally(() => (this.procesando = false))

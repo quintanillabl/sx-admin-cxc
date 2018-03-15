@@ -1,0 +1,53 @@
+<mat-card>
+  <div layout="row" layout-align="start center" class="pad-left-sm pad-right-sm">
+    <span class="push-left-sm">
+      <span class="mat-title">Facturas a revisión</span>
+    </span>
+    <span flex></span>
+    <span *ngIf="!searchBox.searchVisible" class="push-left-sm">
+      <span *ngIf="selectedRows.length" class="mat-body-1">
+        {{selectedRows.length}} registro(s) seleccionados
+      </span>
+    </span>
+    <td-search-box #searchBox backIcon="arrow_back" class="push-right-sm" placeholder="Buscar" (searchDebounce)="search($event)"
+      flex>
+    </td-search-box>
+    <span>
+      <button mat-icon-button [matMenuTriggerFor]="toolbarMenu">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+      <mat-menu #toolbarMenu="matMenu">
+        <button mat-menu-item (click)="load()">
+          <mat-icon>refresh</mat-icon> Refrescar
+        </button>
+        <button mat-menu-item (click)="generar()">
+          <mat-icon>build</mat-icon> Generar
+        </button>
+        <button mat-menu-item (click)="recalcular()">
+          <mat-icon>swap_vert</mat-icon> Actualizar
+        </button>
+        <ng-container *ngIf="selectedRows.length > 0">
+          <button mat-menu-item (click)="recepcion(true)">
+            <mat-icon>event_available</mat-icon> Recepción
+          </button>
+          <button mat-menu-item (click)="recepcion(false)">
+            <mat-icon>event_busy</mat-icon> Cancelar Recepción
+          </button>
+          <button mat-menu-item (click)="revisada()">
+            <mat-icon class="tc-green-500">check_circle</mat-icon> Revisada
+          </button>
+          <button mat-menu-item (click)="edit()">
+            <mat-icon>edit</mat-icon> Modificar
+          </button>
+        </ng-container>
+      </mat-menu>
+    </span>
+  </div>
+  <mat-divider></mat-divider>
+  <div style="overflow-x:auto;">
+    <ng-template tdLoading [tdLoadingUntil]="!procesando" tdLoadingStrategy="overlay">
+      <sx-ventas-credito-table #table [data]="facturas" (selection)="onSelection($event)"></sx-ventas-credito-table>
+    </ng-template>
+  </div>
+
+</mat-card>
