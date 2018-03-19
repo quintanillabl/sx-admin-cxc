@@ -12,11 +12,13 @@ import { TdLoadingService, TdDialogService } from '@covalent/core';
   template: `
     <div layout="flex" layout-align="center"
       *tdLoading="'processing'; mode:'indeterminate'; type:'circle'; strategy:'overlay'; color:'accent'">
-      <sx-notadecargo-form [nota]="nota$ | async" flex
-        (cancel)="onCancel($event)"
-        (timbrar)="timbrar($event)"
-        (save)="onSave($event)">
-      </sx-notadecargo-form>
+      <ng-container *ngIf="nota$ | async as nota">
+        <sx-notadecargo-form [nota]="nota" flex
+         (cancel)="onCancel(nota)"
+         (timbrar)="timbrar($event)"
+         (save)="onSave($event)">
+        </sx-notadecargo-form>
+      </ng-container>
     </div>
   `,
   styles: []

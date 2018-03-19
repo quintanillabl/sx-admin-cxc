@@ -6,7 +6,7 @@ import {
   EventEmitter,
   OnDestroy,
   OnChanges,
-  SimpleChanges
+  SimpleChanges,
 } from '@angular/core';
 import {
   FormGroup,
@@ -15,7 +15,7 @@ import {
   AbstractControl,
   ValidatorFn,
   FormArray,
-  FormControl
+  FormControl,
 } from '@angular/forms';
 import { Subject } from 'rxjs/Subject';
 import * as _ from 'lodash';
@@ -25,7 +25,7 @@ import { NotaDeCargo } from '../../models/notaDeCargo';
 @Component({
   selector: 'sx-notadecargo-form',
   templateUrl: './notadecargo-form.component.html',
-  styles: []
+  styles: [],
 })
 export class NotadecargoFormComponent implements OnInit, OnChanges, OnDestroy {
   form: FormGroup;
@@ -58,8 +58,9 @@ export class NotadecargoFormComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes.nota && !changes.nota.firstChange) {
-      // console.log('Editando nota de cargo: ', changes.nota);
+    console.log('changes: ', changes);
+    if (changes.nota) {
+      console.log('Editando nota de cargo: ', changes.nota);
       this.form.patchValue(this.nota);
       this.nota.partidas.forEach(item => {
         // console.log('Agregando partida de nota de cargo: ', item);
@@ -81,7 +82,7 @@ export class NotadecargoFormComponent implements OnInit, OnChanges, OnDestroy {
       cargo: [{ value: null, disabled: false }, [Validators.required]],
       total: [{ value: null, disabled: true }, [Validators.required]],
       comentario: null,
-      partidas: this.fb.array([])
+      partidas: this.fb.array([]),
     });
     this.observarTipoDeCalculo();
     this.subscribers();
@@ -109,7 +110,7 @@ export class NotadecargoFormComponent implements OnInit, OnChanges, OnDestroy {
   prepareEntity() {
     const entity = {
       ...this.form.value,
-      tipo: this.cartera
+      tipo: this.cartera,
     };
     if (this.nota) {
       const cliente = this.form.get('cliente').value;
@@ -154,7 +155,7 @@ export class NotadecargoFormComponent implements OnInit, OnChanges, OnDestroy {
       if (cargo > 0.0) {
         const saldoTotal = _.sumBy(
           this.partidas.value,
-          (item: any) => item.cuentaPorCobrar.saldo
+          (item: any) => item.cuentaPorCobrar.saldo,
         );
         const total = saldoTotal * (cargo / 100.0);
         this.form.get('total').setValue(_.round(total, 2));
@@ -183,7 +184,7 @@ export class NotadecargoFormComponent implements OnInit, OnChanges, OnDestroy {
     if (facturas) {
       facturas.forEach(item => {
         const det = {
-          cuentaPorCobrar: item
+          cuentaPorCobrar: item,
         };
         this.partidas.push(new FormControl(det));
       });
