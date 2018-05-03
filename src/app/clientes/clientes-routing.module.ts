@@ -51,6 +51,10 @@ const routes: Routes = [
             component: fromContainers.ClienteCargosComponent
           },
           {
+            path: 'socios',
+            component: fromContainers.ClienteSociosComponent
+          },
+          {
             path: 'estadoDeCuenta',
             component: fromContainers.EstadoDeCuentaComponent
           }

@@ -25,6 +25,13 @@
             <span *ngIf="!miniNav">{{item.title}}</span>
           </a>
         </ng-template>
+        <ng-container *ngIf="cliente.clave === 'U050008'">
+          <a mat-list-item [routerLink]="['socios']" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact: false}">
+            <mat-icon matListIcon matTooltipPosition="after">people_outline
+            </mat-icon>
+            <span *ngIf="!miniNav">Socios</span>
+          </a>
+        </ng-container>
         <mat-divider></mat-divider>
         <h3 matSubheader>Reportes</h3>
         <mat-list-item (click)="estadoDeCuenta()">

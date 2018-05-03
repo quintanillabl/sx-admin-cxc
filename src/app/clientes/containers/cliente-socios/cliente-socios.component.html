@@ -1,0 +1,7 @@
+<mat-card>
+  <div>
+    <ng-container *ngIf="socios$ | async as socios">
+      <sx-socios-table [data]="socios" (select)="onSelect($event)"></sx-socios-table>
+    </ng-container>
+  </div>
+</mat-card>

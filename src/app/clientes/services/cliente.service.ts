@@ -74,6 +74,16 @@ export class ClienteService {
     return this.http.get<any[]>(url, { params: params });
   }
 
+  socios(cliente: Cliente): Observable<any[]> {
+    const url = `${this.apiUrl}/${cliente.id}/socios`;
+    return this.http.get<any[]>(url);
+  }
+
+  updateSocio(clienteId: string, socio: any) {
+    const url = `${this.apiUrl}/${clienteId}/socios/${socio.id}`;
+    return this.http.put(url, socio);
+  }
+
   cobros(cliente: Cliente, filtro?: any): Observable<Cliente[]> {
     let params = new HttpParams();
     _.forIn(filtro, (value, key) => {

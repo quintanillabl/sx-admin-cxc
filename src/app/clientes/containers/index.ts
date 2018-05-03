@@ -8,6 +8,7 @@ import { ClienteCargosComponent } from './cliente-cargos/cliente-cargos.componen
 import { ClienteCobrosComponent } from './cliente-cobros/cliente-cobros.component';
 import { EstadoDeCuentaComponent } from './estado-de-cuenta/estado-de-cuenta.component';
 import { ClienteCxcComponent } from './cliente-cxc/cliente-cxc.component';
+import { ClienteSociosComponent } from './cliente-socios/cliente-socios.component';
 
 export const containers: any[] = [
   ClientesListComponent,
@@ -19,6 +20,7 @@ export const containers: any[] = [
   ClienteNotasComponent,
   ClienteCargosComponent,
   ClienteCobrosComponent,
+  ClienteSociosComponent,
   EstadoDeCuentaComponent
 ];
 
@@ -32,3 +34,4 @@ export * from './cliente-cargos/cliente-cargos.component';
 export * from './cliente-cobros/cliente-cobros.component';
 export * from './estado-de-cuenta/estado-de-cuenta.component';
 export * from './cliente-cxc/cliente-cxc.component';
+export * from './cliente-socios/cliente-socios.component';

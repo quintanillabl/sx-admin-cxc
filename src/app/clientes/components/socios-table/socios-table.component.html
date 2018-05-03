@@ -1,0 +1,49 @@
+<!-- <mat-table class="clientes-table mat-elevation-z8" [dataSource]="dataSource" matSortDisableClear>
+
+  <ng-container matColumnDef="clave">
+    <mat-header-cell *matHeaderCellDef>Clave</mat-header-cell>
+    <mat-cell *matCellDef="let socio">{{socio.clave}}</mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="nombre">
+    <mat-header-cell *matHeaderCellDef>Nombre</mat-header-cell>
+    <mat-cell class="cursor-pointer" *matCellDef="let socio">{{socio.nombre}}</mat-cell>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="columns"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: columns" (click)="select.emit(row)" [ngClass]="{'selected': row.id === selected?.id }">
+  </mat-row>
+</mat-table> -->
+
+<div layout="row" layout-align="start center" class="pad-left-sm pad-right-sm">
+  <span *ngIf="!searchBox.searchVisible" class="push-left-sm">
+    <span class="mat-title">Catálogo de socios</span>
+  </span>
+  <span *ngIf="!searchBox.searchVisible" class="push-left-sm">
+    <span *ngIf="selectedRows.length && selectable" class="mat-body-1">0 socio(s) seleccionados</span>
+  </span>
+  <td-search-box #searchBox backIcon="arrow_back" class="push-right-sm" placeholder="Buscar" (searchDebounce)="search($event)"
+    flex>
+  </td-search-box>
+</div>
+<mat-divider></mat-divider>
+<td-data-table #dataTable [data]="filteredData" [columns]="columns" [selectable]="selectable" [multiple]="multiple" [sortable]="true"
+  [sortBy]="sortBy" [(ngModel)]="selectedRows" [sortOrder]="sortOrder" (sortChange)="sort($event)" (rowClick)="showAlert($event)"
+  [style.height.px]="550">
+  <ng-template tdDataTableTemplate="nombre" let-value="value" let-row="row">
+    <span (click)="select.emit(row)" class="cursor-pointer" flex>{{value}}</span>
+  </ng-template>
+</td-data-table>
+<div class="md-padding" *ngIf="!dataTable.hasData" layout="row" layout-align="center center">
+  <h3>No results to display.</h3>
+</div>
+<td-paging-bar #pagingBar [pageSize]="pageSize" [total]="filteredTotal" (change)="page($event)">
+  <span hide-xs>Registros per página:</span>
+  <mat-select [style.width.px]="50" [(ngModel)]="pageSize">
+    <mat-option *ngFor="let size of [50,100,200,500]" [value]="size">
+      {{size}}
+    </mat-option>
+  </mat-select>
+  {{pagingBar.range}}
+  <span hide-xs>of {{pagingBar.total}}</span>
+</td-paging-bar>
