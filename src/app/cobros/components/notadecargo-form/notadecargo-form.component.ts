@@ -90,15 +90,6 @@ export class NotadecargoFormComponent implements OnInit, OnChanges, OnDestroy {
 
   private subscribers() {
     // Listen to import
-    /*
-    this.form
-      .get('tipoDeCalculo')
-      .valueChanges.takeUntil(this.destroy$)
-      .subscribe(importe => {
-        this.actualizar();
-      });
-      */
-
     this.form
       .get('cargo')
       .valueChanges.takeUntil(this.destroy$)
