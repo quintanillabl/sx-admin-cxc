@@ -1,20 +1,3 @@
-<!-- <mat-table class="clientes-table mat-elevation-z8" [dataSource]="dataSource" matSortDisableClear>
-
-  <ng-container matColumnDef="clave">
-    <mat-header-cell *matHeaderCellDef>Clave</mat-header-cell>
-    <mat-cell *matCellDef="let socio">{{socio.clave}}</mat-cell>
-  </ng-container>
-
-  <ng-container matColumnDef="nombre">
-    <mat-header-cell *matHeaderCellDef>Nombre</mat-header-cell>
-    <mat-cell class="cursor-pointer" *matCellDef="let socio">{{socio.nombre}}</mat-cell>
-  </ng-container>
-
-  <mat-header-row *matHeaderRowDef="columns"></mat-header-row>
-  <mat-row *matRowDef="let row; columns: columns" (click)="select.emit(row)" [ngClass]="{'selected': row.id === selected?.id }">
-  </mat-row>
-</mat-table> -->
-
 <div layout="row" layout-align="start center" class="pad-left-sm pad-right-sm">
   <span *ngIf="!searchBox.searchVisible" class="push-left-sm">
     <span class="mat-title">Catálogo de socios</span>
@@ -28,8 +11,7 @@
 </div>
 <mat-divider></mat-divider>
 <td-data-table #dataTable [data]="filteredData" [columns]="columns" [selectable]="selectable" [multiple]="multiple" [sortable]="true"
-  [sortBy]="sortBy" [(ngModel)]="selectedRows" [sortOrder]="sortOrder" (sortChange)="sort($event)" (rowClick)="showAlert($event)"
-  [style.height.px]="550">
+  [sortBy]="sortBy" [(ngModel)]="selectedRows" [sortOrder]="sortOrder" (sortChange)="sort($event)" [style.height.px]="550">
   <ng-template tdDataTableTemplate="nombre" let-value="value" let-row="row">
     <span (click)="select.emit(row)" class="cursor-pointer" flex>{{value}}</span>
   </ng-template>
