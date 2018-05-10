@@ -1,0 +1,44 @@
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+
+import { ConfigService } from '../../utils/config.service';
+
+import { Observable } from 'rxjs';
+import { catchError } from 'rxjs/operators';
+
+import { Despacho } from '../models/despacho';
+
+@Injectable()
+export class DespachosService {
+  private apiUrl: string;
+
+  constructor(private http: HttpClient, private config: ConfigService) {
+    this.apiUrl = config.buildApiUrl('despachos');
+  }
+
+  list(): Observable<Despacho[]> {
+    return this.http
+      .get<Despacho[]>(this.apiUrl)
+      .pipe(catchError(error => Observable.throw(error)));
+  }
+
+  save(despacho: Despacho): Observable<Despacho> {
+    return this.http
+      .post<Despacho>(this.apiUrl, despacho)
+      .pipe(catchError(error => Observable.throw(error)));
+  }
+
+  update(despacho: Despacho): Observable<Despacho> {
+    const url = `${this.apiUrl}/${despacho.id}`;
+    return this.http
+      .put<Despacho>(url, despacho)
+      .pipe(catchError(error => Observable.throw(error)));
+  }
+
+  delete(despacho: Despacho) {
+    const url = `${this.apiUrl}/${despacho.id}`;
+    return this.http
+      .delete<Despacho>(url)
+      .pipe(catchError(error => Observable.throw(error)));
+  }
+}

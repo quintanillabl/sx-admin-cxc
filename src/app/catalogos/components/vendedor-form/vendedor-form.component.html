@@ -1,0 +1,28 @@
+<form novalidate [formGroup]="form">
+  <h2 mat-dialog-title>
+    <span *ngIf="cobrador">Mantenimiento a vendedor</span>
+    <span *ngIf="!cobrador">Alta de vendedor</span>
+  </h2>
+  <mat-dialog-content layout="columne">
+    <sx-upper-case-field formControlName="nombres" placeholder="Nombre" [required]="true"></sx-upper-case-field>
+    <div layout>
+      <mat-form-field>
+        <input type="number" matInput placeholder="Comisión contado" formControlName="comisionContado">
+        <mat-error>Import invalido</mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <input type="number" matInput placeholder="Comisión crédito" formControlName="comisionCredito">
+        <mat-error>Import invalido</mat-error>
+      </mat-form-field>
+      <mat-checkbox formControlName="activo">Activo</mat-checkbox>
+    </div>
+
+
+
+  </mat-dialog-content>
+
+  <mat-dialog-actions>
+    <button mat-button mat-dialog-close>Cancelar</button>
+    <button mat-button [mat-dialog-close]="form.value" [disabled]="form.invalid || form.pristine">Aceptar</button>
+  </mat-dialog-actions>
+</form>

@@ -3,8 +3,14 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 
+import {
+  StoreRouterConnectingModule,
+  RouterStateSerializer
+} from '@ngrx/router-store';
 import { StoreModule, MetaReducer } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
+
+import { reducers, effects, CustomSerializer } from './store';
 
 // Not used in production
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
@@ -28,9 +34,7 @@ export function onAppInit(configService: ConfigService): () => Promise<any> {
 }
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -38,22 +42,28 @@ export function onAppInit(configService: ConfigService): () => Promise<any> {
     AppRoutingModule,
 
     // Ngrx Store configuration
-    StoreModule.forRoot({}, {metaReducers}),
+    StoreModule.forRoot(reducers, { metaReducers }),
     StoreDevtoolsModule.instrument({
       name: 'SX-CXC Dev Tools',
       logOnly: environment.production
     }),
-    EffectsModule.forRoot([]),
+    EffectsModule.forRoot(effects),
+    StoreRouterConnectingModule,
 
     SharedModule,
-    CoreModule,
-    ClientesModule.forRoot()
+    CoreModule
+    // ClientesModule.forRoot()
   ],
   providers: [
     ConfigService,
-    {provide: APP_INITIALIZER, useFactory: onAppInit, multi: true, deps: [ConfigService]
+    {
+      provide: APP_INITIALIZER,
+      useFactory: onAppInit,
+      multi: true,
+      deps: [ConfigService]
     },
+    { provide: RouterStateSerializer, useClass: CustomSerializer }
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}

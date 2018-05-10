@@ -1,0 +1,42 @@
+<mat-table [dataSource]="dataSource">
+
+  <ng-container matColumnDef="nombres">
+    <mat-header-cell *matHeaderCellDef>Nombre</mat-header-cell>
+    <mat-cell *matCellDef="let vendedor">{{vendedor.nombres}}</mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="activo">
+    <mat-header-cell *matHeaderCellDef>Activo</mat-header-cell>
+    <mat-cell *matCellDef="let vendedor">
+      <mat-icon *ngIf="vendedor.activo">check</mat-icon>
+    </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="comisionContado">
+    <mat-header-cell *matHeaderCellDef>Comisión CON</mat-header-cell>
+    <mat-cell *matCellDef="let vendedor">{{vendedor.comisionContado | percent}}</mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="comisionCredito">
+    <mat-header-cell *matHeaderCellDef>Comisión CRE</mat-header-cell>
+    <mat-cell *matCellDef="let vendedor">{{vendedor.comisionCredito | percent}}</mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="edit">
+    <mat-header-cell *matHeaderCellDef>Operaciones</mat-header-cell>
+    <mat-cell *matCellDef="let vendedor">
+      <button mat-icon-button (click)="edit.emit(vendedor)">
+        <mat-icon>edit</mat-icon>
+      </button>
+      <button mat-icon-button (click)="delete.emit(vendedor)">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </mat-cell>
+  </ng-container>
+
+
+
+  <mat-header-row *matHeaderRowDef="columnsToDisplay"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: columnsToDisplay"></mat-row>
+
+</mat-table>

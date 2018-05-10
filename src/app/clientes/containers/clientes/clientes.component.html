@@ -1,0 +1,24 @@
+<td-layout-nav navigationRoute="/clientes" color="accent">
+
+  <div td-toolbar-content layout="row" layout-align="start center" flex>
+    <button mat-icon-button td-menu-button tdLayoutToggle>
+      <mat-icon>menu</mat-icon>
+    </button>
+    <span [routerLink]="['/']" class="cursor-pointer"> Clientes </span>
+    <span flex></span>
+  </div>
+
+  <div layout class="page">
+    <mat-card flex>
+      <sx-search-title title="Catálogo de clientes" (search)="onSearch($event)"></sx-search-title>
+      <mat-divider></mat-divider>
+      <sx-clientes-table [dataSource]="clientes$" (select)="onSelect($event)"></sx-clientes-table>
+    </mat-card>
+
+  </div>
+
+  <td-layout-footer>
+    <sx-footer></sx-footer>
+  </td-layout-footer>
+
+</td-layout-nav>

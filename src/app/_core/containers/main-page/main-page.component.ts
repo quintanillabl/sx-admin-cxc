@@ -14,6 +14,11 @@ export class MainPageComponent implements OnInit {
       title: 'Inicio'
     },
     {
+      icon: 'format_list_numbered',
+      route: '/catalogos',
+      title: 'Catálogos'
+    },
+    {
       icon: 'group',
       route: '/clientes',
       title: 'Clientes'

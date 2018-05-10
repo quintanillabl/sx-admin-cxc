@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
+
 import { Observable } from 'rxjs/Observable';
+import { catchError } from 'rxjs/operators';
+
 import * as _ from 'lodash';
 
 import { ConfigService } from 'app/utils/config.service';
 import { Cliente } from '../models';
-import { catchError } from 'rxjs/operators';
 
 @Injectable()
 export class ClienteService {
@@ -25,21 +27,29 @@ export class ClienteService {
     _.forIn(filtro, (value, key) => {
       params = params.set(key, value);
     });
-    return this.http.get<Cliente[]>(this.apiUrl, { params: params });
+    return this.http
+      .get<Cliente[]>(this.apiUrl, { params: params })
+      .pipe(catchError(error => Observable.of(error)));
   }
 
-  save(cliente: Cliente) {
-    return this.http.post(this.apiUrl, cliente);
+  save(cliente: Cliente): Observable<Cliente> {
+    return this.http
+      .post<Cliente>(this.apiUrl, cliente)
+      .pipe(catchError(error => Observable.of(error)));
   }
 
-  update(cliente: Cliente) {
+  update(cliente: Cliente): Observable<Cliente> {
     const url = `${this.apiUrl}/${cliente.id}`;
-    return this.http.put(url, cliente);
+    return this.http
+      .put<Cliente>(url, cliente)
+      .pipe(catchError(error => Observable.of(error)));
   }
 
-  delete(id: string) {
-    const url = `${this.apiUrl}/${id}`;
-    return this.http.delete(url);
+  delete(cliente: Cliente) {
+    const url = `${this.apiUrl}/${cliente.id}`;
+    return this.http
+      .delete(url)
+      .pipe(catchError(error => Observable.of(error)));
   }
 
   facturas(cliente: Cliente, filtro?: any): Observable<Cliente[]> {

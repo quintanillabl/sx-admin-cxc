@@ -3,6 +3,10 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { MatDialog } from '@angular/material';
 
+import { Store } from '@ngrx/store';
+import * as fromRoot from 'app/store';
+import * as fromStore from '../../store';
+
 import { Cliente } from '../../models';
 import { ClienteCreditoFormComponent } from '../../components';
 import { ClienteService, CreditoService } from '../../services';
@@ -18,7 +22,8 @@ export class ClienteInfoComponent implements OnInit {
     private route: ActivatedRoute,
     private dialog: MatDialog,
     private clienteService: ClienteService,
-    private creditoService: CreditoService
+    private creditoService: CreditoService,
+    private store: Store<fromStore.ClientesState>
   ) {}
 
   ngOnInit() {
@@ -31,7 +36,10 @@ export class ClienteInfoComponent implements OnInit {
     // this.cliente$ = this.clienteService.get()
   }
 
-  onEditCliente(cliente: Cliente) {}
+  onEditCliente(event: Cliente) {
+    console.log('Editar cliente: ', event);
+    this.store.dispatch(new fromRoot.Go({ path: ['clientes/edit', event.id] }));
+  }
 
   onEditCredito(cliente: Cliente) {
     const dialogRef = this.dialog.open(ClienteCreditoFormComponent, {

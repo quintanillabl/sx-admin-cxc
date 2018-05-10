@@ -17,21 +17,3 @@ export const reducers: ActionReducerMap<ClientesState> = {
 export const getClientesState = createFeatureSelector<ClientesState>(
   'clientes'
 );
-
-export const getClienteState = createSelector(
-  getClientesState,
-  (state: ClientesState) => state.clientes
-);
-
-export const getAllClientes = createSelector(
-  getClienteState,
-  fromClientes.getClientes
-);
-export const getClientesLoadig = createSelector(
-  getClienteState,
-  fromClientes.getClientesLoading
-);
-export const getClientesLoaded = createSelector(
-  getClienteState,
-  fromClientes.getClientesLoaded
-);

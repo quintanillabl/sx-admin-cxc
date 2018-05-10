@@ -8,6 +8,9 @@ import { CovalentModule } from './_covalent/covalent.module';
 // components
 import { components, entyComponents } from './components';
 
+// directives
+import { directives } from './directives';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -24,7 +27,7 @@ import { components, entyComponents } from './components';
     CovalentModule,
     ...components
   ],
-  declarations: [...components],
+  declarations: [...components, ...directives],
   entryComponents: [...entyComponents]
 })
 export class SharedModule {}

@@ -1,3 +1,5 @@
+import { ClientesComponent } from './clientes/clientes.component';
+import { ClienteEditComponent } from './cliente-edit/cliente-edit.component';
 import { ClientesListComponent } from './clientes-list/clientes-list.component';
 import { ClienteComponent } from './cliente/cliente.component';
 import { ClienteInfoComponent } from './cliente-info/cliente-info.component';
@@ -11,6 +13,8 @@ import { ClienteCxcComponent } from './cliente-cxc/cliente-cxc.component';
 import { ClienteSociosComponent } from './cliente-socios/cliente-socios.component';
 
 export const containers: any[] = [
+  ClientesComponent,
+  ClienteEditComponent,
   ClientesListComponent,
   ClienteComponent,
   ClienteInfoComponent,
@@ -23,7 +27,8 @@ export const containers: any[] = [
   ClienteSociosComponent,
   EstadoDeCuentaComponent
 ];
-
+export * from './clientes/clientes.component';
+export * from './cliente-edit/cliente-edit.component';
 export * from './clientes-list/clientes-list.component';
 export * from './cliente/cliente.component';
 export * from './cliente-info/cliente-info.component';

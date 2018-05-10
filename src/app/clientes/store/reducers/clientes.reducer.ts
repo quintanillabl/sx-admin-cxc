@@ -1,14 +1,17 @@
 import * as fromClientes from '../actions/clientes.action';
+
 import { Cliente } from '../../models';
 
+import * as _ from 'lodash';
+
 export interface ClienteState {
-  data: Cliente[];
+  entities: { [id: string]: Cliente };
   loaded: boolean;
   loading: boolean;
 }
 
 export const initialState: ClienteState = {
-  data: [],
+  entities: {},
   loaded: false,
   loading: false
 };
@@ -26,8 +29,10 @@ export function reducer(
     }
 
     case fromClientes.LOAD_CLIENTES_SUCCESS: {
+      const entities = _.keyBy(action.payload, 'id');
       return {
         ...state,
+        entities,
         loading: false,
         loaded: true
       };
@@ -47,4 +52,4 @@ export function reducer(
 
 export const getClientesLoading = (state: ClienteState) => state.loading;
 export const getClientesLoaded = (state: ClienteState) => state.loaded;
-export const getClientes = (state: ClienteState) => state.data;
+export const getEntites = (state: ClienteState) => state.entities;

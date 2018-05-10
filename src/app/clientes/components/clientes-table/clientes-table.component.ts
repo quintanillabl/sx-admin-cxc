@@ -1,4 +1,11 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  Output,
+  EventEmitter,
+  ChangeDetectionStrategy
+} from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
 import { Cliente } from '../../models';
@@ -6,8 +13,10 @@ import { ClientesDataSource } from '../../containers/clientes-list/clientes.data
 
 @Component({
   selector: 'sx-clientes-table',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './clientes-table.component.html',
-  styles: [`
+  styles: [
+    `
     mat-row .seleted {
       background-color: aquamarine;
     }
@@ -20,19 +29,17 @@ import { ClientesDataSource } from '../../containers/clientes-list/clientes.data
     mat-row:nth-child(odd) {
       background-color: rgba(7, 56, 48, 0.04);
     }*/
-  `]
+  `
+  ]
 })
 export class ClientesTableComponent implements OnInit {
-
   @Input() columns = ['nombre', 'rfc', 'clave'];
 
-  @Input() dataSource: ClientesDataSource;
+  @Input() dataSource;
 
   @Output() select = new EventEmitter<Cliente>(null);
 
-  constructor() { }
+  constructor() {}
 
-  ngOnInit() {
-  }
-
+  ngOnInit() {}
 }

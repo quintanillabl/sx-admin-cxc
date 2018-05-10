@@ -1,12 +1,9 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import {
-  ClientesListComponent,
-  ClienteComponent,
-  ClienteInfoComponent
-} from './containers';
 import * as fromContainers from './containers';
+import * as fromGuards from './guards';
+
 import { ClienteResolver } from './services';
 
 const routes: Routes = [
@@ -15,11 +12,16 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        component: ClientesListComponent
+        canActivate: [fromGuards.ClientesGuard],
+        component: fromContainers.ClientesComponent
+      },
+      {
+        path: 'edit/:clienteId',
+        component: fromContainers.ClienteEditComponent
       },
       {
         path: ':id',
-        component: ClienteComponent,
+        component: fromContainers.ClienteComponent,
         resolve: { cliente: ClienteResolver },
         children: [
           { path: '', redirectTo: 'info', pathMatch: 'full' },

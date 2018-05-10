@@ -1,0 +1,12 @@
+<mat-list>
+  <mat-list-item>Nombre</mat-list-item>
+</mat-list>
+<div class="mat-elevation-z8 clases-container">
+  <mat-nav-list>
+    <mat-list-item *ngFor="let despacho of despachos; last as last">
+      <mat-icon matListIcon>recent_actors</mat-icon>
+      <a matLine [routerLink]="[despacho.id]">{{ despacho.nombre}}</a>
+      <mat-divider [inset]="true" *ngIf="!last"></mat-divider>
+    </mat-list-item>
+  </mat-nav-list>
+</div>
