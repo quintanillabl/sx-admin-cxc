@@ -16,16 +16,21 @@ const routes: Routes = [
         component: fromContainers.ClientesComponent
       },
       {
-        path: 'edit/:clienteId',
-        component: fromContainers.ClienteEditComponent
-      },
-      {
         path: ':id',
         component: fromContainers.ClienteComponent,
+        canActivate: [fromGuards.ClientesGuard, fromGuards.ClienteExistsGuard],
         resolve: { cliente: ClienteResolver },
         children: [
-          { path: '', redirectTo: 'info', pathMatch: 'full' },
-          { path: 'info', component: fromContainers.ClienteInfoComponent },
+          // { path: '', redirectTo: 'info', pathMatch: 'full' },
+          {
+            path: 'info/:id',
+            // canActivate: [fromGuards.ClienteExistsGuard],
+            component: fromContainers.ClienteInfoComponent
+          },
+          {
+            path: 'edit/:id',
+            component: fromContainers.ClienteEditComponent
+          },
           {
             path: 'cxc',
             component: fromContainers.ClienteCxcComponent
