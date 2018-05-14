@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { MainPageComponent } from './_core/containers/main-page/main-page.component';
 import { HomePageComponent } from './_core/containers/home-page/home-page.component';
+import { AntiguedadModule } from './antiguedad/antiguedad.module';
 
 const routes: Routes = [
   {
@@ -25,6 +26,10 @@ const routes: Routes = [
       {
         path: 'cobranza',
         loadChildren: './cobros/cobros.module#CobrosModule'
+      },
+      {
+        path: 'antiguedad',
+        loadChildren: './antiguedad/antiguedad.module#AntiguedadModule'
       }
     ]
   }

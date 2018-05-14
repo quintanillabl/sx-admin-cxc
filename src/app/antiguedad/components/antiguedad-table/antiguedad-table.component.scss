@@ -1,0 +1,32 @@
+/*:host {
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+}
+.antiguedad-table-container {
+  display: flex;
+  flex-direction: column;
+  max-height: 500px;
+  min-width: 400px;
+  overflow: auto;
+}*/
+.mat-table {
+  overflow: auto;
+  max-height: 400px;
+  min-width: 600px;
+}
+
+.mat-column-cliente{
+  min-width: 300px;
+}
+.mat-column-plazo {
+  max-width: 50px;
+}
+.mat-column-limiteDeCredito {
+  max-width: 110px;
+  max-font-size: 11px;
+}
+.mat-column-tipoVencimiento, .mat-column-facturas{
+  max-width: 60px;
+  font-size: 10px;
+}

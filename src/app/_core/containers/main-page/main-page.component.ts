@@ -37,6 +37,11 @@ export class MainPageComponent implements OnInit {
       icon: 'file_download',
       route: '/cobranza/con',
       title: 'Cobranza (Contado)'
+    },
+    {
+      icon: 'my_library_books',
+      route: 'antiguedad',
+      title: 'Antigüedad de saldos'
     }
 
     // {
