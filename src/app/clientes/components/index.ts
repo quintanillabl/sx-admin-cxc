@@ -7,6 +7,8 @@ import { CxcTableComponent } from './cxc-table/cxc-table.component';
 import { ClienteCobrosTableComponent } from './cliente-cobros-table/cliente-cobros-table.component';
 import { SociosTableComponent } from './socios-table/socios-table.component';
 import { SocioFormComponent } from './socio-form/socio-form.component';
+import { ClienteFormComponent } from './cliente-form/cliente-form.component';
+import { MedioTelFormComponent } from './medio-tel-form/medio-tel-form.component';
 
 export const components = [
   ClientesTableComponent,
@@ -17,11 +19,14 @@ export const components = [
   CxcTableComponent,
   ClienteCobrosTableComponent,
   SociosTableComponent,
-  SocioFormComponent
+  SocioFormComponent,
+  ClienteFormComponent,
+  MedioTelFormComponent
 ];
 export const entryComponents = [
   ClienteCreditoFormComponent,
-  SocioFormComponent
+  SocioFormComponent,
+  MedioTelFormComponent
 ];
 
 export * from './clientes-table/clientes-table.component';
@@ -33,3 +38,5 @@ export * from './cxc-table/cxc-table.component';
 export * from './cliente-cobros-table/cliente-cobros-table.component';
 export * from './socios-table/socios-table.component';
 export * from './socio-form/socio-form.component';
+export * from './cliente-form/cliente-form.component';
+export * from './medio-tel-form/medio-tel-form.component';

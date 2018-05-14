@@ -29,10 +29,10 @@ export const getClientesLoaded = createSelector(
   fromClientes.getClientesLoaded
 );
 
-export const getSelectedProducto = createSelector(
+export const getSelectedCliente = createSelector(
   getClienteEntities,
   fromRoot.getRouterState,
   (entities, router): Cliente => {
-    return router.state && entities[router.state.params.clienteId];
+    return router.state && entities[router.state.params.id];
   }
 );

@@ -4,7 +4,6 @@ export interface Cliente {
   clave: string;
   rfc: string;
   credito: LineaDeCredito;
-  email?: string;
   permiteCheque?: boolean;
   direccion?: {};
   telefonos?: Array<any>;

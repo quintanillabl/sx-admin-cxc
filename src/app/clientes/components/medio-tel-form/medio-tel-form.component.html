@@ -1,0 +1,32 @@
+<form novalidate [formGroup]="form">
+  <h2 mat-dialog-title *ngIf="medio">Mantenimiento de teléfono</h2>
+  <h2 mat-dialog-title *ngIf="!medio">Alta de teléfono</h2>
+  <mat-dialog-content>
+
+    <div layout>
+
+      <mat-form-field>
+        <mat-select placeholder="Tipo" formControlName="tipo" class="fill">
+          <mat-option *ngFor="let tipo of ['TEL','CEL']" [value]="tipo">
+            {{tipo}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field flex>
+        <input matInput placeholder="Número" formControlName="descripcion" type="text">
+      </mat-form-field>
+    </div>
+
+    <div layout>
+      <mat-form-field flex>
+        <input matInput placeholder="Comentario" formControlName="comentario">
+      </mat-form-field>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button mat-button mat-dialog-close type="button">Cancelar</button>
+    <button mat-button [mat-dialog-close]="form.value" tabindex="-1" [disabled]="form.invalid || form.pristine">Aceptar
+    </button>
+  </mat-dialog-actions>
+</form>

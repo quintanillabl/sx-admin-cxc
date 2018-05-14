@@ -1,0 +1,51 @@
+<form [formGroup]="form" novalidate (ngSubmit)="onSubmit()">
+  <mat-card>
+    <mat-card-title>
+      <span *ngIf="cliente">{{cliente.nombre}}</span>
+    </mat-card-title>
+    <mat-divider></mat-divider>
+    <div layout class="pad-left pad-right">
+
+      <div flex="50">
+        <sx-upper-case-field formControlName="nombre"></sx-upper-case-field>
+        <div layout>
+          <sx-upper-case-field formControlName="rfc" placeholder="RFC"></sx-upper-case-field>
+          <mat-form-field class="pad-left" flex>
+            <input matInput placeholder="CFDI Mail" formControlName="cfdiMail" required="true" type="email">
+          </mat-form-field>
+        </div>
+        <div layout>
+          <mat-checkbox formControlName="activo"> Activo</mat-checkbox>
+        </div>
+      </div>
+
+      <div flex="50" class="pad-left">
+        <mat-list>
+          <span mat-subheader>
+            <span>Teléfonos</span>
+            <span flex></span>
+            <button mat-icon-button type="button" (click)="agregarTelefono()">
+              <mat-icon>add</mat-icon>
+            </button>
+          </span>
+          <mat-list-item *ngFor="let medio of telefonos.value; last as last">
+            <mat-icon mat-list-icon>phone</mat-icon>
+            <h4 mat-line>{{medio.descripcion}}</h4>
+            <p mat-line class="demo-2"> {{medio.tipo}} </p>
+            <button mat-icon-button type="button">
+              <mat-icon color="warn">delete</mat-icon>
+            </button>
+            <mat-divider [inset]="true" *ngIf="!last"></mat-divider>
+          </mat-list-item>
+          <mat-divider [inset]="true"></mat-divider>
+        </mat-list>
+      </div>
+
+    </div>
+    <mat-card-actions align="end">
+      <button mat-button type="button"> Cancelar </button>
+      <button mat-button [disabled]="form.invalid || form.pristine" type="submit">
+        <mat-icon>save</mat-icon> Salvar </button>
+    </mat-card-actions>
+  </mat-card>
+</form>

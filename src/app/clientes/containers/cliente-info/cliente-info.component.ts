@@ -9,7 +9,7 @@ import * as fromStore from '../../store';
 
 import { Cliente } from '../../models';
 import { ClienteCreditoFormComponent } from '../../components';
-import { ClienteService, CreditoService } from '../../services';
+import { CreditoService } from '../../services';
 
 @Component({
   selector: 'sx-cliente-info',
@@ -19,26 +19,24 @@ export class ClienteInfoComponent implements OnInit {
   cliente$: Observable<Cliente>;
 
   constructor(
-    private route: ActivatedRoute,
     private dialog: MatDialog,
-    private clienteService: ClienteService,
     private creditoService: CreditoService,
-    private store: Store<fromStore.ClientesState>
+    private store: Store<fromStore.ClientesState>,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit() {
-    this.cliente$ = this.route.parent.data.map(data => data.cliente);
-  }
-  load() {
-    this.cliente$ = this.route.parent.data.switchMap(data =>
-      this.clienteService.get(data.cliente.id)
-    );
-    // this.cliente$ = this.clienteService.get()
+    this.cliente$ = this.store.select(fromStore.getSelectedCliente);
   }
 
   onEditCliente(event: Cliente) {
-    console.log('Editar cliente: ', event);
-    this.store.dispatch(new fromRoot.Go({ path: ['clientes/edit', event.id] }));
+    this.store.dispatch(
+      new fromRoot.Go({
+        path: ['../../edit', event.id],
+        query: {},
+        extras: { relativeTo: this.route }
+      })
+    );
   }
 
   onEditCredito(cliente: Cliente) {
@@ -52,7 +50,6 @@ export class ClienteInfoComponent implements OnInit {
         console.log('Actualizando credito: ', res);
         this.creditoService.update(cliente, res).subscribe(rr => {
           console.log(rr);
-          this.load();
         });
       }
     });

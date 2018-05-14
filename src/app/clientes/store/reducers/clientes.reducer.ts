@@ -45,6 +45,16 @@ export function reducer(
         loaded: false
       };
     }
+
+    case fromClientes.UPDATE_CLIENTE_SUCCESS: {
+      const cliente = action.payload;
+      const entities = { ...state.entities, [cliente.id]: cliente };
+
+      return {
+        ...state,
+        entities
+      };
+    }
   }
 
   return state;
