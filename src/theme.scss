@@ -40,3 +40,14 @@ mat-nav-list {
     }
   }
 }
+.mat-row.active {
+  // background: #4387cc;
+  // background: mat-color($primary);
+  background-color: mat-color($accent);
+  mat-cell {
+    color: mat-color($accent, default-contrast)
+  }
+
+}
+
+

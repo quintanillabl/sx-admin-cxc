@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 
+import { Store } from '@ngrx/store';
+import * as fromStore from '../../store';
+import * as fromAntiguedad from '../../store/actions/antiguedad.actions';
+
 import { Observable } from 'rxjs/Observable';
 
 import { AntiguedadDeSalgo } from '../../models/antiguedadDeSalgo';
@@ -18,12 +22,21 @@ import { AntiguedadService } from '../../services';
   ]
 })
 export class AntiguedadGlobalComponent implements OnInit {
-  registros$: Observable<AntiguedadDeSalgo[]>;
-  constructor(private service: AntiguedadService) {}
+  saldos$: Observable<AntiguedadDeSalgo[]>;
+  selected: AntiguedadDeSalgo;
+  facturas: any[];
+  constructor(
+    private store: Store<fromStore.AntiguedadDeSaldoState>,
+    private service: AntiguedadService
+  ) {}
 
   ngOnInit() {
-    this.registros$ = this.service.list();
-    // this.registros$.subscribe(res => console.log('Rows: ', res));
-    // this.service.list().subscribe(res => console.log('Rows: ', res.length));
+    this.saldos$ = this.store.select(fromStore.getAllAntiguedad);
+    this.store.dispatch(new fromAntiguedad.LoadAntiguedadAction());
+  }
+
+  onSelect(event: AntiguedadDeSalgo) {
+    this.selected = event;
+    this.service.cxc(event.clienteId).subscribe(res => (this.facturas = res));
   }
 }

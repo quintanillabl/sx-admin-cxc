@@ -1,9 +1,16 @@
-<mat-card [style.height.%]="100">
-  <sx-search-title title="Clientes de crédito"></sx-search-title>
-  <mat-divider></mat-divider>
-  <mat-card-content>
-    <div class="table-container">
-      <sx-antiguedad-table [dataSource]="registros$ | async" ></sx-antiguedad-table>
+<div>
+  <mat-card>
+    <div class="table-container2">
+      <sx-antiguedad-table
+        [dataSource]="saldos$ | async"
+        (select)="onSelect($event)"
+        [selected]="selected">
+      </sx-antiguedad-table>
     </div>
-  </mat-card-content>
-</mat-card>
+  </mat-card>
+
+  <mat-card>
+    <sx-antiguedad-detail-table [facturas]="facturas"></sx-antiguedad-detail-table>
+  </mat-card>
+
+</div>

@@ -13,15 +13,25 @@
     </button>
     <span>Antigüedad de Saldos</span>
     <span flex></span>
+    <span>
+      <button mat-icon-button [matMenuTriggerFor]="toolbarMenu">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+      <mat-menu #toolbarMenu="matMenu">
+        <button mat-menu-item>
+          <mat-icon>picture_as_pdf</mat-icon>
+          Reporte de antigüedad
+        </button>
+      </mat-menu>
+    </span>
   </div>
 
   <mat-nav-list td-sidenav-content [tdLayoutNavListClose]="!media.query('gt-sm')">
     <h3 matSubheader>Reportes</h3>
   </mat-nav-list>
-  <div [style.height.%]="98">
+  <div [style.height.%]="99" >
     <router-outlet></router-outlet>
   </div>
-
 
   <td-layout-footer>
     <sx-footer></sx-footer>

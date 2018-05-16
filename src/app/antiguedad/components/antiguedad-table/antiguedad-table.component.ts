@@ -1,5 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
+import { AntiguedadDeSalgo } from '../../models/antiguedadDeSalgo';
+
 @Component({
   selector: 'sx-antiguedad-table',
   templateUrl: './antiguedad-table.component.html',
@@ -7,6 +9,8 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 })
 export class AntiguedadTableComponent implements OnInit {
   @Input() dataSource;
+  @Input() selected: AntiguedadDeSalgo;
+  @Output() select = new EventEmitter();
   displayColumns = [
     'cliente',
     'plazo',

@@ -8,8 +8,7 @@ const routes: Routes = [
     path: '',
     component: fromContainers.AntiguedadComponent,
     children: [
-      { path: '', redirectTo: 'global', pathMatch: 'full' },
-      { path: 'global', component: fromContainers.AntiguedadGlobalComponent }
+      { path: '', component: fromContainers.AntiguedadGlobalComponent }
     ]
   }
 ];
