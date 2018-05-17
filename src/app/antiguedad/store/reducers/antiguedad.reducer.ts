@@ -44,6 +44,14 @@ export function reducer(
       };
     }
 
+    case fromAntiguedad.LOAD_ANTIGUEAD_ACTION_FAIL: {
+      return {
+        ...state,
+        loading: false,
+        loaded: false
+      };
+    }
+
     case fromAntiguedad.SET_SEARCHTERM_ACTION: {
       const searchTerm = action.payload;
       return {
