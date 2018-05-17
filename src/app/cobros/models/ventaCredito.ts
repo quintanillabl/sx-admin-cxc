@@ -1,6 +1,5 @@
 export interface VentaCredito {
   id?: string;
-  cxc: any;
   plazo: number;
   vencimientoFactura: boolean;
   vencimiento: string;

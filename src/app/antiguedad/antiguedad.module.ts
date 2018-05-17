@@ -10,7 +10,8 @@ import { reducers, effects } from './store';
 
 // services
 import { services } from './services';
-
+// guards
+import { guards } from './guards';
 // components
 import { components, componentsEntry } from './components';
 // containers
@@ -24,6 +25,6 @@ import { containers } from './containers';
     EffectsModule.forFeature(effects)
   ],
   declarations: [...components, ...componentsEntry, ...containers],
-  providers: [...services]
+  providers: [...services, ...guards]
 })
 export class AntiguedadModule {}

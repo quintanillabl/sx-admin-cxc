@@ -1,16 +1,22 @@
 <div>
-  <mat-card>
+  <mat-card class="mat-elevation-z8">
     <div class="table-container2">
       <sx-antiguedad-table
-        [dataSource]="saldos$ | async"
+        [saldos]="saldos$ | async"
         (select)="onSelect($event)"
-        [selected]="selected">
+        (unSelect)="onUnselect($event)"
+        [selected]="selected$ | async"
+        [filter]="search$ | async">
       </sx-antiguedad-table>
     </div>
   </mat-card>
 
-  <mat-card>
-    <sx-antiguedad-detail-table [facturas]="facturas"></sx-antiguedad-detail-table>
-  </mat-card>
+  <div layout class="mat-elevation-z8">
+    <mat-card flex="60" >
+      <sx-antiguedad-detail-table [facturas]="selectedFacturas$ | async"></sx-antiguedad-detail-table>
+    </mat-card>
+    <sx-antiguedad-totales-panel [saldos]="saldos$ | async "  flex></sx-antiguedad-totales-panel>
+  </div>
+
 
 </div>

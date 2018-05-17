@@ -1,5 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { TdMediaService } from '@covalent/core';
+
+import { Observable } from 'rxjs/Observable';
+
+import { Store } from '@ngrx/store';
+import * as fromStore from '../../store';
+
+import { AntiguedadDeSaldo } from '../../models/antiguedadDeSaldo';
 
 @Component({
   selector: 'sx-antiguedad',
@@ -7,9 +13,19 @@ import { TdMediaService } from '@covalent/core';
   styles: []
 })
 export class AntiguedadComponent implements OnInit {
-  constructor(public media: TdMediaService) {}
+  selected$: Observable<AntiguedadDeSaldo>;
 
-  ngOnInit() {}
+  constructor(private store: Store<fromStore.AntiguedadDeSaldoState>) {}
 
-  antiguedadGlobal() {}
+  ngOnInit() {
+    this.selected$ = this.store.select(fromStore.getAntiguedadSelected);
+  }
+
+  antiguedadGlobal() {
+    this.store.dispatch(new fromStore.PrintAntiguedadAction());
+  }
+
+  onSearch(event: string) {
+    this.store.dispatch(new fromStore.SetSearchTermAction(event));
+  }
 }

@@ -1,13 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 
+import { Observable } from 'rxjs/Observable';
+
 import { Store } from '@ngrx/store';
 import * as fromStore from '../../store';
 import * as fromAntiguedad from '../../store/actions/antiguedad.actions';
-
-import { Observable } from 'rxjs/Observable';
-
-import { AntiguedadDeSalgo } from '../../models/antiguedadDeSalgo';
-import { AntiguedadService } from '../../services';
+import { AntiguedadDeSaldo } from '../../models/antiguedadDeSaldo';
 
 @Component({
   selector: 'sx-antiguedad-global',
@@ -22,21 +20,29 @@ import { AntiguedadService } from '../../services';
   ]
 })
 export class AntiguedadGlobalComponent implements OnInit {
-  saldos$: Observable<AntiguedadDeSalgo[]>;
-  selected: AntiguedadDeSalgo;
-  facturas: any[];
-  constructor(
-    private store: Store<fromStore.AntiguedadDeSaldoState>,
-    private service: AntiguedadService
-  ) {}
+  saldos$: Observable<AntiguedadDeSaldo[]>;
+  selectedFacturas$: Observable<any[]>;
+  selected$: Observable<AntiguedadDeSaldo>;
+  search$: Observable<string>;
+
+  constructor(private store: Store<fromStore.AntiguedadDeSaldoState>) {}
 
   ngOnInit() {
     this.saldos$ = this.store.select(fromStore.getAllAntiguedad);
-    this.store.dispatch(new fromAntiguedad.LoadAntiguedadAction());
+    this.selected$ = this.store.select(fromStore.getAntiguedadSelected);
+    this.selectedFacturas$ = this.store.select(
+      fromStore.getAntiguedadSelectedFacturas
+    );
+    this.search$ = this.store.select(fromStore.getAntigueadSearchterm);
+
+    // this.store.dispatch(new fromAntiguedad.LoadAntiguedadAction()); // Mover a un Guard
   }
 
-  onSelect(event: AntiguedadDeSalgo) {
-    this.selected = event;
-    this.service.cxc(event.clienteId).subscribe(res => (this.facturas = res));
+  onUnselect(event) {
+    this.store.dispatch(new fromAntiguedad.SetSelectedAction(null));
+  }
+
+  onSelect(event: AntiguedadDeSaldo) {
+    this.store.dispatch(new fromAntiguedad.SetSelectedAction(event));
   }
 }

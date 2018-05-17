@@ -1,4 +1,4 @@
-export interface AntiguedadDeSalgo {
+export interface AntiguedadDeSaldo {
   clienteId: string;
   cliente: string;
   plazo: number;

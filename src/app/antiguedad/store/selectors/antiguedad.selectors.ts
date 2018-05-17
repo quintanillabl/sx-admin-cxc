@@ -29,3 +29,17 @@ export const getAntiguedadLoaded = createSelector(
   getAntigueadState,
   fromAntiguedad.getAntiguedadLoaded
 );
+
+export const getAntigueadSearchterm = createSelector(
+  getAntigueadState,
+  fromAntiguedad.getSearchTerm
+);
+
+export const getAntiguedadSelected = createSelector(
+  getAntigueadState,
+  fromAntiguedad.getSelected
+);
+export const getAntiguedadSelectedFacturas = createSelector(
+  getAntigueadState,
+  fromAntiguedad.getSelectedFacturas
+);

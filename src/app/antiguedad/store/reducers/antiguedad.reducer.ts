@@ -1,19 +1,25 @@
 import * as fromAntiguedad from '../actions/antiguedad.actions';
 
-import { AntiguedadDeSalgo } from '../../models/antiguedadDeSalgo';
+import { AntiguedadDeSaldo } from '../../models/antiguedadDeSaldo';
 
 import * as _ from 'lodash';
 
 export interface AntiguedadState {
-  entities: { [id: string]: AntiguedadDeSalgo };
+  entities: { [id: string]: AntiguedadDeSaldo };
   loaded: boolean;
   loading: boolean;
+  searchTerm: string;
+  selected: AntiguedadDeSaldo;
+  selectedFacturas: any[];
 }
 
 export const initialState: AntiguedadState = {
   entities: {},
   loaded: false,
-  loading: false
+  loading: false,
+  searchTerm: null,
+  selected: null,
+  selectedFacturas: []
 };
 
 export function reducer(
@@ -37,6 +43,32 @@ export function reducer(
         loaded: true
       };
     }
+
+    case fromAntiguedad.SET_SEARCHTERM_ACTION: {
+      const searchTerm = action.payload;
+      return {
+        ...state,
+        searchTerm
+      };
+    }
+
+    case fromAntiguedad.SET_SELECTED_ACTION: {
+      const selected = action.payload;
+
+      return {
+        ...state,
+        selected
+      };
+    }
+
+    case fromAntiguedad.SET_SELECTED_FACTURAS_ACTION: {
+      const selectedFacturas = action.payload;
+
+      return {
+        ...state,
+        selectedFacturas
+      };
+    }
   }
   return state;
 }
@@ -44,3 +76,7 @@ export function reducer(
 export const getAntiguedadEntities = (state: AntiguedadState) => state.entities;
 export const getAntiguedadLoading = (state: AntiguedadState) => state.loaded;
 export const getAntiguedadLoaded = (state: AntiguedadState) => state.loaded;
+export const getSearchTerm = (state: AntiguedadState) => state.searchTerm;
+export const getSelected = (state: AntiguedadState) => state.selected;
+export const getSelectedFacturas = (state: AntiguedadState) =>
+  _.sortBy(state.selectedFacturas, 'atraso').reverse();

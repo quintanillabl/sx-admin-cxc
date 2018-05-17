@@ -1,24 +1,27 @@
+<td-layout-nav color="accent">
 
-<td-layout-nav-list #navList [opened]="media.registerQuery('gt-sm') | async" [mode]="(media.registerQuery('gt-sm') | async) ? 'side' : 'over'"
-                    [sidenavWidth]="(media.registerQuery('gt-xs') | async) ? '250px' : '100%'">
-  <div td-sidenav-toolbar-content layout="row" layout-align="start center">
-    <button mat-icon-button tdLayoutToggle>
+  <div td-toolbar-content layout="row" layout-align="start center" flex>
+
+    <button mat-icon-button td-menu-button tdLayoutToggle>
       <mat-icon>menu</mat-icon>
     </button>
-    <span [routerLink]="['/']" class="cursor-pointer">SX-CXC</span>
-  </div>
-  <div td-toolbar-content layout="row" layout-align="start center" flex>
-    <button mat-icon-button tdLayoutNavListOpen [hideWhenOpened]="true">
-      <mat-icon>arrow_back</mat-icon>
-    </button>
+
     <span>Antigüedad de Saldos</span>
     <span flex></span>
+    <span class="pad-left">{{(selected$ | async)?.cliente}}</span>
+    <span flex></span>
+    <td-search-box backIcon="arrow_back" flex
+                   placeholder="Filtrar"
+                   [showUnderline]="true"
+                   [debounce]="500"
+                   (searchDebounce)="onSearch($event)">
+    </td-search-box>
     <span>
       <button mat-icon-button [matMenuTriggerFor]="toolbarMenu">
         <mat-icon>more_vert</mat-icon>
       </button>
       <mat-menu #toolbarMenu="matMenu">
-        <button mat-menu-item>
+        <button mat-menu-item (click)="antiguedadGlobal()">
           <mat-icon>picture_as_pdf</mat-icon>
           Reporte de antigüedad
         </button>
@@ -26,15 +29,10 @@
     </span>
   </div>
 
-  <mat-nav-list td-sidenav-content [tdLayoutNavListClose]="!media.query('gt-sm')">
-    <h3 matSubheader>Reportes</h3>
-  </mat-nav-list>
-  <div [style.height.%]="99" >
-    <router-outlet></router-outlet>
-  </div>
+  <router-outlet></router-outlet>
 
   <td-layout-footer>
     <sx-footer></sx-footer>
   </td-layout-footer>
-</td-layout-nav-list>
 
+</td-layout-nav>

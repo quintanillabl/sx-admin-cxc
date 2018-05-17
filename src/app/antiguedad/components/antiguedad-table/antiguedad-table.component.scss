@@ -1,12 +1,7 @@
-@import '~@angular/material/theming';
-@import '~@covalent/core/theming/all-theme';
-
-@include mat-core();
-
 .mat-table {
   overflow: auto;
-  max-height: 400px;
-  min-width: 600px;
+  min-height: 400px;
+  max-height: 450px;
 }
 
 .mat-column-cliente{
@@ -34,8 +29,3 @@
     background: #f5f5f5;
   }
 }
-.mat-row.active {
-  // background: #4387cc;
-  //background: mat-color($accent);
-}
-

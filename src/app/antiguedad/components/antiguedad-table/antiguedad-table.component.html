@@ -1,8 +1,8 @@
 
-  <mat-table #table [dataSource]="dataSource">
+  <mat-table #table [dataSource]="dataSource" matSort>
 
     <ng-container matColumnDef="cliente">
-      <mat-header-cell *matHeaderCellDef>Cliente</mat-header-cell>
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Cliente</mat-header-cell>
       <mat-cell *matCellDef="let row">{{row.cliente}}
       </mat-cell>
     </ng-container>
@@ -23,59 +23,67 @@
     </ng-container>
 
     <ng-container matColumnDef="facturas">
-      <mat-header-cell *matHeaderCellDef>Facturas</mat-header-cell>
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Facturas</mat-header-cell>
       <mat-cell *matCellDef="let row">{{row.facturas}}</mat-cell>
     </ng-container>
 
 
     <ng-container matColumnDef="atrasoMaximo">
-      <mat-header-cell *matHeaderCellDef>A. Máximo</mat-header-cell>
+      <mat-header-cell *matHeaderCellDef mat-sort-header>A. Máximo</mat-header-cell>
       <mat-cell *matCellDef="let row">{{row.atrasoMaximo}}</mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="saldo">
-      <mat-header-cell *matHeaderCellDef>Saldo</mat-header-cell>
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Saldo</mat-header-cell>
       <mat-cell *matCellDef="let row">{{row.saldo | currency}}</mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="porVencer">
-      <mat-header-cell *matHeaderCellDef>X Vencer</mat-header-cell>
+      <mat-header-cell *matHeaderCellDef mat-sort-header>X Vencer</mat-header-cell>
       <mat-cell *matCellDef="let row">{{row.porVencer | currency}}</mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="vencido">
-      <mat-header-cell *matHeaderCellDef>Vencido</mat-header-cell>
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Vencido</mat-header-cell>
       <mat-cell *matCellDef="let row">{{row.vencido | currency}}</mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="de1_30">
-      <mat-header-cell *matHeaderCellDef>DE 1 a 30</mat-header-cell>
+      <mat-header-cell *matHeaderCellDef mat-sort-header>DE 1 a 30</mat-header-cell>
       <mat-cell *matCellDef="let row">{{row.de1_30 }}</mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="de31_60">
-      <mat-header-cell *matHeaderCellDef>DE 31 a 60</mat-header-cell>
+      <mat-header-cell *matHeaderCellDef mat-sort-header>DE 31 a 60</mat-header-cell>
       <mat-cell *matCellDef="let row">{{row.de31_60 | currency}}</mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="de61_90">
-      <mat-header-cell *matHeaderCellDef>DE 61 a 90</mat-header-cell>
+      <mat-header-cell *matHeaderCellDef mat-sort-header>DE 61 a 90</mat-header-cell>
       <mat-cell *matCellDef="let row">{{row.de61_90 | currency}}</mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="mas90">
-      <mat-header-cell *matHeaderCellDef>90 + </mat-header-cell>
+      <mat-header-cell *matHeaderCellDef mat-sort-header>90 + </mat-header-cell>
       <mat-cell *matCellDef="let row">{{row.mas90 | currency}}</mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="part">
-      <mat-header-cell *matHeaderCellDef>PART </mat-header-cell>
+      <mat-header-cell *matHeaderCellDef mat-sort-header>PART </mat-header-cell>
       <mat-cell *matCellDef="let row">{{(row.part/100) | percent:'1.2-2' }}</mat-cell>
     </ng-container>
 
 
     <mat-header-row *matHeaderRowDef="displayColumns"></mat-header-row>
-    <mat-row *matRowDef="let row; columns: displayColumns" (click)="select.emit(row)" [ngClass]="{'active': row.clienteId === selected?.clienteId}">
+    <mat-row *matRowDef="let row; columns: displayColumns"
+             (click)="select.emit(row)"
+             (dblclick)="unSelect.emit(row)"
+             [ngClass]="{'active': row.clienteId === selected?.clienteId}">
     </mat-row>
   </mat-table>
+  <mat-paginator #paginator
+                 [pageSize]="10"
+                 [pageSizeOptions]="[5, 10, 20]"
+                 [showFirstLastButtons]="true">
+  </mat-paginator>
 

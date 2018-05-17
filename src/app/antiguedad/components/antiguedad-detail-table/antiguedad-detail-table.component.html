@@ -1,0 +1,53 @@
+<mat-table [dataSource]="dataSource" matSort>
+  <ng-container matColumnDef="sucursal">
+    <mat-header-cell *matHeaderCellDef mat-sort-header>Sucursal</mat-header-cell>
+    <mat-cell *matCellDef="let cxc">{{cxc.sucursal}}</mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="nombre">
+    <mat-header-cell *matHeaderCellDef>Cliente</mat-header-cell>
+    <mat-cell *matCellDef="let cxc">{{cxc.cliente.clave}}</mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="tipo">
+    <mat-header-cell *matHeaderCellDef>Tipo</mat-header-cell>
+    <mat-cell *matCellDef="let cxc">{{cxc.tipo}}</mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="documento">
+    <mat-header-cell *matHeaderCellDef>Docto</mat-header-cell>
+    <mat-cell *matCellDef="let cxc">{{cxc.documento}}</mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="fecha">
+    <mat-header-cell *matHeaderCellDef >Fecha</mat-header-cell>
+    <mat-cell *matCellDef="let cxc">{{cxc.fecha | date: 'dd/MM/yyyy'}}</mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="vencimiento">
+    <mat-header-cell *matHeaderCellDef mat-sort-header>Vto</mat-header-cell>
+    <mat-cell *matCellDef="let cxc">{{cxc.vencimiento | date: 'dd/MM/yyyy'}}</mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="plazo">
+    <mat-header-cell *matHeaderCellDef mat-sort-header>Plazo</mat-header-cell>
+    <mat-cell *matCellDef="let cxc">{{cxc.plazo }}</mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="atraso">
+    <mat-header-cell *matHeaderCellDef mat-sort-header>Atraso</mat-header-cell>
+    <mat-cell *matCellDef="let cxc">{{cxc.atraso}}</mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="total">
+    <mat-header-cell *matHeaderCellDef mat-sort-header>Total</mat-header-cell>
+    <mat-cell *matCellDef="let cxc">{{cxc.total | currency}}</mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="pagos">
+    <mat-header-cell *matHeaderCellDef>Pagos</mat-header-cell>
+    <mat-cell *matCellDef="let cxc">{{cxc.pagos | currency}}</mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="saldo">
+    <mat-header-cell *matHeaderCellDef mat-sort-header>Saldo</mat-header-cell>
+    <mat-cell *matCellDef="let cxc">{{cxc.saldo | currency}}</mat-cell>
+  </ng-container>
+  <mat-header-row *matHeaderRowDef="displayColumns"></mat-header-row>
+  <mat-row *matRowDef="let cxc; columns: displayColumns" (click)="select.emit(row)"></mat-row>
+</mat-table>
+<mat-paginator #paginator
+               [pageSize]="5"
+               [pageSizeOptions]="[5, 10, 20]"
+               [showFirstLastButtons]="true">
+</mat-paginator>
