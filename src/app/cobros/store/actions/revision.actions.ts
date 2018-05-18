@@ -43,6 +43,14 @@ export class UpdateRevisionActionSuccess implements Action {
   constructor(public payload: VentaCredito) {}
 }
 
+// Batch update actions
+export enum BatchType {
+  NORMAL,
+  RECEPCION_CXC,
+  CANCELAR_RECEPCION_CXC,
+  REVISADA
+}
+
 export const BATCH_UPDATE_ACTION = '[RevisionCXC] Batch update  action';
 export const BATCH_UPDATE_ACTION_FAIL =
   '[RevisionCXC] Batch update  action Fail';
@@ -51,7 +59,13 @@ export const BATCH_UPDATE_ACTION_SUCCESS =
 
 export class BatchUpdateAction implements Action {
   readonly type = BATCH_UPDATE_ACTION;
-  constructor(public payload: { template: Object; facturas: VentaCredito[] }) {}
+  constructor(
+    public payload: {
+      template?: Object;
+      facturas: VentaCredito[];
+      type: BatchType;
+    }
+  ) {}
 }
 
 export class BatchUpdateActionFial implements Action {
@@ -63,6 +77,8 @@ export class BatchUpdateActionSuccess implements Action {
   readonly type = BATCH_UPDATE_ACTION_SUCCESS;
   constructor(public payload: VentaCredito[]) {}
 }
+
+// Batch update recepcion cxc
 
 export type RevisionActions =
   | LoadRevisionAction

@@ -16,6 +16,12 @@ import {
   VentasCreditoTableComponent
 } from '../../components';
 
+import { Subject } from 'rxjs/Subject';
+import { combineLatest } from 'rxjs/operators';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+
+import * as moment from 'moment';
+
 @Component({
   selector: 'sx-revisiones',
   templateUrl: './revisiones.component.html'
@@ -23,6 +29,11 @@ import {
 export class RevisionesComponent implements OnInit {
   facturas$: Observable<VentaCredito[]>;
   loading$: Observable<boolean>;
+  porRecibir$ = new BehaviorSubject(false);
+  porRevisar$ = new BehaviorSubject(false);
+  fechaRevision$ = new BehaviorSubject(null);
+  sucursal$ = new BehaviorSubject(null);
+  cobrador$ = new BehaviorSubject(null);
 
   _selectedRows: any[] = [];
 
@@ -36,7 +47,62 @@ export class RevisionesComponent implements OnInit {
 
   ngOnInit() {
     this.loading$ = this.store.select(fromStore.getRevisionesLoading);
-    this.facturas$ = this.store.select(fromStore.getRevisionesSorted);
+
+    this.facturas$ = this.store.select(fromStore.getRevisionesSorted).pipe(
+      combineLatest(this.porRecibir$, (facturas, pendientes) => {
+        if (pendientes) {
+          return facturas.filter(item => !item.fechaRecepcionCxc);
+        }
+        return facturas;
+      }),
+      combineLatest(this.porRevisar$, (facturas, pendientes) => {
+        if (pendientes) {
+          return facturas.filter(item => !item.revisada);
+        }
+        return facturas;
+      }),
+      combineLatest(this.fechaRevision$, (facturas, value) => {
+        if (value) {
+          const fecha = moment(value, 'YYYY-MM-DD');
+          if (fecha.isValid()) {
+            const res = facturas.filter(item => {
+              const frevision = moment(item.fechaRevision);
+              const fpago = moment(item.reprogramarPago);
+              return (
+                frevision.isSame(fecha, 'day') || fpago.isSame(fecha, 'day')
+              );
+            });
+            return res;
+          }
+        }
+
+        return facturas;
+      }),
+      combineLatest(this.sucursal$, (facturas, sucursal) => {
+        if (sucursal) {
+          return facturas.filter((item: any) => {
+            return item.sucursal
+              .toLowerCase()
+              .startsWith(sucursal.toLowerCase());
+          });
+        }
+        return facturas;
+      }),
+      combineLatest(this.cobrador$, (facturas, cobrador) => {
+        if (cobrador) {
+          return facturas.filter((item: any) => {
+            console.log('Evaluando cobrador: ', item.cobrador.sw2);
+            console.log('Con: ', cobrador);
+            return item.cobrador.sw2.toString() === cobrador.toString();
+          });
+        }
+        return facturas;
+      })
+    );
+  }
+
+  test(event) {
+    console.log(event);
   }
 
   load() {
@@ -60,20 +126,45 @@ export class RevisionesComponent implements OnInit {
     this._selectedRows = rows;
   }
 
-  recepcion(valor: boolean) {
+  recepcion() {
     const facturas = this.selectedRows.filter(item => !item.fechaRecepcionCxc);
     console.log('Registrar revision facturas: ', facturas);
     if (facturas.length > 0) {
       const command = {
-        template: { fechaRecepcionCxc: new Date().toISOString() },
-        facturas: this.selectedRows
+        facturas: facturas,
+        type: fromRevision.BatchType.RECEPCION_CXC
       };
       this.store.dispatch(new fromRevision.BatchUpdateAction(command));
       this.selectedRows = [];
     }
   }
 
-  revisada() {}
+  cancelarRecepcion() {
+    let facturas = this.selectedRows.filter(item => item.fechaRecepcionCxc);
+    facturas = facturas.filter(item => !item.revisada);
+    if (facturas.length > 0) {
+      const command = {
+        facturas: facturas,
+        type: fromRevision.BatchType.CANCELAR_RECEPCION_CXC
+      };
+      this.store.dispatch(new fromRevision.BatchUpdateAction(command));
+      this.selectedRows = [];
+    }
+  }
+
+  revisada() {
+    let facturas = this.selectedRows.filter(item => item.fechaRecepcionCxc);
+    facturas = facturas.filter(item => !item.revisada);
+    console.log('Registrar revision facturas: ', facturas);
+    if (facturas.length > 0) {
+      const command = {
+        facturas: facturas,
+        type: fromRevision.BatchType.REVISADA
+      };
+      this.store.dispatch(new fromRevision.BatchUpdateAction(command));
+      this.selectedRows = [];
+    }
+  }
 
   edit() {
     if (this.selectedRows.length <= 0) {
@@ -85,12 +176,15 @@ export class RevisionesComponent implements OnInit {
     this.dialog
       .open(RevisionFormComponent, { data: { facturas }, width: '700px' })
       .afterClosed()
-      .subscribe((res: VentaCredito[]) => {
+      .subscribe(res => {
         if (res) {
-          res.forEach(item => {
-            console.log('Actualizando: ', item);
-            // this.store.dispatch(new fromRevision.UpdateRevisionAction(item));
-          });
+          this.store.dispatch(
+            new fromRevision.BatchUpdateAction({
+              facturas: facturas,
+              template: res,
+              type: fromRevision.BatchType.NORMAL
+            })
+          );
           this.selectedRows = [];
         }
       });
@@ -146,5 +240,9 @@ export class RevisionesComponent implements OnInit {
         console.log('Error al tratar de imprimir antiguead de saldos');
       }
     );
+  }
+
+  isSelectionEditable() {
+    return this.selectedRows.filter(item => !item.revisada).length > 0;
   }
 }

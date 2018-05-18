@@ -38,6 +38,27 @@ export class RevisionesService {
       .pipe(catchError(error => Observable.throw(error)));
   }
 
+  recepcionCxc(facturas: VentaCredito[]): Observable<VentaCredito[]> {
+    const url = `${this.apiUrl}/registrarRecepcionCxC`;
+    return this.http
+      .put<VentaCredito[]>(url, { facturas })
+      .pipe(catchError(error => Observable.throw(error)));
+  }
+
+  cancelarRecepcionCxC(facturas: VentaCredito[]): Observable<VentaCredito[]> {
+    const url = `${this.apiUrl}/cancelarRecepcionCxC`;
+    return this.http
+      .put<VentaCredito[]>(url, { facturas })
+      .pipe(catchError(error => Observable.throw(error)));
+  }
+
+  registrarRvisada(facturas: VentaCredito[]): Observable<VentaCredito[]> {
+    const url = `${this.apiUrl}/registrarRvisada`;
+    return this.http
+      .put<VentaCredito[]>(url, { facturas })
+      .pipe(catchError(error => Observable.throw(error)));
+  }
+
   actualizar(): Observable<Array<any>> {
     const url = `${this.apiUrl}/actualizar`;
     return this.http.get<Array<any>>(url);

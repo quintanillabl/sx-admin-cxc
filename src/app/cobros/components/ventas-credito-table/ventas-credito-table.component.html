@@ -29,7 +29,7 @@
 </div>
 <td-paging-bar #pagingBar [pageSize]="pageSize" [total]="filteredTotal" (change)="page($event)">
   <span hide-xs>Registros por pagina:</span>
-  <mat-select [style.width.px]="10" [(ngModel)]="pageSize">
+  <mat-select [style.width.px]="50" [(ngModel)]="pageSize">
     <mat-option *ngFor="let size of [10,50,100,500]" [value]="size">
       {{size}}
     </mat-option>

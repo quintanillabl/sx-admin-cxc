@@ -81,12 +81,12 @@ export class VentasCreditoTableComponent implements OnInit, OnChanges {
       nested: true,
       format: date => this.datePipe.transform(date, 'dd/MM/yyyy')
     },
-    {
+    /*{
       name: 'fechaRevisionCxc',
       label: 'F. Rev CxC',
       nested: true,
       format: date => this.datePipe.transform(date, 'dd/MM/yyyy')
-    },
+    },*/
     {
       name: 'fechaRevision',
       label: 'F. Rev',
@@ -128,7 +128,7 @@ export class VentasCreditoTableComponent implements OnInit, OnChanges {
   searchTerm = '';
   fromRow = 1;
   currentPage = 1;
-  pageSize = 10;
+  pageSize = 100;
   sortBy = 'nombre';
   @Input() selectedRows: any[] = [];
   sortOrder: TdDataTableSortingOrder = TdDataTableSortingOrder.Ascending;

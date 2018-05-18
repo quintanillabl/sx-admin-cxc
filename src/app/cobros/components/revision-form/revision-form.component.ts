@@ -91,7 +91,7 @@ export class RevisionFormComponent implements OnInit {
   compareCobrador(o1: any, o2: any) {
     return o1.id === o2.id;
   }
-
+  /*
   getEntities() {
     if (this.form.valid) {
       const rest = [];
@@ -104,4 +104,5 @@ export class RevisionFormComponent implements OnInit {
       return rest;
     }
   }
+  */
 }

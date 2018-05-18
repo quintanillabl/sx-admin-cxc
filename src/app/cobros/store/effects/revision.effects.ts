@@ -4,7 +4,7 @@ import { Effect, Actions } from '@ngrx/effects';
 import { RevisionesService } from '../../services';
 import * as revisionActions from '../actions/revision.actions';
 
-import { map, switchMap, catchError, tap } from 'rxjs/operators';
+import { map, switchMap, catchError, tap, filter } from 'rxjs/operators';
 import { of } from 'rxjs/observable/of';
 
 @Injectable()
@@ -51,9 +51,10 @@ export class RevisionEffects {
   @Effect()
   batchUpdate$ = this.actions$.ofType(revisionActions.BATCH_UPDATE_ACTION).pipe(
     map((action: revisionActions.BatchUpdateAction) => action.payload),
+    filter(command => command.type === revisionActions.BatchType.NORMAL),
     switchMap(command => {
       return this.service
-        .batchUpdate(command)
+        .batchUpdate({ facturas: command.facturas, template: command.template })
         .pipe(
           map(res => new revisionActions.BatchUpdateActionSuccess(res)),
           catchError(error =>
@@ -62,4 +63,63 @@ export class RevisionEffects {
         );
     })
   );
+
+  @Effect()
+  batchUpdateRecepcionCxC$ = this.actions$
+    .ofType(revisionActions.BATCH_UPDATE_ACTION)
+    .pipe(
+      map((action: revisionActions.BatchUpdateAction) => action.payload),
+      filter(
+        command => command.type === revisionActions.BatchType.RECEPCION_CXC
+      ),
+      switchMap(command => {
+        return this.service
+          .recepcionCxc(command.facturas)
+          .pipe(
+            map(res => new revisionActions.BatchUpdateActionSuccess(res)),
+            catchError(error =>
+              of(new revisionActions.BatchUpdateActionFial(error))
+            )
+          );
+      })
+    );
+
+  @Effect()
+  batchUpdateCancelarRecepcionCxC$ = this.actions$
+    .ofType(revisionActions.BATCH_UPDATE_ACTION)
+    .pipe(
+      map((action: revisionActions.BatchUpdateAction) => action.payload),
+      filter(
+        command =>
+          command.type === revisionActions.BatchType.CANCELAR_RECEPCION_CXC
+      ),
+      switchMap(command => {
+        return this.service
+          .cancelarRecepcionCxC(command.facturas)
+          .pipe(
+            map(res => new revisionActions.BatchUpdateActionSuccess(res)),
+            catchError(error =>
+              of(new revisionActions.BatchUpdateActionFial(error))
+            )
+          );
+      })
+    );
+
+  @Effect()
+  batchUpdateRevisada$ = this.actions$
+    .ofType(revisionActions.BATCH_UPDATE_ACTION)
+    .pipe(
+      map((action: revisionActions.BatchUpdateAction) => action.payload),
+      filter(command => command.type === revisionActions.BatchType.REVISADA),
+      switchMap(command => {
+        return this.service
+          .registrarRvisada(command.facturas)
+          .pipe(
+            map(res => new revisionActions.BatchUpdateActionSuccess(res)),
+            catchError(error =>
+              of(new revisionActions.BatchUpdateActionFial(error))
+            )
+          );
+      })
+    );
 }
