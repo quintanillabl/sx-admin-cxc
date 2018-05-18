@@ -8,6 +8,7 @@ import { BonificacionPartidasComponent } from './bonificacion-form/bonificacion-
 import { NotadecargoFormComponent } from './notadecargo-form/notadecargo-form.component';
 import { NotadecargoPartidasComponent } from './notadecargo-partidas/notadecargo-partidas.component';
 import { VentasCreditoTableComponent } from './ventas-credito-table/ventas-credito-table.component';
+import { RevisionFormComponent } from './revision-form/revision-form.component';
 
 export const components: any[] = [
   CobrosTableComponent,
@@ -19,9 +20,13 @@ export const components: any[] = [
   BonificacionPartidasComponent,
   NotadecargoFormComponent,
   NotadecargoPartidasComponent,
-  VentasCreditoTableComponent
+  VentasCreditoTableComponent,
+  RevisionFormComponent
 ];
-export const entryComponents: any[] = [FacturasSelectorComponent];
+export const entryComponents: any[] = [
+  FacturasSelectorComponent,
+  RevisionFormComponent
+];
 
 export * from './cobros-table/cobros-table.component';
 export * from './aplicaciones-table/aplicaciones-table.component';
@@ -33,3 +38,4 @@ export * from './bonificacion-form/bonificacion-partidas/bonificacion-partidas.c
 export * from './notadecargo-form/notadecargo-form.component';
 export * from './notadecargo-partidas/notadecargo-partidas.component';
 export * from './ventas-credito-table/ventas-credito-table.component';
+export * from './revision-form/revision-form.component';

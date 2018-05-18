@@ -17,7 +17,7 @@ export const getCobradoresEntities = createSelector(
 
 export const getAllCobradores = createSelector(
   getCobradoresEntities,
-  entities => _.sortBy(entities, 'nombres')
+  entities => _.sortBy(Object.keys(entities).map(id => entities[id]), 'id')
 );
 
 export const getCobradoresLoading = createSelector(

@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
-import * as _ from 'lodash';
 
 import { ConfigService } from '../../utils/config.service';
 import { catchError } from 'rxjs/operators';
+
+import { VentaCredito } from '../models/ventaCredito';
 
 @Injectable()
 export class RevisionesService {
@@ -14,29 +15,22 @@ export class RevisionesService {
     this.apiUrl = configService.buildApiUrl('cxc/ventaCredito');
   }
 
-  get(id: string): Observable<any> {
-    const url = `${this.apiUrl}/${id}`;
-    return this.http.get<any>(url);
+  list(): Observable<VentaCredito[]> {
+    return this.http
+      .get<any>(this.apiUrl)
+      .pipe(catchError(err => Observable.of(err)));
   }
 
-  list(filtro?): Observable<any> {
-    let params = new HttpParams();
-    _.forIn(filtro, (value, key) => {
-      params = params.set(key, value);
-    });
+  update(credito: VentaCredito): Observable<VentaCredito> {
+    const url = `${this.apiUrl}/${credito.id}`;
     return this.http
-      .get<any>(this.apiUrl, { params: params })
-      .pipe(catchError(err => Observable.of(err)))
-      .shareReplay();
+      .put<VentaCredito>(url, credito)
+      .pipe(catchError(error => Observable.throw(error)));
   }
 
   actualizar(): Observable<Array<any>> {
     const url = `${this.apiUrl}/actualizar`;
     return this.http.get<Array<any>>(url);
-  }
-
-  delete(id: string) {
-    return this.http.delete(this.apiUrl + '/' + id);
   }
 
   generar(): Observable<any> {

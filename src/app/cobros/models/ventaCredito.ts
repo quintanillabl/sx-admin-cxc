@@ -1,5 +1,8 @@
 export interface VentaCredito {
-  id?: string;
+  id: string;
+  cliente: string;
+  nombre: string;
+  cuentaPorCobrar: Object;
   plazo: number;
   vencimientoFactura: boolean;
   vencimiento: string;
@@ -13,13 +16,9 @@ export interface VentaCredito {
   diaPago: number;
   fechaPago: string;
   reprogramarPago: string;
-  comentarioReprogramarPago: string;
-  cobrador?: any;
+  cobrador: Object;
   socio?: any;
   operador: number;
   comentario?: string;
-  dateCreated?: string;
-  lastUpdated?: string;
-  createUser?: string;
-  updateUser?: string;
+  comentarioReprogramarPago: string;
 }

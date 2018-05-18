@@ -28,7 +28,7 @@
         </button>
         <ng-container *ngIf="selectedRows.length > 0">
           <button mat-menu-item (click)="recepcion(true)">
-            <mat-icon>event_available</mat-icon> Recepción
+            <mat-icon>event_available</mat-icon> Recepción SUC
           </button>
           <button mat-menu-item (click)="recepcion(false)">
             <mat-icon>event_busy</mat-icon> Cancelar Recepción
@@ -44,9 +44,12 @@
     </span>
   </div>
   <mat-divider></mat-divider>
-  <div style="overflow-x:auto;">
-    <ng-template tdLoading [tdLoadingUntil]="!procesando" tdLoadingStrategy="overlay">
-      <sx-ventas-credito-table #table [data]="facturas" (selection)="onSelection($event)"></sx-ventas-credito-table>
+  <div>
+    <ng-template tdLoading [tdLoadingUntil]="!(loading$ | async)" tdLoadingStrategy="overlay">
+      <sx-ventas-credito-table #table
+        [data]="facturas$ | async"
+        (selection)="onSelection($event)" [selectedRows]="selectedRows">
+      </sx-ventas-credito-table>
     </ng-template>
   </div>
 

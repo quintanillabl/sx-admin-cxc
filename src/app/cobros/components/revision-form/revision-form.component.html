@@ -1,0 +1,92 @@
+<form [formGroup]="form" >
+  <div layout mat-dialog-title >
+    <span>Revisión y cobro</span>
+    <mat-divider></mat-divider>
+    <p>{{cliente.nombre}}</p>
+  </div>
+
+  <mat-dialog-content>
+    <div class="row" layout>
+
+      <mat-form-field flex class="pad-right">
+        <mat-select placeholder="Día revisión" formControlName="diaRevision" required >
+          <mat-option>--</mat-option>
+          <mat-option *ngFor="let dia of dias" [value]="dia.clave">
+            {{dia.descripcion}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field flex>
+        <mat-select placeholder="Día cobro" formControlName="diaPago" required >
+          <mat-option>--</mat-option>
+          <mat-option *ngFor="let dia of dias" [value]="dia.clave">
+            {{dia.descripcion}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+    </div>
+
+    <div layout>
+      <mat-form-field flex class="pad-right">
+        <input matInput placeholder="Fecha revisión" value="{{form.get('fechaRevision').value | date: 'dd/MM/yyyy'}}"
+               [disabled]="true">
+      </mat-form-field>
+
+      <mat-form-field flex>
+        <mat-select placeholder="Cobrador" formControlName="cobrador" required [compareWith]="compareCobrador">
+          <mat-option>--</mat-option>
+          <mat-option *ngFor="let cobrador of cobradores" [value]="cobrador">
+            {{cobrador.nombre}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div layout>
+      <mat-form-field class="pad-right">
+        <input matInput placeholder="Plazo" formControlName="plazo"  >
+      </mat-form-field>
+      <span flex></span>
+      <mat-checkbox formControlName="vencimientoFactura">Vto Factura</mat-checkbox>
+    </div>
+
+    <div layout>
+
+      <mat-form-field flex class="pad-right">
+        <input matInput placeholder="Comentario" formControlName="comentario">
+      </mat-form-field>
+
+      <mat-form-field flex>
+        <input matInput placeholder="Comentario Rep pago" formControlName="comentarioReprogramarPago">
+      </mat-form-field>
+
+    </div>
+
+    <div>
+      <td-data-table
+        [columns]="columns" [data]="facturas"
+        [style.height.px]="200">
+        <ng-template tdDataTableTemplate="fecha" let-value="value" let-row="row">
+          {{value | date:'dd/MM/yyyy'}}
+        </ng-template>
+        <ng-template tdDataTableTemplate="vencimiento" let-value="value" let-row="row">
+          {{value | date:'dd/MM/yyyy'}}
+        </ng-template>
+        <ng-template tdDataTableTemplate="saldo" let-value="value" let-row="row" >
+          {{value | currency: 'USD': 1.2-2}}
+        </ng-template>
+    </td-data-table>
+    </div>
+
+  </mat-dialog-content>
+
+
+
+  <mat-dialog-actions>
+    <button mat-button mat-dialog-close>Cancelar</button>
+    <button mat-button [mat-dialog-close]="getEntities()" [disabled]="form.invalid || form.pristine">Aceptar</button>
+  </mat-dialog-actions>
+
+</form>

@@ -1,39 +1,51 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { RevisionesService } from '../../services';
-import { finalize } from 'rxjs/operators';
-import { VentasCreditoTableComponent } from '../../components';
+
 import { TdDialogService } from '@covalent/core';
+import { MatDialog } from '@angular/material';
+
+import { Store } from '@ngrx/store';
+import * as fromStore from '../../store';
+import * as fromRevision from '../../store/actions/revision.actions';
+
+import { VentaCredito } from '../../models/ventaCredito';
+import { RevisionesService } from '../../services';
+
+import {
+  RevisionFormComponent,
+  VentasCreditoTableComponent
+} from '../../components';
 
 @Component({
   selector: 'sx-revisiones',
   templateUrl: './revisiones.component.html'
 })
 export class RevisionesComponent implements OnInit {
-  facturas = [];
+  facturas$: Observable<VentaCredito[]>;
+  loading$: Observable<boolean>;
+
   _selectedRows: any[] = [];
-  procesando = false;
+
   @ViewChild('table') table: VentasCreditoTableComponent;
   constructor(
+    private store: Store<fromStore.CobranzaState>,
+    private dialog: MatDialog,
     private service: RevisionesService,
     private dialogService: TdDialogService
   ) {}
 
   ngOnInit() {
-    this.load();
+    this.loading$ = this.store.select(fromStore.getRevisionesLoading);
+    this.facturas$ = this.store.select(fromStore.getRevisionesSorted);
   }
 
   load() {
-    this.procesando = true;
-    this.service
-      .list({})
-      .pipe(finalize(() => (this.procesando = false)))
-      .subscribe(data => (this.facturas = data));
+    this.store.dispatch(new fromRevision.LoadRevisionAction());
   }
 
   onSelection(rows) {
     this.selectedRows = rows;
-    console.log('Selected: ', this.selectedRows.length);
+    // console.log('Selected: ', this.selectedRows.map(item => item.documento));
   }
 
   search(term) {
@@ -48,10 +60,40 @@ export class RevisionesComponent implements OnInit {
     this._selectedRows = rows;
   }
 
-  recepcion(valor: boolean) {}
+  recepcion(valor: boolean) {
+    console.log('Registrar revision facturas: ', this.selectedRows);
+    this.selectedRows.forEach((item: VentaCredito) => {
+      /*
+      item.fechaRecepcionCxc = new Date().toISOString();
+      this.store.dispatch(new fromRevision.UpdateRevisionAction(item));
+      */
+      console.log('Actualizando recepcion de factura: ', item);
+    });
+    this.selectedRows = [];
+  }
+
   revisada() {}
 
-  edit() {}
+  edit() {
+    if (this.selectedRows.length <= 0) {
+      return;
+    }
+    let facturas = this.selectedRows;
+    const cliente = facturas[0].cliente;
+    facturas = facturas.filter(item => item.cliente === cliente);
+    this.dialog
+      .open(RevisionFormComponent, { data: { facturas }, width: '700px' })
+      .afterClosed()
+      .subscribe((res: VentaCredito[]) => {
+        if (res) {
+          res.forEach(item => {
+            console.log('Actualizando: ', item);
+            // this.store.dispatch(new fromRevision.UpdateRevisionAction(item));
+          });
+          this.selectedRows = [];
+        }
+      });
+  }
 
   generar() {
     this.dialogService
@@ -65,14 +107,9 @@ export class RevisionesComponent implements OnInit {
       .afterClosed()
       .subscribe(res => {
         if (res) {
-          console.log('Generar.....');
-          this.procesando = true;
-          this.service
-            .generar()
-            .pipe(finalize(() => (this.procesando = false)))
-            .subscribe(data => {
-              this.load();
-            });
+          this.service.generar().subscribe(data => {
+            this.load();
+          });
         }
       });
   }
@@ -88,13 +125,9 @@ export class RevisionesComponent implements OnInit {
       .afterClosed()
       .subscribe(res => {
         if (res) {
-          this.procesando = true;
-          this.service
-            .recalcular()
-            .pipe(finalize(() => (this.procesando = false)))
-            .subscribe(data => {
-              this.load();
-            });
+          this.service.recalcular().subscribe(data => {
+            this.load();
+          });
         }
       });
   }

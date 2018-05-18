@@ -34,7 +34,7 @@ export class VentasCreditoTableComponent implements OnInit, OnChanges {
       width: 300
     },
     {
-      name: 'cobrador',
+      name: 'cobrador.sw2',
       label: 'Cobrador',
       filter: true,
       sortable: true,
@@ -57,30 +57,24 @@ export class VentasCreditoTableComponent implements OnInit, OnChanges {
     {
       name: 'fecha',
       label: 'Fecha',
-      sortable: true,
+      sortable: false,
       filter: true,
       format: date => this.datePipe.transform(date, 'dd/MM/yyyy')
     },
     {
-      name: 'credito.fechaRecepcionCxc',
+      name: 'fechaRecepcionCxc',
       label: 'Recibida'
     },
     {
-      name: 'credito.revisada',
+      name: 'revisada',
       label: 'Revisada'
     },
     {
-      name: 'credito.revision',
+      name: 'revision',
       label: 'Revisión'
     },
     {
-      name: 'credito.fechaRevisionCxc',
-      label: 'F. Rev CxC',
-      nested: true,
-      format: date => this.datePipe.transform(date, 'dd/MM/yyyy')
-    },
-    {
-      name: 'credito.vencimiento',
+      name: 'vencimiento',
       label: 'Vencimiento',
       sortable: true,
       filter: true,
@@ -88,7 +82,20 @@ export class VentasCreditoTableComponent implements OnInit, OnChanges {
       format: date => this.datePipe.transform(date, 'dd/MM/yyyy')
     },
     {
-      name: 'credito.reprogramarPago',
+      name: 'fechaRevisionCxc',
+      label: 'F. Rev CxC',
+      nested: true,
+      format: date => this.datePipe.transform(date, 'dd/MM/yyyy')
+    },
+    {
+      name: 'fechaRevision',
+      label: 'F. Rev',
+      nested: true,
+      format: date => this.datePipe.transform(date, 'dd/MM/yyyy')
+    },
+
+    {
+      name: 'reprogramarPago',
       label: 'Rep. Pago',
       nested: true,
       format: date => this.datePipe.transform(date, 'dd/MM/yyyy')
@@ -122,9 +129,9 @@ export class VentasCreditoTableComponent implements OnInit, OnChanges {
   fromRow = 1;
   currentPage = 1;
   pageSize = 10;
-  sortBy = 'documento';
-  selectedRows: any[] = [];
-  sortOrder: TdDataTableSortingOrder = TdDataTableSortingOrder.Descending;
+  sortBy = 'nombre';
+  @Input() selectedRows: any[] = [];
+  sortOrder: TdDataTableSortingOrder = TdDataTableSortingOrder.Ascending;
 
   constructor(
     private datePipe: DatePipe,
@@ -134,7 +141,7 @@ export class VentasCreditoTableComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes) {
     if (changes.data) {
-      //  console.log('Detectando cambios: ', changes);
+      console.log('Camio de facturas: ', changes);
       this.filter();
     }
   }

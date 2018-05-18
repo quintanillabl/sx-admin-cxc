@@ -1,17 +1,23 @@
 <td-data-table #dataTable [data]="filteredData" [columns]="columns" [selectable]="selectable" [clickable]="true" [multiple]="true"
   [sortable]="true" [sortBy]="sortBy" [(ngModel)]="selectedRows" [sortOrder]="sortOrder" (sortChange)="sort($event)" (rowSelect)="selectionChange()"
   (selectAll)="selectionChange()">
-  <ng-template tdDataTableTemplate="credito.fechaRecepcionCxc" let-value="value" let-row="row">
+  <ng-template tdDataTableTemplate="nombre" let-value="value" let-row="row">
+    <span layout="column">
+      <span>{{value}}</span>
+      <span *ngIf="row.comentario">{{row.comentario}}</span>
+    </span>
+  </ng-template>
+  <ng-template tdDataTableTemplate="fechaRecepcionCxc" let-value="value" let-row="row">
     <span matTooltip="{{value | date:'dd/MM/yyyy'}}" *ngIf="value">
       <mat-icon class="tc-green-800 text-center">check</mat-icon>
     </span>
   </ng-template>
-  <ng-template tdDataTableTemplate="credito.revisada" let-value="value" let-row="row">
+  <ng-template tdDataTableTemplate="revisada" let-value="value" let-row="row">
     <span *ngIf="value">
       <mat-icon class="tc-green-800 text-center">check</mat-icon>
     </span>
   </ng-template>
-  <ng-template tdDataTableTemplate="credito.revision" let-value="value" let-row="row">
+  <ng-template tdDataTableTemplate="revision" let-value="value" let-row="row">
     <span *ngIf="value">
       <mat-icon class="tc-green-800 text-center">check</mat-icon>
     </span>
@@ -19,7 +25,7 @@
 
 </td-data-table>
 <div class="md-padding" *ngIf="!dataTable.hasData" layout="row" layout-align="center center">
-  <h3>No hay cuentas por cobrar.</h3>
+  <h3>No hay cuentas facturas a revisión.</h3>
 </div>
 <td-paging-bar #pagingBar [pageSize]="pageSize" [total]="filteredTotal" (change)="page($event)">
   <span hide-xs>Registros por pagina:</span>

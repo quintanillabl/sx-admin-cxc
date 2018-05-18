@@ -1,11 +1,11 @@
 import * as fromRevision from '../actions/revision.actions';
 
-import { CuentaPorCobrar } from '../../models/cuentaPorCobrar';
-
 import * as _ from 'lodash';
 
+import { VentaCredito } from '../../models/ventaCredito';
+
 export interface RevisionState {
-  entities: { [id: string]: CuentaPorCobrar };
+  entities: { [id: string]: VentaCredito };
   loading: boolean;
   loaded: boolean;
 }
@@ -44,6 +44,15 @@ export function reducer(
         ...state,
         loaded: false,
         loading: false
+      };
+    }
+
+    case fromRevision.UPDATE_REVISION_ACTION_SUCCESS: {
+      const cxc = action.payload;
+      const entities = { ...state.entities, [cxc.id]: cxc };
+      return {
+        ...state,
+        entities
       };
     }
   }

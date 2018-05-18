@@ -4,6 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { CobrosComponent } from './containers';
 import * as fromContainers from './containers';
 import { CobroResolver } from './services';
+import * as fromGuards from './guards';
 
 const routes: Routes = [
   {
@@ -19,6 +20,7 @@ const routes: Routes = [
       },
       {
         path: 'revisiones',
+        canActivate: [fromGuards.RevisionGuard],
         component: fromContainers.RevisionesComponent
       },
       { path: 'devoluciones', component: fromContainers.DevolucionesComponent },
