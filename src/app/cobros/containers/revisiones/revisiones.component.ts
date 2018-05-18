@@ -61,15 +61,16 @@ export class RevisionesComponent implements OnInit {
   }
 
   recepcion(valor: boolean) {
-    console.log('Registrar revision facturas: ', this.selectedRows);
-    this.selectedRows.forEach((item: VentaCredito) => {
-      /*
-      item.fechaRecepcionCxc = new Date().toISOString();
-      this.store.dispatch(new fromRevision.UpdateRevisionAction(item));
-      */
-      console.log('Actualizando recepcion de factura: ', item);
-    });
-    this.selectedRows = [];
+    const facturas = this.selectedRows.filter(item => !item.fechaRecepcionCxc);
+    console.log('Registrar revision facturas: ', facturas);
+    if (facturas.length > 0) {
+      const command = {
+        template: { fechaRecepcionCxc: new Date().toISOString() },
+        facturas: this.selectedRows
+      };
+      this.store.dispatch(new fromRevision.BatchUpdateAction(command));
+      this.selectedRows = [];
+    }
   }
 
   revisada() {}

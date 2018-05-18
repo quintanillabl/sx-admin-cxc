@@ -28,6 +28,16 @@ export class RevisionesService {
       .pipe(catchError(error => Observable.throw(error)));
   }
 
+  batchUpdate(command: {
+    template: Object;
+    facturas: VentaCredito[];
+  }): Observable<VentaCredito[]> {
+    const url = `${this.apiUrl}/batchUpdate`;
+    return this.http
+      .post<VentaCredito[]>(url, command)
+      .pipe(catchError(error => Observable.throw(error)));
+  }
+
   actualizar(): Observable<Array<any>> {
     const url = `${this.apiUrl}/actualizar`;
     return this.http.get<Array<any>>(url);

@@ -55,6 +55,15 @@ export function reducer(
         entities
       };
     }
+
+    case fromRevision.BATCH_UPDATE_ACTION_SUCCESS: {
+      const updatedEntities = _.keyBy(action.payload, 'id');
+      const entities = { ...state.entities, ...updatedEntities };
+      return {
+        ...state,
+        entities
+      };
+    }
   }
   return state;
 }

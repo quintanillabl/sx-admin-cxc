@@ -47,4 +47,19 @@ export class RevisionEffects {
           );
       })
     );
+
+  @Effect()
+  batchUpdate$ = this.actions$.ofType(revisionActions.BATCH_UPDATE_ACTION).pipe(
+    map((action: revisionActions.BatchUpdateAction) => action.payload),
+    switchMap(command => {
+      return this.service
+        .batchUpdate(command)
+        .pipe(
+          map(res => new revisionActions.BatchUpdateActionSuccess(res)),
+          catchError(error =>
+            of(new revisionActions.BatchUpdateActionFial(error))
+          )
+        );
+    })
+  );
 }
