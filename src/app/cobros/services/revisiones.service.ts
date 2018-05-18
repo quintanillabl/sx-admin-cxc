@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 
 import { ConfigService } from '../../utils/config.service';
@@ -41,5 +41,13 @@ export class RevisionesService {
   recalcular(): Observable<any> {
     const url = `${this.apiUrl}/recalcular`;
     return this.http.post(url, {}).pipe(catchError(err => Observable.of(err)));
+  }
+
+  reporte() {
+    const url = `${this.apiUrl}/print`;
+    const headers = new HttpHeaders().set('Content-type', 'application/pdf');
+    return this.http
+      .get(url, { headers: headers, responseType: 'blob' })
+      .pipe(catchError(error => Observable.throw(error)));
   }
 }

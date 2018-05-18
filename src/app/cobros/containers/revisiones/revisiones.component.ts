@@ -131,4 +131,19 @@ export class RevisionesComponent implements OnInit {
         }
       });
   }
+
+  reporte() {
+    this.service.reporte().subscribe(
+      res => {
+        const blob = new Blob([res], {
+          type: 'application/pdf'
+        });
+        const fileUrl = window.URL.createObjectURL(blob);
+        window.open(fileUrl, '_blank');
+      },
+      error1 => {
+        console.log('Error al tratar de imprimir antiguead de saldos');
+      }
+    );
+  }
 }

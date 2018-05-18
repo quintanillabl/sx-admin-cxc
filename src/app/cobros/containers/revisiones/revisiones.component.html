@@ -26,6 +26,9 @@
         <button mat-menu-item (click)="recalcular()">
           <mat-icon>swap_vert</mat-icon> Actualizar
         </button>
+        <button mat-menu-item (click)="reporte()">
+            <mat-icon>picture_as_pdf</mat-icon> Reporte
+        </button>
         <ng-container *ngIf="selectedRows.length > 0">
           <button mat-menu-item (click)="recepcion(true)">
             <mat-icon>event_available</mat-icon> Recepción SUC
