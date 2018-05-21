@@ -31,12 +31,22 @@ export class MainPageComponent implements OnInit {
     {
       icon: 'file_download',
       route: '/cobranza/cre',
-      title: 'Cobranza (Crédito)'
+      title: 'Cobranza (CRE)'
     },
     {
       icon: 'file_download',
       route: '/cobranza/con',
-      title: 'Cobranza (Contado)'
+      title: 'Cobranza (CON)'
+    },
+    {
+      icon: 'format_list_bulleted',
+      route: '/che',
+      title: 'Cobranza (CHE)'
+    },
+    {
+      icon: '',
+      route: '/cobranza/jur',
+      title: 'Cobranza (JUR)'
     },
     {
       icon: 'my_library_books',

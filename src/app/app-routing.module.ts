@@ -30,6 +30,10 @@ const routes: Routes = [
       {
         path: 'antiguedad',
         loadChildren: './antiguedad/antiguedad.module#AntiguedadModule'
+      },
+      {
+        path: 'che',
+        loadChildren: './cheques/cheques.module#ChequesModule'
       }
     ]
   }

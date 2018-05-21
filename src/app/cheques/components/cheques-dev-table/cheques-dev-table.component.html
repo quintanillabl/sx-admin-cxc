@@ -1,0 +1,11 @@
+<div class="cxc-table-container">
+  <mat-table [dataSource]="dataSource">
+    <ng-container matColumnDef="cliente">
+      <mat-header-cell *matHeaderCellDef>Cliente</mat-header-cell>
+      <mat-cell *matCellDef="let cxc">{{cxc.nombre}}</mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="columnsToDisplay"></mat-header-row>
+    <mat-row *matRowDef="let cxc; columns: columnsToDisplay"></mat-row>
+  </mat-table>
+</div>

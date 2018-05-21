@@ -1,0 +1,10 @@
+.cxc-table-container {
+  display: flex;
+  flex-direction: column;
+  min-width: 500px;
+}
+
+.mat-table {
+  overflow: auto;
+  max-height: 550px;
+}
