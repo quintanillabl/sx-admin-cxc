@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 
 import { ConfigService } from '../../utils/config.service';
@@ -16,8 +16,9 @@ export class RevisionesService {
   }
 
   list(): Observable<VentaCredito[]> {
+    const url = `${this.apiUrl}`;
     return this.http
-      .get<any>(this.apiUrl)
+      .get<VentaCredito[]>(url)
       .pipe(catchError(err => Observable.of(err)));
   }
 
@@ -74,11 +75,19 @@ export class RevisionesService {
     return this.http.post(url, {}).pipe(catchError(err => Observable.of(err)));
   }
 
-  reporte() {
+  reporteDeRevision(command: any) {
+    let params = new HttpParams().set('fecha', command.fecha);
+    if (command.cliente !== null) {
+      params = params.set('cliente', command.cliente.id);
+    }
+    if (command.cobrador) {
+      params = params.set('cobrador', command.cobrador.id);
+    }
+
     const url = `${this.apiUrl}/print`;
     const headers = new HttpHeaders().set('Content-type', 'application/pdf');
     return this.http
-      .get(url, { headers: headers, responseType: 'blob' })
+      .get(url, { headers: headers, responseType: 'blob', params: params })
       .pipe(catchError(error => Observable.throw(error)));
   }
 }

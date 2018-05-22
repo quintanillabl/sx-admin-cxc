@@ -12,6 +12,7 @@ import { VentaCredito } from '../../models/ventaCredito';
 import { RevisionesService } from '../../services';
 
 import {
+  ReporteDeRevisionComponent,
   RevisionFormComponent,
   VentasCreditoTableComponent
 } from '../../components';
@@ -91,8 +92,6 @@ export class RevisionesComponent implements OnInit {
       combineLatest(this.cobrador$, (facturas, cobrador) => {
         if (cobrador) {
           return facturas.filter((item: any) => {
-            console.log('Evaluando cobrador: ', item.cobrador.sw2);
-            console.log('Con: ', cobrador);
             return item.cobrador.sw2.toString() === cobrador.toString();
           });
         }
@@ -229,18 +228,25 @@ export class RevisionesComponent implements OnInit {
   }
 
   reporte() {
-    this.service.reporte().subscribe(
-      res => {
-        const blob = new Blob([res], {
-          type: 'application/pdf'
-        });
-        const fileUrl = window.URL.createObjectURL(blob);
-        window.open(fileUrl, '_blank');
-      },
-      error1 => {
-        console.log('Error al tratar de imprimir antiguead de saldos');
-      }
-    );
+    this.dialog
+      .open(ReporteDeRevisionComponent, { data: {} })
+      .afterClosed()
+      .subscribe(command => {
+        if (command) {
+          this.service.reporteDeRevision(command).subscribe(
+            res => {
+              const blob = new Blob([res], {
+                type: 'application/pdf'
+              });
+              const fileUrl = window.URL.createObjectURL(blob);
+              window.open(fileUrl, '_blank');
+            },
+            error1 => {
+              console.log('Error al tratar de imprimir antiguead de saldos');
+            }
+          );
+        }
+      });
   }
 
   isSelectionEditable() {

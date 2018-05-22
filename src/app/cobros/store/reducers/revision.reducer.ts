@@ -30,6 +30,7 @@ export function reducer(
     }
 
     case fromRevision.LOAD_REVISION_ACTION_SUCCESS: {
+      console.log('Ventas credito obtenidas: ', action.payload.length);
       const entities = _.keyBy(action.payload, 'id');
       return {
         ...state,

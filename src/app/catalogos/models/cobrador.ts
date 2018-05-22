@@ -8,4 +8,5 @@ export interface Cobrador {
   curp?: string;
   rfc?: string;
   comision: number;
+  sw2: number;
 }

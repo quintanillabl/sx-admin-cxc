@@ -19,6 +19,7 @@ export class RevisionEffects {
         return this.service
           .list()
           .pipe(
+            tap(res => console.log('LOAD_ACCIONT SUCCES: ', res.length)),
             map(res => new revisionActions.LoadRevisionActionSuccess(res)),
             catchError(error =>
               of(new revisionActions.LoadRevisionActionFail(error))

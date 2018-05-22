@@ -13,9 +13,9 @@ import { Sucursal } from 'app/_core/models/sucursal';
   templateUrl: './sucursal-field.component.html'
 })
 export class SucursalFieldComponent implements OnInit, OnDestroy {
-  apiUrl: string;
-
   @Input() parent: FormGroup;
+
+  apiUrl: string;
 
   @Input() sucursalProperty = 'sucursal';
 

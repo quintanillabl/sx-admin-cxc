@@ -9,6 +9,8 @@ import { NotadecargoFormComponent } from './notadecargo-form/notadecargo-form.co
 import { NotadecargoPartidasComponent } from './notadecargo-partidas/notadecargo-partidas.component';
 import { VentasCreditoTableComponent } from './ventas-credito-table/ventas-credito-table.component';
 import { RevisionFormComponent } from './revision-form/revision-form.component';
+import { ReporteDeRevisionComponent } from './reporte-de-revision/reporte-de-revision.component';
+import { CobradorFieldComponent } from './cobrador-field/cobrador-field.component';
 
 export const components: any[] = [
   CobrosTableComponent,
@@ -21,11 +23,14 @@ export const components: any[] = [
   NotadecargoFormComponent,
   NotadecargoPartidasComponent,
   VentasCreditoTableComponent,
-  RevisionFormComponent
+  RevisionFormComponent,
+  ReporteDeRevisionComponent,
+  CobradorFieldComponent
 ];
 export const entryComponents: any[] = [
   FacturasSelectorComponent,
-  RevisionFormComponent
+  RevisionFormComponent,
+  ReporteDeRevisionComponent
 ];
 
 export * from './cobros-table/cobros-table.component';
@@ -39,3 +44,5 @@ export * from './notadecargo-form/notadecargo-form.component';
 export * from './notadecargo-partidas/notadecargo-partidas.component';
 export * from './ventas-credito-table/ventas-credito-table.component';
 export * from './revision-form/revision-form.component';
+export * from './reporte-de-revision/reporte-de-revision.component';
+export * from './cobrador-field/cobrador-field.component';

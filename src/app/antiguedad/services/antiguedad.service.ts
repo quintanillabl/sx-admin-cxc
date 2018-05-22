@@ -47,6 +47,16 @@ export class AntiguedadService {
       .pipe(catchError(error => Observable.throw(error)));
   }
 
+  reporteDeCobranzaCOD(sucursal, fecha): Observable<any> {
+    const url = this.config.buildApiUrl(
+      'cuentasPorCobrar/antiguedad/clientesSuspendidosCre'
+    );
+    const headers = new HttpHeaders().set('Content-type', 'application/pdf');
+    return this.http
+      .get(url, { headers: headers, responseType: 'blob' })
+      .pipe(catchError(error => Observable.throw(error)));
+  }
+
   clientesSuspendidosCre(): Observable<any> {
     const url = this.config.buildApiUrl(
       'cuentasPorCobrar/antiguedad/clientesSuspendidosCre'
