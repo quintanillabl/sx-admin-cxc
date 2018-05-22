@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
 
 import { Store } from '@ngrx/store';
 
@@ -32,5 +32,9 @@ export class ClientesComponent implements OnInit {
 
   onSelect(event: Cliente) {
     this.store.dispatch(new fromRoot.Go({ path: ['clientes', event.id] }));
+  }
+
+  onSearch(event: string) {
+    this.store.dispatch(new fromClientes.SearchClientesAction(event));
   }
 }

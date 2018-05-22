@@ -26,6 +26,21 @@ export class ClientesEffects {
   );
 
   @Effect()
+  searchClientes$ = this.actions$.ofType(clienteActions.SEARCH_CLIENTES).pipe(
+    map((action: clienteActions.SearchClientesAction) => action.payload),
+    switchMap(term => {
+      return this.service
+        .list({ term })
+        .pipe(
+          map(res => new clienteActions.SearchClientesActionSuccess(res)),
+          catchError(error =>
+            of(new clienteActions.SearchClientesActionFail(error))
+          )
+        );
+    })
+  );
+
+  @Effect()
   updateCliente$ = this.actions$.ofType(clienteActions.UPDATE_CLIENTE).pipe(
     map((action: clienteActions.UpdateCliente) => action.payload),
     switchMap(cliente => {

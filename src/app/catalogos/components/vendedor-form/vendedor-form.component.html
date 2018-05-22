@@ -1,7 +1,7 @@
 <form novalidate [formGroup]="form">
   <h2 mat-dialog-title>
-    <span *ngIf="cobrador">Mantenimiento a vendedor</span>
-    <span *ngIf="!cobrador">Alta de vendedor</span>
+    <span *ngIf="vendedor">Mantenimiento a vendedor</span>
+    <span *ngIf="!vendedor">Alta de vendedor</span>
   </h2>
   <mat-dialog-content layout="columne">
     <sx-upper-case-field formControlName="nombres" placeholder="Nombre" [required]="true"></sx-upper-case-field>

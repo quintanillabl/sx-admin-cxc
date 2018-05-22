@@ -10,7 +10,7 @@ import { Observable } from 'rxjs/Observable';
 @Component({
   selector: 'sx-cheques',
   templateUrl: './cheques.component.html',
-  styles: [],
+  styles: []
 })
 export class ChequesComponent implements OnInit {
   cheques$: Observable<ChequeDevuelto[]>;

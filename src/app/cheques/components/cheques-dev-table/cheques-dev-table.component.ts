@@ -9,13 +9,10 @@ import { CuentaPorCobrar } from 'app/cobros/models/cuentaPorCobrar';
   styleUrls: ['./cheques-dev-table.component.scss']
 })
 export class ChequesDevTableComponent implements OnInit {
-
   columnsToDisplay = ['cliente'];
   dataSource = new MatTableDataSource<CuentaPorCobrar>([]);
 
-  constructor() { }
+  constructor() {}
 
-  ngOnInit() {
-  }
-
+  ngOnInit() {}
 }

@@ -21,10 +21,8 @@ const routes: Routes = [
         canActivate: [fromGuards.ClientesGuard, fromGuards.ClienteExistsGuard],
         resolve: { cliente: ClienteResolver },
         children: [
-          // { path: '', redirectTo: 'info', pathMatch: 'full' },
           {
             path: 'info/:id',
-            // canActivate: [fromGuards.ClienteExistsGuard],
             component: fromContainers.ClienteInfoComponent
           },
           {
@@ -32,33 +30,33 @@ const routes: Routes = [
             component: fromContainers.ClienteEditComponent
           },
           {
-            path: 'cxc',
+            path: 'cxc/:id',
             component: fromContainers.ClienteCxcComponent
           },
           {
-            path: 'facturas',
+            path: 'facturas/:id',
             component: fromContainers.ClienteFacturasComponent
           },
           {
-            path: 'bonificaciones',
+            path: 'bonificaciones/:id',
             component: fromContainers.ClienteNotasComponent,
             data: { tipo: 'BONIFICACION' }
           },
           {
-            path: 'devoluciones',
+            path: 'devoluciones/:id',
             component: fromContainers.ClienteNotasComponent,
             data: { tipo: 'DEVOLUCION' }
           },
           {
-            path: 'cobros',
+            path: 'cobros/:id',
             component: fromContainers.ClienteCobrosComponent
           },
           {
-            path: 'cargos',
+            path: 'cargos/:id',
             component: fromContainers.ClienteCargosComponent
           },
           {
-            path: 'socios',
+            path: 'socios/:id',
             component: fromContainers.ClienteSociosComponent
           },
           {

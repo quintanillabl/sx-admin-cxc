@@ -10,7 +10,6 @@ import { FechaDialogComponent } from 'app/_shared/components';
   styles: []
 })
 export class CobranzaCheComponent implements OnInit {
-
   navigation = [
     {
       path: 'cheques',
@@ -35,13 +34,12 @@ export class CobranzaCheComponent implements OnInit {
       title: 'Notas',
       description: 'Notas de bonificación',
       icon: 'system_update_alt'
-    },
+    }
   ];
 
-  constructor(public media: TdMediaService,) { }
+  constructor(public media: TdMediaService) {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   reporteDeCobranza() {
     /*
@@ -65,5 +63,4 @@ export class CobranzaCheComponent implements OnInit {
     });
     */
   }
-
 }

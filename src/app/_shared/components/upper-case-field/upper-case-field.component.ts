@@ -6,7 +6,8 @@ import {
   Renderer2,
   ElementRef,
   forwardRef,
-  Self
+  Self,
+  Optional
 } from '@angular/core';
 import {
   ControlValueAccessor,
@@ -17,7 +18,8 @@ import {
   NgControl,
   Validators
 } from '@angular/forms';
-import { MatFormFieldControl, MatInput } from '@angular/material';
+
+import { MatInput } from '@angular/material';
 
 /**
  * PENDIENTE DE TERMINAR
@@ -46,7 +48,9 @@ export class UpperCaseFieldComponent implements OnInit, ControlValueAccessor {
 
   constructor(
     private renderer: Renderer2,
-    @Self() public controlDir: NgControl
+    @Optional()
+    @Self()
+    public controlDir: NgControl
   ) {
     controlDir.valueAccessor = this;
   }

@@ -13,7 +13,7 @@ import { ChequeDevueltoService } from '../../services';
 export class ChequesEffects {
   constructor(
     private actions$: Actions,
-    private service: ChequeDevueltoService,
+    private service: ChequeDevueltoService
   ) {}
 
   @Effect()
@@ -24,9 +24,9 @@ export class ChequesEffects {
         .pipe(
           map(res => new chequesActions.LoadChequesActionSuccess(res)),
           catchError(error =>
-            of(new chequesActions.LoadChequesActionFail(error)),
-          ),
+            of(new chequesActions.LoadChequesActionFail(error))
+          )
         );
-    }),
+    })
   );
 }

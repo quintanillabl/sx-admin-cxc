@@ -16,47 +16,47 @@ const routes: Routes = [
       {
         path: 'cobros/:id',
         component: fromContainers.CobroComponent,
-        resolve: { cobro: CobroResolver },
+        resolve: { cobro: CobroResolver }
       },
       {
         path: 'revisiones',
-        canActivate: [fromGuards.RevisionGuard],
-        component: fromContainers.RevisionesComponent,
+        // canActivate: [fromGuards.RevisionGuard],
+        component: fromContainers.RevisionesComponent
       },
       { path: 'devoluciones', component: fromContainers.DevolucionesComponent },
       {
         path: 'devoluciones/show/:id',
-        component: fromContainers.NotaViewComponent,
+        component: fromContainers.NotaViewComponent
       },
       {
         path: 'bonificaciones',
-        component: fromContainers.BonificacionesComponent,
+        component: fromContainers.BonificacionesComponent
       },
       {
         path: 'bonificaciones/create',
-        component: fromContainers.BonificacionComponent,
+        component: fromContainers.BonificacionComponent
       },
       {
         path: 'bonificaciones/show/:id',
-        component: fromContainers.NotaViewComponent,
+        component: fromContainers.NotaViewComponent
       },
       {
         path: 'cargos',
-        component: fromContainers.CargosComponent,
+        component: fromContainers.CargosComponent
       },
       {
         path: 'cargos/create',
-        component: fromContainers.CargoComponent,
+        component: fromContainers.CargoComponent
       },
       {
         path: 'cargos/show/:id',
-        component: fromContainers.CargoShowComponent,
+        component: fromContainers.CargoShowComponent
       },
       {
         path: 'cargos/edit/:id',
-        component: fromContainers.CargoEditComponent,
-      },
-    ],
+        component: fromContainers.CargoEditComponent
+      }
+    ]
   },
   {
     path: 'con',
@@ -66,42 +66,83 @@ const routes: Routes = [
       { path: 'devoluciones', component: fromContainers.DevolucionesComponent },
       {
         path: 'devoluciones/show/:id',
-        component: fromContainers.NotaViewComponent,
+        component: fromContainers.NotaViewComponent
       },
       {
         path: 'bonificaciones',
-        component: fromContainers.BonificacionesComponent,
+        component: fromContainers.BonificacionesComponent
       },
       {
         path: 'bonificaciones/create',
-        component: fromContainers.BonificacionComponent,
+        component: fromContainers.BonificacionComponent
       },
       {
         path: 'bonificaciones/show/:id',
-        component: fromContainers.NotaViewComponent,
+        component: fromContainers.NotaViewComponent
       },
       {
         path: 'cargos',
-        component: fromContainers.CargosComponent,
+        component: fromContainers.CargosComponent
       },
       {
         path: 'cargos/create',
-        component: fromContainers.CargoComponent,
+        component: fromContainers.CargoComponent
       },
       {
         path: 'cargos/show/:id',
-        component: fromContainers.CargoShowComponent,
+        component: fromContainers.CargoShowComponent
       },
       {
         path: 'cargos/edit/:id',
-        component: fromContainers.CargoEditComponent,
+        component: fromContainers.CargoEditComponent
+      }
+    ]
+  },
+  {
+    path: 'jur',
+    component: fromContainers.CobranzaComponent,
+    data: { cartera: { clave: 'JUR', descripcion: 'JURIDICO' } },
+    children: [
+      { path: 'cobros', component: fromContainers.CobrosComponent },
+      {
+        path: 'cobros/:id',
+        component: fromContainers.CobroComponent,
+        resolve: { cobro: CobroResolver }
       },
-    ],
+      {
+        path: 'bonificaciones',
+        component: fromContainers.BonificacionesComponent
+      },
+      {
+        path: 'bonificaciones/create',
+        component: fromContainers.BonificacionComponent
+      },
+      {
+        path: 'bonificaciones/show/:id',
+        component: fromContainers.NotaViewComponent
+      },
+      {
+        path: 'cargos',
+        component: fromContainers.CargosComponent
+      },
+      {
+        path: 'cargos/create',
+        component: fromContainers.CargoComponent
+      },
+      {
+        path: 'cargos/show/:id',
+        component: fromContainers.CargoShowComponent
+      },
+      {
+        path: 'cargos/edit/:id',
+        component: fromContainers.CargoEditComponent
+      }
+    ]
   }
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule],
+  exports: [RouterModule]
 })
 export class CobrosRoutingModule {}

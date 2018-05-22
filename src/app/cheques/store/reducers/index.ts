@@ -7,7 +7,7 @@ export interface CobranzaChequesDevueltosState {
 }
 
 export const reducers: ActionReducerMap<CobranzaChequesDevueltosState> = {
-  cheques: fromCheques.reducer,
+  cheques: fromCheques.reducer
 };
 
 export const getCobranzaChequesDevueltosState = createFeatureSelector<

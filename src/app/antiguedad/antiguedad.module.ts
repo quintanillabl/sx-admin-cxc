@@ -25,6 +25,7 @@ import { containers } from './containers';
     EffectsModule.forFeature(effects)
   ],
   declarations: [...components, ...componentsEntry, ...containers],
+  entryComponents: [...componentsEntry],
   providers: [...services, ...guards]
 })
 export class AntiguedadModule {}

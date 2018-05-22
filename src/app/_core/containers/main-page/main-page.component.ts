@@ -50,7 +50,7 @@ export class MainPageComponent implements OnInit {
     },
     {
       icon: 'my_library_books',
-      route: 'antiguedad',
+      route: '/antiguedad',
       title: 'Antigüedad de saldos'
     }
 

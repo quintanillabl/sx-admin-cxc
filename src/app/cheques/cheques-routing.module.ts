@@ -12,14 +12,14 @@ const routes: Routes = [
       {
         path: 'cheques',
         canActivate: [fromGuards.ChequesGuard],
-        component: fromContainers.ChequesComponent,
-      },
-    ],
-  },
+        component: fromContainers.ChequesComponent
+      }
+    ]
+  }
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule],
+  exports: [RouterModule]
 })
 export class ChequesRoutingModule {}

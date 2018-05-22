@@ -28,7 +28,7 @@ export class ChequesGuard implements CanActivate {
         }
       }),
       filter(loaded => loaded),
-      take(1),
+      take(1)
     );
   }
 }

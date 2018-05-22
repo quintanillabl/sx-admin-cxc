@@ -99,6 +99,7 @@ export class RevisionesComponent implements OnInit {
         return facturas;
       })
     );
+    this.store.dispatch(new fromRevision.LoadRevisionAction());
   }
 
   test(event) {

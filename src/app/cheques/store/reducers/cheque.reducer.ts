@@ -15,26 +15,26 @@ export interface ChequeState {
 export const initialState: ChequeState = {
   entities: {},
   loaded: false,
-  loading: false,
+  loading: false
 };
 
 export function reducer(
   state = initialState,
-  action: fromCheques.ChequesActions,
+  action: fromCheques.ChequesActions
 ): ChequeState {
   switch (action.type) {
     case fromCheques.LOAD_CHEQUES_ACTION: {
       return {
         ...state,
         loading: true,
-        loaded: false,
+        loaded: false
       };
     }
     case fromCheques.LOAD_CHEQUES_ACTION_FAIL: {
       return {
         ...state,
         loading: false,
-        loaded: false,
+        loaded: false
       };
     }
     case fromCheques.LOAD_CHEQUES_ACTION_SUCCESS: {
@@ -43,7 +43,7 @@ export function reducer(
         ...state,
         entities,
         loaded: true,
-        loading: false,
+        loading: false
       };
     }
   }

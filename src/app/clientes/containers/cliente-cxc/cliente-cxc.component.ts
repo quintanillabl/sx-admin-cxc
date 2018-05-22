@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+
+import { Store } from '@ngrx/store';
+import * as fromStore from '../../store';
+
 import { Observable } from 'rxjs/Observable';
 
 import { Cliente } from '../../models';
@@ -19,13 +23,15 @@ export class ClienteCxcComponent implements OnInit {
   procesando = false;
 
   constructor(
+    private store: Store<fromStore.ClientesState>,
     private route: ActivatedRoute,
     private service: ClienteService,
     private dialogService: TdDialogService
   ) {}
 
   ngOnInit() {
-    this.cliente$ = this.route.parent.data.map(data => data.cliente);
+    // this.cliente$ = this.route.parent.data.map(data => data.cliente);
+    this.cliente$ = this.store.select(fromStore.getSelectedCliente);
     this.load();
   }
 
@@ -42,7 +48,6 @@ export class ClienteCxcComponent implements OnInit {
   }
 
   saldar() {
-    console.log('Saldando cxc : ', this.selected);
     const facturas = this.selected;
     if (facturas.length > 0) {
       const msg = `Saldar ${this.selected.length} facturas seleccionadas`;
@@ -66,6 +71,28 @@ export class ClienteCxcComponent implements OnInit {
             });
             this.procesando = false;
             this.load();
+          }
+        });
+    }
+  }
+
+  juridico() {
+    const facturas = this.selected;
+    if (facturas.length > 0) {
+      const fac = facturas[0];
+      const msg = `Mandar a jurídico la factura ${
+        fac.documento
+      } con un saldo de: ${fac.saldo}`;
+      this.dialogService
+        .openConfirm({
+          title: 'Cuentas por cobrar',
+          message: msg,
+          acceptButton: 'Aceptar',
+          cancelButton: 'Cancelar'
+        })
+        .afterClosed()
+        .subscribe((res: Array<any>) => {
+          if (res) {
           }
         });
     }

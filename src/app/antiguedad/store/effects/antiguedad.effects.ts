@@ -85,4 +85,25 @@ export class AntiguedadEffects {
         );
       })
     );
+
+  @Effect({ dispatch: false })
+  printCarteraCOD$ = this.actions$.ofType(fromActions.PRINT_CARTERA_COD).pipe(
+    map((action: fromActions.PrintCarteraCodAction) => action.payload),
+    tap(payload => {
+      this.service
+        .reporteDeCobranzaCOD(payload.sucursal, payload.fecha)
+        .subscribe(
+          res => {
+            const blob = new Blob([res], {
+              type: 'application/pdf'
+            });
+            const fileUrl = window.URL.createObjectURL(blob);
+            window.open(fileUrl, '_blank');
+          },
+          error1 => {
+            console.log('Error al tratar de imprimir antiguead de saldos');
+          }
+        );
+    })
+  );
 }

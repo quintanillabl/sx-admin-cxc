@@ -10,6 +10,7 @@ import * as fromStore from '../../store';
 import { Cliente } from '../../models';
 import { ClienteCreditoFormComponent } from '../../components';
 import { CreditoService } from '../../services';
+import * as fromClientes from '../../store/actions/clientes.action';
 
 @Component({
   selector: 'sx-cliente-info',
@@ -47,10 +48,26 @@ export class ClienteInfoComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(res => {
       if (res) {
-        console.log('Actualizando credito: ', res);
+        const target = {
+          id: cliente.id,
+          credito: res
+        };
+        // this.store.dispatch(new fromClientes.UpdateCliente(target));
+
+        const { telefonos, ...bean } = cliente;
+        const target2 = {
+          id: cliente.id,
+          ...bean,
+          credito: res
+        };
+        this.store.dispatch(new fromClientes.UpdateCliente(target2));
+        console.log('Actualizando cliente: ', target2);
+
+        /*
         this.creditoService.update(cliente, res).subscribe(rr => {
           console.log(rr);
         });
+        */
       }
     });
   }

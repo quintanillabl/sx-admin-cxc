@@ -9,7 +9,10 @@ describe('ChequeDevueltoService', () => {
     });
   });
 
-  it('should be created', inject([ChequeDevueltoService], (service: ChequeDevueltoService) => {
-    expect(service).toBeTruthy();
-  }));
+  it(
+    'should be created',
+    inject([ChequeDevueltoService], (service: ChequeDevueltoService) => {
+      expect(service).toBeTruthy();
+    })
+  );
 });

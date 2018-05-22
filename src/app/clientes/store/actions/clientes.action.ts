@@ -39,6 +39,32 @@ export class UpdateClienteSuccess implements Action {
   constructor(public payload: Cliente) {}
 }
 
+// Search actions
+export const SEARCH_CLIENTES = '[Cliente] Search clientes';
+export const SEARCH_CLIENTES_FAIL = '[Cliente] Search  clientes Fail';
+export const SEARCH_CLIENTES_SUCCESS = '[Cliente] Search  clientes Success';
+
+export class SearchClientesAction implements Action {
+  readonly type = SEARCH_CLIENTES;
+  constructor(public payload: string) {}
+}
+export class SearchClientesActionFail implements Action {
+  readonly type = SEARCH_CLIENTES_FAIL;
+  constructor(public payload: any) {}
+}
+export class SearchClientesActionSuccess implements Action {
+  readonly type = SEARCH_CLIENTES_SUCCESS;
+  constructor(public payload: Cliente[]) {}
+}
+
+// Load single cliente
+export const LOAD_CLIENTE = '[Cliente] Load a single cliente';
+
+export class LoadClienteAction implements Action {
+  readonly type = LOAD_CLIENTE;
+  constructor(public payload: Cliente) {}
+}
+
 // Action types
 export type ClientesAction =
   | LoadClientes
@@ -46,4 +72,8 @@ export type ClientesAction =
   | LoadClientesSuccess
   | UpdateCliente
   | UpdateClienteFail
-  | UpdateClienteSuccess;
+  | UpdateClienteSuccess
+  | SearchClientesAction
+  | SearchClientesActionFail
+  | SearchClientesActionSuccess
+  | LoadClienteAction;

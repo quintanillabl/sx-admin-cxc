@@ -28,6 +28,7 @@ export function reducer(
       };
     }
 
+    case fromClientes.SEARCH_CLIENTES_SUCCESS:
     case fromClientes.LOAD_CLIENTES_SUCCESS: {
       const entities = _.keyBy(action.payload, 'id');
       return {
@@ -48,6 +49,17 @@ export function reducer(
 
     case fromClientes.UPDATE_CLIENTE_SUCCESS: {
       const cliente = action.payload;
+      const entities = { ...state.entities, [cliente.id]: cliente };
+
+      return {
+        ...state,
+        entities
+      };
+    }
+
+    case fromClientes.LOAD_CLIENTE: {
+      const cliente = action.payload;
+      console.log('Agregando cliente a store: ', cliente);
       const entities = { ...state.entities, [cliente.id]: cliente };
 
       return {

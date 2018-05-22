@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 
 import { Observable } from 'rxjs/Observable';
 import { catchError } from 'rxjs/operators';
@@ -33,6 +33,40 @@ export class AntiguedadService {
     const headers = new HttpHeaders().set('Content-type', 'application/pdf');
     return this.http
       .get(url, { headers: headers, responseType: 'blob' })
+      .pipe(catchError(error => Observable.throw(error)));
+  }
+
+  antiguedadPorCliente(cliente, fecha): Observable<any> {
+    const params = new HttpParams().set('cliente', cliente).set('fecha', fecha);
+    const url = this.config.buildApiUrl(
+      'cuentasPorCobrar/antiguedad/antiguedadPorCliente'
+    );
+    const headers = new HttpHeaders().set('Content-type', 'application/pdf');
+    return this.http
+      .get(url, { headers: headers, responseType: 'blob', params: params })
+      .pipe(catchError(error => Observable.throw(error)));
+  }
+
+  clientesSuspendidosCre(): Observable<any> {
+    const url = this.config.buildApiUrl(
+      'cuentasPorCobrar/antiguedad/clientesSuspendidosCre'
+    );
+    const headers = new HttpHeaders().set('Content-type', 'application/pdf');
+    return this.http
+      .get(url, { headers: headers, responseType: 'blob' })
+      .pipe(catchError(error => Observable.throw(error)));
+  }
+
+  facturasConNotaDevolucion(sucursal, fecha): Observable<any> {
+    const params = new HttpParams()
+      .set('sucursal', sucursal)
+      .set('fecha', fecha);
+    const url = this.config.buildApiUrl(
+      'cuentasPorCobrar/antiguedad/reporteDeCobranzaCOD'
+    );
+    const headers = new HttpHeaders().set('Content-type', 'application/pdf');
+    return this.http
+      .get(url, { headers: headers, responseType: 'blob', params: params })
       .pipe(catchError(error => Observable.throw(error)));
   }
 }

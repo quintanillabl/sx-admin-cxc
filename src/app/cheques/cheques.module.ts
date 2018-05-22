@@ -19,9 +19,9 @@ import { guards } from './guards';
     SharedModule,
     ChequesRoutingModule,
     StoreModule.forFeature('cobranza_che', reducers),
-    EffectsModule.forFeature(effects),
+    EffectsModule.forFeature(effects)
   ],
   declarations: [...components, ...containers],
-  providers: [...services, ...guards],
+  providers: [...services, ...guards]
 })
 export class ChequesModule {}

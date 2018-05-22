@@ -9,7 +9,6 @@ import { ClienteService } from './cliente.service';
 
 @Injectable()
 export class ClienteResolver implements Resolve<Observable<any>> {
-
   constructor(private service: ClienteService) {}
 
   resolve(route: ActivatedRouteSnapshot) {

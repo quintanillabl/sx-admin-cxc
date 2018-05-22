@@ -46,6 +46,15 @@ export class CxcTableComponent implements OnInit, OnChanges {
       format: date => this.datePipe.transform(date, 'dd/MM/yyyy')
     },
     {
+      name: 'vencimiento',
+      label: 'Vto',
+      format: date => this.datePipe.transform(date, 'dd/MM/yyyy')
+    },
+    {
+      name: 'atraso',
+      label: 'Atraso'
+    },
+    {
       name: 'total',
       label: 'Total',
       numeric: true,

@@ -8,6 +8,7 @@ import * as _ from 'lodash';
 
 import { ConfigService } from 'app/utils/config.service';
 import { Cliente } from '../models';
+import { CuentaPorCobrar } from '../../cobros/models/cuentaPorCobrar';
 
 @Injectable()
 export class ClienteService {
@@ -61,13 +62,13 @@ export class ClienteService {
     return this.http.get<Cliente[]>(url, { params: params });
   }
 
-  cxc(cliente: Cliente, filtro?: any): Observable<Cliente[]> {
+  cxc(cliente: Cliente, filtro?: any): Observable<CuentaPorCobrar[]> {
     let params = new HttpParams();
     _.forIn(filtro, (value, key) => {
       params = params.set(key, value);
     });
     const url = `${this.apiUrl}/${cliente.id}/cxc`;
-    return this.http.get<Cliente[]>(url, { params: params });
+    return this.http.get<CuentaPorCobrar[]>(url, { params: params });
   }
 
   saldarCxc(cxcId) {

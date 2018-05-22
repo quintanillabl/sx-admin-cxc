@@ -27,8 +27,8 @@ export class ClienteComponent implements OnInit {
     { path: 'cobros', title: 'Cobros', icon: 'attach_money' },
     { path: 'bonificaciones', title: 'Bonificaciones', icon: 'file_upload' },
     { path: 'devoluciones', title: 'Devoluciones', icon: 'file_upload' },
-    { path: 'cargos', title: 'Notas de cargo', icon: 'keyboard_tab' },
-    { path: '/clientes', title: 'Clientes', icon: 'arrow_back' }
+    { path: 'cargos', title: 'Notas de cargo', icon: 'keyboard_tab' }
+    // { path: '/clientes', title: 'Clientes', icon: 'arrow_back' }
   ];
 
   constructor(

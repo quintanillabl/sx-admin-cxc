@@ -48,9 +48,14 @@ export class SetSelectedFacturasActionFail implements Action {
 
 // Print actions
 export const PRINT_ANTIGUEDAD_ACTION = '[Antiguedad] Print antiguedad action';
+export const PRINT_CARTERA_COD = '[Antiguedad] Print cartera cod';
 
 export class PrintAntiguedadAction implements Action {
   readonly type = PRINT_ANTIGUEDAD_ACTION;
+}
+export class PrintCarteraCodAction implements Action {
+  readonly type = PRINT_CARTERA_COD;
+  constructor(public payload: any) {}
 }
 
 export type AntiguedadActions =
@@ -61,4 +66,5 @@ export type AntiguedadActions =
   | SetSelectedAction
   | SetSelectedFacturasAction
   | SetSelectedFacturasActionFail
-  | PrintAntiguedadAction;
+  | PrintAntiguedadAction
+  | PrintCarteraCodAction;

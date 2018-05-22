@@ -9,6 +9,7 @@ import { FechaDialogComponent } from './fecha-dilog/fecha.dialog.component';
 import { PeriodoDialogComponent } from './periodo-dialog/periodo-dialog.component';
 import { DireccionFormComponent } from './direccion-form/direccion-form.component';
 import { UpperCaseFieldComponent } from './upper-case-field/upper-case-field.component';
+import { SucursalFieldComponent } from './sucursal-field/sucursal-field.component';
 
 export const components = [
   DireccionComponent,
@@ -21,12 +22,14 @@ export const components = [
   FechaDialogComponent,
   PeriodoDialogComponent,
   DireccionFormComponent,
-  UpperCaseFieldComponent
+  UpperCaseFieldComponent,
+  SucursalFieldComponent
 ];
 
 export const entyComponents: any[] = [
   FechaDialogComponent,
-  PeriodoDialogComponent
+  PeriodoDialogComponent,
+  SucursalFieldComponent
 ];
 
 export * from './direccion/direccion.component';
@@ -40,3 +43,4 @@ export * from './fecha-dilog/fecha.dialog.component';
 export * from './periodo-dialog/periodo-dialog.component';
 export * from './direccion-form/direccion-form.component';
 export * from './upper-case-field/upper-case-field.component';
+export * from './sucursal-field/sucursal-field.component';
