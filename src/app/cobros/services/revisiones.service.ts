@@ -16,7 +16,7 @@ export class RevisionesService {
   }
 
   list(): Observable<VentaCredito[]> {
-    const url = `${this.apiUrl}`;
+    const url = `${this.apiUrl}/pendientes`;
     return this.http
       .get<VentaCredito[]>(url)
       .pipe(catchError(err => Observable.of(err)));
