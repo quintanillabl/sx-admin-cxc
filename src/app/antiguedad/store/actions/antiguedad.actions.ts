@@ -49,12 +49,32 @@ export class SetSelectedFacturasActionFail implements Action {
 // Print actions
 export const PRINT_ANTIGUEDAD_ACTION = '[Antiguedad] Print antiguedad action';
 export const PRINT_CARTERA_COD = '[Antiguedad] Print cartera cod';
+export const PRINT_ANTIGUEDAD_POR_CLIENTE_ACTION =
+  '[Antiguedad] Print antiguedad por cliente action';
+export const PRINT_CLIENTES_SUSPENEIDOS_ACTION =
+  '[Antiguedad] Clientes suspendidos';
+
+export const PRINT_FACTURAS_CON_DEVOLUCION_ACTION =
+  '[Antiguedad] Facturas con nota de devolucion action';
 
 export class PrintAntiguedadAction implements Action {
   readonly type = PRINT_ANTIGUEDAD_ACTION;
 }
 export class PrintCarteraCodAction implements Action {
   readonly type = PRINT_CARTERA_COD;
+  constructor(public payload: any) {}
+}
+export class PrintAntiguedadPorClienteAction implements Action {
+  readonly type = PRINT_ANTIGUEDAD_POR_CLIENTE_ACTION;
+  constructor(public payload: any) {}
+}
+
+export class PrintClientesSuspendidosAction implements Action {
+  readonly type = PRINT_CLIENTES_SUSPENEIDOS_ACTION;
+}
+
+export class PrintFacturasConDevolucionAction implements Action {
+  readonly type = PRINT_FACTURAS_CON_DEVOLUCION_ACTION;
   constructor(public payload: any) {}
 }
 
@@ -67,4 +87,7 @@ export type AntiguedadActions =
   | SetSelectedFacturasAction
   | SetSelectedFacturasActionFail
   | PrintAntiguedadAction
-  | PrintCarteraCodAction;
+  | PrintCarteraCodAction
+  | PrintAntiguedadPorClienteAction
+  | PrintClientesSuspendidosAction
+  | PrintFacturasConDevolucionAction;

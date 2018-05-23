@@ -16,11 +16,13 @@ import { guards } from './guards';
 import { components, componentsEntry } from './components';
 // containers
 import { containers } from './containers';
+import { ClientesModule } from '../clientes/clientes.module';
 
 @NgModule({
   imports: [
     SharedModule,
     AntiguedadRoutingModule,
+    ClientesModule,
     StoreModule.forFeature('antiguedadDeSaldos', reducers),
     EffectsModule.forFeature(effects)
   ],

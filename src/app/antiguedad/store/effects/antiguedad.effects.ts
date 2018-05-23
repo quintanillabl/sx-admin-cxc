@@ -106,4 +106,53 @@ export class AntiguedadEffects {
         );
     })
   );
+
+  @Effect({ dispatch: false })
+  printAntiguedadPorCte$ = this.actions$
+    .ofType(fromActions.PRINT_ANTIGUEDAD_POR_CLIENTE_ACTION)
+    .pipe(
+      map(
+        (action: fromActions.PrintAntiguedadPorClienteAction) => action.payload
+      ),
+      tap(payload => {
+        this.service
+          .antiguedadPorCliente(payload.cliente, payload.fecha)
+          .subscribe(
+            res => {
+              const blob = new Blob([res], {
+                type: 'application/pdf'
+              });
+              const fileUrl = window.URL.createObjectURL(blob);
+              window.open(fileUrl, '_blank');
+            },
+            error1 => {
+              console.log(
+                'Error al tratar de imprimir antiguead de saldos por cliente'
+              );
+            }
+          );
+      })
+    );
+
+  @Effect({ dispatch: false })
+  printClientesSuspendidos$ = this.actions$
+    .ofType(fromActions.PRINT_CLIENTES_SUSPENEIDOS_ACTION)
+    .pipe(
+      tap(() => {
+        this.service.clientesSuspendidosCre().subscribe(
+          res => {
+            const blob = new Blob([res], {
+              type: 'application/pdf'
+            });
+            const fileUrl = window.URL.createObjectURL(blob);
+            window.open(fileUrl, '_blank');
+          },
+          error1 => {
+            console.log(
+              'Error al tratar de imprimir reporte de clientes suspendidos'
+            );
+          }
+        );
+      })
+    );
 }

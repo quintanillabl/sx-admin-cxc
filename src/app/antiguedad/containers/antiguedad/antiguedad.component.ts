@@ -8,7 +8,11 @@ import * as fromStore from '../../store';
 import { AntiguedadDeSaldo } from '../../models/antiguedadDeSaldo';
 
 import { MatDialog } from '@angular/material';
-import { ReporteCarteraCodComponent } from '../../components';
+import {
+  RepAntigueadCteComponent,
+  RepFacturasNcComponent,
+  ReporteCarteraCodComponent
+} from '../../components';
 
 @Component({
   selector: 'sx-antiguedad',
@@ -47,9 +51,33 @@ export class AntiguedadComponent implements OnInit {
     this.store.dispatch(new fromStore.SetSearchTermAction(event));
   }
 
-  antiguedadPorCliente() {}
+  antiguedadPorCliente() {
+    this.dialog
+      .open(RepAntigueadCteComponent, { data: {}, width: '650px' })
+      .afterClosed()
+      .subscribe(res => {
+        if (res) {
+          this.store.dispatch(
+            new fromStore.PrintAntiguedadPorClienteAction(res)
+          );
+        }
+      });
+  }
 
-  clientesSuspendidosCre() {}
+  clientesSuspendidosCre() {
+    this.store.dispatch(new fromStore.PrintClientesSuspendidosAction());
+  }
 
-  facturasConNotaDevolucion() {}
+  facturasConNotaDevolucion() {
+    this.dialog
+      .open(RepFacturasNcComponent, { data: {}, width: '500px' })
+      .afterClosed()
+      .subscribe(res => {
+        if (res) {
+          this.store.dispatch(
+            new fromStore.PrintFacturasConDevolucionAction(res)
+          );
+        }
+      });
+  }
 }
