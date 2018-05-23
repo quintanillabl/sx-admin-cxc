@@ -67,12 +67,29 @@ export class AntiguedadService {
       .pipe(catchError(error => Observable.throw(error)));
   }
 
-  facturasConNotaDevolucion(sucursal, fecha): Observable<any> {
+  facturasConNotaDevolucion(command: any): Observable<any> {
     const params = new HttpParams()
-      .set('sucursal', sucursal)
-      .set('fecha', fecha);
+      .set('sucursal', command.sucursal)
+      .set('origen', command.origen)
+      .set('fechaIni', command.fechaIni)
+      .set('fechaFin', command.fechaFin);
     const url = this.config.buildApiUrl(
-      'cuentasPorCobrar/antiguedad/reporteDeCobranzaCOD'
+      'cuentasPorCobrar/antiguedad/facturasConNotaDevolucion'
+    );
+    const headers = new HttpHeaders().set('Content-type', 'application/pdf');
+    return this.http
+      .get(url, { headers: headers, responseType: 'blob', params: params })
+      .pipe(catchError(error => Observable.throw(error)));
+  }
+
+  exceptionesDescuentos(command: any): Observable<any> {
+    const params = new HttpParams()
+      .set('sucursal', command.sucursal)
+      .set('origen', command.origen)
+      .set('fechaIni', command.fechaIni)
+      .set('fechaFin', command.fechaFin);
+    const url = this.config.buildApiUrl(
+      'cuentasPorCobrar/antiguedad/reporteExceptionesDescuentos'
     );
     const headers = new HttpHeaders().set('Content-type', 'application/pdf');
     return this.http

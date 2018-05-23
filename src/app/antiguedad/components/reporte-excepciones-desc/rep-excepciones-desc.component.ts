@@ -4,11 +4,11 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material';
 
 @Component({
-  selector: 'sx-rep-facturas-nc',
+  selector: 'sx-rep-excepciones-desc',
   template: `
     <form [formGroup]="form" novalidate (ngSubmit)="doAccept()">
       <h4 md-dialog-title>
-        Facturas con nota de devolución
+        Excepciones en descuentos
       </h4>
 
       <div layout="column" class="selector-form">
@@ -25,7 +25,7 @@ import { MatDialogRef } from '@angular/material';
         </mat-form-field>
 
         <mat-form-field>
-          <mat-select  formControlName="origen" >
+          <mat-select formControlName="origen">
             <mat-option value="CRE">CRE</mat-option>
             <mat-option value="CON">CON</mat-option>
             <mat-option value="COD">COD</mat-option>
@@ -43,12 +43,12 @@ import { MatDialogRef } from '@angular/material';
   `,
   styles: []
 })
-export class RepFacturasNcComponent implements OnInit {
+export class RepExcepcionesDescComponent implements OnInit {
   form: FormGroup;
 
   constructor(
     private fb: FormBuilder,
-    public dialogRef: MatDialogRef<RepFacturasNcComponent>
+    public dialogRef: MatDialogRef<RepExcepcionesDescComponent>
   ) {}
 
   ngOnInit() {
@@ -56,7 +56,7 @@ export class RepFacturasNcComponent implements OnInit {
       fechaIni: [new Date(), Validators.required],
       fechaFin: [new Date(), Validators.required],
       sucursal: [null, Validators.required],
-      origen: ['CRE', Validators.required]
+      origen: ['CON', Validators.required]
     });
   }
 

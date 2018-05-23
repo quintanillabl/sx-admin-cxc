@@ -40,6 +40,12 @@ export class CobranzaComponent implements OnInit {
       title: 'Cargos',
       description: 'Notas de cargo',
       icon: 'event_busy'
+    },
+    {
+      path: 'comisiones',
+      title: 'Comisiones',
+      description: 'Comisiones cobradores',
+      icon: 'people'
     }
   ];
 

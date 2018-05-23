@@ -56,6 +56,8 @@ export const PRINT_CLIENTES_SUSPENEIDOS_ACTION =
 
 export const PRINT_FACTURAS_CON_DEVOLUCION_ACTION =
   '[Antiguedad] Facturas con nota de devolucion action';
+export const PRINT_EXCEPCIONES_DESCUENTOS_ACTION =
+  '[Antiguedad] Excepciones en descuentos action';
 
 export class PrintAntiguedadAction implements Action {
   readonly type = PRINT_ANTIGUEDAD_ACTION;
@@ -78,6 +80,11 @@ export class PrintFacturasConDevolucionAction implements Action {
   constructor(public payload: any) {}
 }
 
+export class PrintExceptionesDescuentosAction implements Action {
+  readonly type = PRINT_EXCEPCIONES_DESCUENTOS_ACTION;
+  constructor(public payload: any) {}
+}
+
 export type AntiguedadActions =
   | LoadAntiguedadAction
   | LoadAntiguedadActionFail
@@ -90,4 +97,5 @@ export type AntiguedadActions =
   | PrintCarteraCodAction
   | PrintAntiguedadPorClienteAction
   | PrintClientesSuspendidosAction
-  | PrintFacturasConDevolucionAction;
+  | PrintFacturasConDevolucionAction
+  | PrintExceptionesDescuentosAction;

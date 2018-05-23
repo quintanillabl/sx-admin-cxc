@@ -10,6 +10,7 @@ import { AntiguedadDeSaldo } from '../../models/antiguedadDeSaldo';
 import { MatDialog } from '@angular/material';
 import {
   RepAntigueadCteComponent,
+  RepExcepcionesDescComponent,
   RepFacturasNcComponent,
   ReporteCarteraCodComponent
 } from '../../components';
@@ -74,8 +75,22 @@ export class AntiguedadComponent implements OnInit {
       .afterClosed()
       .subscribe(res => {
         if (res) {
+          console.log('Rep: ', res);
           this.store.dispatch(
             new fromStore.PrintFacturasConDevolucionAction(res)
+          );
+        }
+      });
+  }
+
+  exceptionesEnDescuentos() {
+    this.dialog
+      .open(RepExcepcionesDescComponent, { data: {}, width: '500px' })
+      .afterClosed()
+      .subscribe(res => {
+        if (res) {
+          this.store.dispatch(
+            new fromStore.PrintExceptionesDescuentosAction(res)
           );
         }
       });

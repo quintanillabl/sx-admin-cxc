@@ -164,22 +164,45 @@ export class AntiguedadEffects {
         (action: fromActions.PrintFacturasConDevolucionAction) => action.payload
       ),
       tap(payload => {
-        this.service
-          .facturasConNotaDevolucion(payload.cliente, payload.fecha)
-          .subscribe(
-            res => {
-              const blob = new Blob([res], {
-                type: 'application/pdf'
-              });
-              const fileUrl = window.URL.createObjectURL(blob);
-              window.open(fileUrl, '_blank');
-            },
-            error1 => {
-              console.log(
-                'Error al tratar de imprimir antiguead de saldos por cliente'
-              );
-            }
-          );
+        this.service.facturasConNotaDevolucion(payload).subscribe(
+          res => {
+            const blob = new Blob([res], {
+              type: 'application/pdf'
+            });
+            const fileUrl = window.URL.createObjectURL(blob);
+            window.open(fileUrl, '_blank');
+          },
+          error1 => {
+            console.log(
+              'Error al tratar de imprimir antiguead de saldos por cliente'
+            );
+          }
+        );
+      })
+    );
+
+  @Effect({ dispatch: false })
+  printExceptionesDescuentos$ = this.actions$
+    .ofType(fromActions.PRINT_EXCEPCIONES_DESCUENTOS_ACTION)
+    .pipe(
+      map(
+        (action: fromActions.PrintExceptionesDescuentosAction) => action.payload
+      ),
+      tap(payload => {
+        this.service.exceptionesDescuentos(payload).subscribe(
+          res => {
+            const blob = new Blob([res], {
+              type: 'application/pdf'
+            });
+            const fileUrl = window.URL.createObjectURL(blob);
+            window.open(fileUrl, '_blank');
+          },
+          error1 => {
+            console.log(
+              'Error al tratar de imprimir reporte de exceptiones en descuentos'
+            );
+          }
+        );
       })
     );
 }

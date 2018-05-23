@@ -55,6 +55,10 @@ const routes: Routes = [
       {
         path: 'cargos/edit/:id',
         component: fromContainers.CargoEditComponent
+      },
+      {
+        path: 'comisiones',
+        component: fromContainers.ComisionesComponent
       }
     ]
   },
