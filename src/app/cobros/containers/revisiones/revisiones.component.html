@@ -18,6 +18,9 @@
         <input matInput placeholder="Cobrador" type ="number" (input)="cobrador$.next($event.target.value)">
       </mat-form-field>
       <mat-form-field class="pad-left">
+        <input matInput placeholder="Factura" type ="number" (input)="factura$.next($event.target.value)">
+      </mat-form-field>
+      <mat-form-field class="pad-left">
         <input matInput placeholder="Revisión / Cobro" type ="date" (input)="fechaRevision$.next($event.target.value)">
       </mat-form-field>
       <span flex></span>

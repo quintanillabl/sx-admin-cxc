@@ -35,6 +35,7 @@ export class RevisionesComponent implements OnInit {
   fechaRevision$ = new BehaviorSubject(null);
   sucursal$ = new BehaviorSubject(null);
   cobrador$ = new BehaviorSubject(null);
+  factura$ = new BehaviorSubject(null);
 
   _selectedRows: any[] = [];
 
@@ -93,6 +94,14 @@ export class RevisionesComponent implements OnInit {
         if (cobrador) {
           return facturas.filter((item: any) => {
             return item.cobrador.sw2.toString() === cobrador.toString();
+          });
+        }
+        return facturas;
+      }),
+      combineLatest(this.factura$, (facturas, factura) => {
+        if (factura) {
+          return facturas.filter((item: any) => {
+            return item.documento.toString() === factura.toString();
           });
         }
         return facturas;
