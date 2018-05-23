@@ -1,0 +1,31 @@
+.mat-table {
+  overflow: auto;
+  min-height: 400px;
+  max-height: 550px;
+}
+
+.mat-column-cliente{
+  min-width: 300px;
+}
+
+.mat-column-fechaDocumento {
+  max-width: 110px;
+}
+.mat-column-clave {
+  max-width: 90px;
+  text-align: center;
+}
+
+.mat-column-tipo, .mat-column-documento{
+  max-width: 100px;
+  // font-size: 10px;
+}
+
+.mat-row {
+  cursor: pointer;
+  min-height: 35px;
+  position: relative; // For matRipple
+  &:hover {
+    background: rgba(105, 71, 7, 0.09);
+  }
+}

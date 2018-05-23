@@ -1,4 +1,64 @@
 <mat-card>
-  <sx-search-title title="Comisiones para cobradores y vendedores"></sx-search-title>
+  <div layout layout-align="start center" flex class="pad-left-sm pad-right-sm">
+    <span class="push-left-sm">
+      <span class="mat-title">Comisiones (Cobradores/Vendedores)</span>
+    </span>
+    <a class="pad-left pad-right" mat-button (click)="changePeriodo()">{{periodo.toString()}}</a>
+    <span flex></span>
+    <div layout class="pad-right pad-left">
+      <mat-form-field>
+        <input matInput placeholder="Factura" (keyup)="factura$.next(factura.value)" #factura>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput placeholder="Cliente" (keyup)="cliente$.next(cliente.value)" #cliente>
+      </mat-form-field>
+    </div>
 
+    <span flex></span>
+
+  </div>
+  <mat-divider></mat-divider>
+
+  <mat-table [dataSource]="comisiones$">
+    <ng-container matColumnDef="cliente">
+      <mat-header-cell *matHeaderCellDef>Cliente</mat-header-cell>
+      <mat-cell *matCellDef="let row">{{row.cliente}}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="clave">
+      <mat-header-cell *matHeaderCellDef>Comisionista</mat-header-cell>
+      <mat-cell *matCellDef="let row">
+        <span class="text-right">{{row.clave}}</span>
+      </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="tipo">
+      <mat-header-cell *matHeaderCellDef>Tipo</mat-header-cell>
+      <mat-cell *matCellDef="let row">
+         <span class="text-md"> {{row.tipo}} ({{(row.comision/100) | percent:'1.2-2'  }})</span>
+      </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="documento">
+      <mat-header-cell *matHeaderCellDef>Documento</mat-header-cell>
+      <mat-cell *matCellDef="let row">{{row.documentoTipo}} - {{row.documento}}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="fechaDocumento">
+      <mat-header-cell *matHeaderCellDef>Documento</mat-header-cell>
+      <mat-cell *matCellDef="let row">{{row.fechaDocto | date: 'dd/MM/yyyy'}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="total">
+      <mat-header-cell *matHeaderCellDef>Tot Docto</mat-header-cell>
+      <mat-cell *matCellDef="let row">{{row.total | currency}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="pagoComisionable">
+      <mat-header-cell *matHeaderCellDef>Pago</mat-header-cell>
+      <mat-cell *matCellDef="let row">{{row.pagoComisionable | currency}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="comisionImporte">
+      <mat-header-cell *matHeaderCellDef>Comisión</mat-header-cell>
+      <mat-cell *matCellDef="let row">{{row.comisionImporte | currency}} </mat-cell>
+    </ng-container>
+
+
+    <mat-header-row *matHeaderRowDef="displayColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayColumns;"></mat-row>
+  </mat-table>
 </mat-card>
