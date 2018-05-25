@@ -135,7 +135,6 @@ export class ComisionesComponent implements OnInit, OnDestroy {
             ...data,
             ...this.periodo.toApiJSON()
           };
-          console.log('Ejecutando reporte: ', command);
           this.loading = true;
           this.service
             .reporte(command)

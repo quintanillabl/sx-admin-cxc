@@ -8,8 +8,8 @@ import { MAT_DIALOG_DATA } from '@angular/material';
     <mat-dialog-content >
       <div layout="column" layout-margin >
         <mat-select [(value)]="tipo" placeholder="Tipo">
-          <mat-option value="COBRADOR">Cobrador</mat-option>
-          <mat-option value="VENDEDOR">Vendedor</mat-option>
+          <mat-option value="COB">Cobrador</mat-option>
+          <mat-option value="VEN">Vendedor</mat-option>
         </mat-select>
         <div layout class="pad-top">
           <mat-form-field flex>
@@ -28,7 +28,7 @@ import { MAT_DIALOG_DATA } from '@angular/material';
   styles: []
 })
 export class ReporteDeComisionesComponent implements OnInit {
-  tipo = 'COBRADOR';
+  tipo = 'COB';
   comisionista;
   todos = false;
 
