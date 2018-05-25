@@ -23,5 +23,27 @@ export class ComisionesService {
       .pipe(catchError(err => Observable.of(err)));
   }
 
-  generar(fechaInicial, fechaFinal) {}
+  generar(command: any): Observable<any[]> {
+    const url = `${this.apiUrl}/generarComisiones`;
+    const params = new HttpParams()
+      .set('fechaInicial', command.fechaInicial)
+      .set('fechaFinal', command.fechaFinal)
+      .set('tipo', command.tipo);
+    return this.http
+      .get<any[]>(url, { params: params })
+      .pipe(catchError(err => Observable.of(err)));
+  }
+
+  reporte(command: any): Observable<any> {
+    const url = `${this.apiUrl}/reporteDeComisiones`;
+    const params = new HttpParams()
+      .set('fechaInicial', command.fechaInicial)
+      .set('fechaFinal', command.fechaFinal)
+      .set('comisionista', command.comisionista)
+      .set('tipo', command.tipo);
+    const headers = new HttpHeaders().set('Content-type', 'application/pdf');
+    return this.http
+      .get(url, { headers: headers, responseType: 'blob', params: params })
+      .pipe(catchError(error => Observable.throw(error)));
+  }
 }

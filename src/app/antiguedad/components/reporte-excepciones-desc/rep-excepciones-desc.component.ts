@@ -3,6 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material';
 
+import { Periodo } from 'app/_core/models/periodo';
+
 @Component({
   selector: 'sx-rep-excepciones-desc',
   template: `
@@ -24,13 +26,13 @@ import { MatDialogRef } from '@angular/material';
           <mat-datepicker #picker2></mat-datepicker>
         </mat-form-field>
 
-        <mat-form-field>
+        <!--<mat-form-field>
           <mat-select formControlName="origen">
             <mat-option value="CRE">CRE</mat-option>
             <mat-option value="CON">CON</mat-option>
             <mat-option value="COD">COD</mat-option>
           </mat-select>
-        </mat-form-field>
+        </mat-form-field>-->
 
       </div>
 
@@ -52,10 +54,11 @@ export class RepExcepcionesDescComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    const periodo = Periodo.mesActual();
     this.form = this.fb.group({
-      fechaIni: [new Date(), Validators.required],
+      fechaIni: [periodo.fechaInicial, Validators.required],
       fechaFin: [new Date(), Validators.required],
-      sucursal: [null, Validators.required],
+      sucursal: [null],
       origen: ['CON', Validators.required]
     });
   }
@@ -67,10 +70,11 @@ export class RepExcepcionesDescComponent implements OnInit {
   doAccept() {
     const fechaIni: Date = this.form.get('fechaIni').value;
     const fechaFin: Date = this.form.get('fechaFin').value;
+    const sucursal = this.form.get('sucursal').value;
     const res = {
       fechaIni: fechaIni.toISOString(),
       fechaFin: fechaFin.toISOString(),
-      sucursal: this.form.get('sucursal').value.id,
+      sucursal: sucursal ? sucursal.id : null,
       origen: this.form.get('origen').value
     };
     this.dialogRef.close(res);

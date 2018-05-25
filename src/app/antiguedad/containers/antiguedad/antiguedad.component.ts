@@ -42,7 +42,6 @@ export class AntiguedadComponent implements OnInit {
       .afterClosed()
       .subscribe(res => {
         if (res) {
-          console.log('Imprimiendo Cartera COD: ', res);
           this.store.dispatch(new fromStore.PrintCarteraCodAction(res));
         }
       });
@@ -75,7 +74,6 @@ export class AntiguedadComponent implements OnInit {
       .afterClosed()
       .subscribe(res => {
         if (res) {
-          console.log('Rep: ', res);
           this.store.dispatch(
             new fromStore.PrintFacturasConDevolucionAction(res)
           );

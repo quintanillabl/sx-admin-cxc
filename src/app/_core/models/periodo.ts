@@ -34,6 +34,13 @@ export class Periodo {
     return new Periodo(f1.toDate(), f2.toDate());
   }
 
+  static fromStorage(key: string, notFound: Periodo = Periodo.mesActual()) {
+    return this.fromJson(localStorage.getItem(key)) || notFound;
+  }
+  static saveOnStorage(key: string, periodo: Periodo) {
+    return localStorage.setItem(key, periodo.toJson());
+  }
+
   constructor(
     public fechaInicial: Date = new Date(),
     public fechaFinal: Date = new Date()

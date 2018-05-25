@@ -11,6 +11,9 @@ import { VentasCreditoTableComponent } from './ventas-credito-table/ventas-credi
 import { RevisionFormComponent } from './revision-form/revision-form.component';
 import { ReporteDeRevisionComponent } from './reporte-de-revision/reporte-de-revision.component';
 import { CobradorFieldComponent } from './cobrador-field/cobrador-field.component';
+import { GeneraComisionesComponent } from './genera-comisiones/genera-comisiones.component';
+import { ComisionesTableComponent } from './comisiones-table/comisiones-table.component';
+import { ReporteDeComisionesComponent } from './reporte-de-comisiones/reporte-de-comisiones.component';
 
 export const components: any[] = [
   CobrosTableComponent,
@@ -25,12 +28,17 @@ export const components: any[] = [
   VentasCreditoTableComponent,
   RevisionFormComponent,
   ReporteDeRevisionComponent,
-  CobradorFieldComponent
+  CobradorFieldComponent,
+  GeneraComisionesComponent,
+  ComisionesTableComponent,
+  ReporteDeComisionesComponent
 ];
 export const entryComponents: any[] = [
   FacturasSelectorComponent,
   RevisionFormComponent,
-  ReporteDeRevisionComponent
+  ReporteDeRevisionComponent,
+  GeneraComisionesComponent,
+  ReporteDeComisionesComponent
 ];
 
 export * from './cobros-table/cobros-table.component';
@@ -46,3 +54,6 @@ export * from './ventas-credito-table/ventas-credito-table.component';
 export * from './revision-form/revision-form.component';
 export * from './reporte-de-revision/reporte-de-revision.component';
 export * from './cobrador-field/cobrador-field.component';
+export * from './genera-comisiones/genera-comisiones.component';
+export * from './comisiones-table/comisiones-table.component';
+export * from './reporte-de-comisiones/reporte-de-comisiones.component';

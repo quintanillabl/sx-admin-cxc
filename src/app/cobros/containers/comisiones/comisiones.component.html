@@ -1,4 +1,6 @@
-<mat-card>
+<ng-template tdLoading [tdLoadingUntil]="!loading" tdLoadingStrategy="overlay" >
+
+  <mat-card >
   <div layout layout-align="start center" flex class="pad-left-sm pad-right-sm">
     <span class="push-left-sm">
       <span class="mat-title">Comisiones (Cobradores/Vendedores)</span>
@@ -6,59 +8,66 @@
     <a class="pad-left pad-right" mat-button (click)="changePeriodo()">{{periodo.toString()}}</a>
     <span flex></span>
     <div layout class="pad-right pad-left">
-      <mat-form-field>
-        <input matInput placeholder="Factura" (keyup)="factura$.next(factura.value)" #factura>
+
+      <mat-form-field class="pad-left pad-right">
+        <input matInput placeholder="Factura" (keyup)="factura$.next(factura.value)" #factura autocomplete="false">
       </mat-form-field>
-      <mat-form-field>
-        <input matInput placeholder="Cliente" (keyup)="cliente$.next(cliente.value)" #cliente>
+      <mat-form-field class="pad-left pad-right">
+        <input matInput placeholder="Cliente" (keyup)="cliente$.next(cliente.value)" #cliente autocomplete="false">
       </mat-form-field>
+
+      <mat-form-field class="pad-left pad-right">
+        <input matInput placeholder="Comisionista" (keyup)="comisionista$.next(comisionista.value)" #comisionista autocomplete="off">
+      </mat-form-field>
+
     </div>
 
     <span flex></span>
+    <span>
+      <button mat-icon-button [matMenuTriggerFor]="toolbarMenu">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+      <mat-menu #toolbarMenu="matMenu">
+        <button mat-menu-item (click)="generar()"><mat-icon>settings</mat-icon>Generar</button>
+        <button mat-menu-item (click)="reporteDeComisiones()"><mat-icon>picture_as_pdf</mat-icon> Rep Comisiones</button>
+      </mat-menu>
+    </span>
 
   </div>
   <mat-divider></mat-divider>
+  <div class="mat-elevation-z8 comisiones-table-container">
+    <sx-comisiones-table [comisiones]="comisiones$ | async"></sx-comisiones-table>
+  </div>
 
-  <mat-table [dataSource]="comisiones$">
-    <ng-container matColumnDef="cliente">
-      <mat-header-cell *matHeaderCellDef>Cliente</mat-header-cell>
-      <mat-cell *matCellDef="let row">{{row.cliente}}</mat-cell>
-    </ng-container>
-    <ng-container matColumnDef="clave">
-      <mat-header-cell *matHeaderCellDef>Comisionista</mat-header-cell>
-      <mat-cell *matCellDef="let row">
-        <span class="text-right">{{row.clave}}</span>
-      </mat-cell>
-    </ng-container>
-    <ng-container matColumnDef="tipo">
-      <mat-header-cell *matHeaderCellDef>Tipo</mat-header-cell>
-      <mat-cell *matCellDef="let row">
-         <span class="text-md"> {{row.tipo}} ({{(row.comision/100) | percent:'1.2-2'  }})</span>
-      </mat-cell>
-    </ng-container>
-    <ng-container matColumnDef="documento">
-      <mat-header-cell *matHeaderCellDef>Documento</mat-header-cell>
-      <mat-cell *matCellDef="let row">{{row.documentoTipo}} - {{row.documento}}</mat-cell>
-    </ng-container>
-    <ng-container matColumnDef="fechaDocumento">
-      <mat-header-cell *matHeaderCellDef>Documento</mat-header-cell>
-      <mat-cell *matCellDef="let row">{{row.fechaDocto | date: 'dd/MM/yyyy'}} </mat-cell>
-    </ng-container>
-    <ng-container matColumnDef="total">
-      <mat-header-cell *matHeaderCellDef>Tot Docto</mat-header-cell>
-      <mat-cell *matCellDef="let row">{{row.total | currency}} </mat-cell>
-    </ng-container>
-    <ng-container matColumnDef="pagoComisionable">
-      <mat-header-cell *matHeaderCellDef>Pago</mat-header-cell>
-      <mat-cell *matCellDef="let row">{{row.pagoComisionable | currency}} </mat-cell>
-    </ng-container>
-    <ng-container matColumnDef="comisionImporte">
-      <mat-header-cell *matHeaderCellDef>Comisión</mat-header-cell>
-      <mat-cell *matCellDef="let row">{{row.comisionImporte | currency}} </mat-cell>
-    </ng-container>
+  </mat-card>
+  <div layout>
+    <span flex></span>
+    <mat-card>
+      <mat-divider></mat-divider>
+      <div class="totales-panel" layout="column">
+        <mat-list *ngIf="totales$ | async as totales">
+          <mat-list-item>
+            <span class="text-right ">Totales</span>
+            <mat-divider></mat-divider>
+          </mat-list-item>
+          <mat-list-item>
+            <p matLine> Facturas</p>
+            <h3>{{totales.facturas}}</h3>
+            <mat-divider insert></mat-divider>
+          </mat-list-item>
+          <mat-list-item>
+            <p matLine> Importe comisionable</p>
+            <h3>{{totales.importe | currency}}</h3>
+            <mat-divider insert></mat-divider>
+          </mat-list-item>
+          <mat-list-item>
+            <p matLine> Comisión</p>
+            <h3>{{totales.total | currency}}</h3>
+            <mat-divider insert></mat-divider>
+          </mat-list-item>
+        </mat-list>
+      </div>
+    </mat-card>
 
-
-    <mat-header-row *matHeaderRowDef="displayColumns"></mat-header-row>
-    <mat-row *matRowDef="let row; columns: displayColumns;"></mat-row>
-  </mat-table>
-</mat-card>
+  </div>
+</ng-template>

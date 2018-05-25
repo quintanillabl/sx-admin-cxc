@@ -1,0 +1,47 @@
+<mat-table [dataSource]="dataSource" matSort>
+  <ng-container matColumnDef="cliente">
+    <mat-header-cell *matHeaderCellDef mat-sort-header>Cliente</mat-header-cell>
+    <mat-cell *matCellDef="let row">{{row.cliente}}</mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="clave">
+    <mat-header-cell *matHeaderCellDef mat-sort-header>Comisionista</mat-header-cell>
+    <mat-cell *matCellDef="let row">
+      <span class="text-right">{{row.clave}}</span>
+    </mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="tipo">
+    <mat-header-cell *matHeaderCellDef>Tipo</mat-header-cell>
+    <mat-cell *matCellDef="let row">
+      <span class="text-md"> {{row.tipo}} ({{(row.comision/100) | percent:'1.2-2'  }})</span>
+    </mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="documento">
+    <mat-header-cell *matHeaderCellDef mat-sort-header>Documento</mat-header-cell>
+    <mat-cell *matCellDef="let row">{{row.documentoTipo}} - {{row.documento}}</mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="fechaDocumento">
+    <mat-header-cell *matHeaderCellDef>Fecha Dcto</mat-header-cell>
+    <mat-cell *matCellDef="let row">{{row.fechaDocto | date: 'dd/MM/yyyy'}} </mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="total" >
+    <mat-header-cell *matHeaderCellDef mat-sort-header>Tot Dcto</mat-header-cell>
+    <mat-cell *matCellDef="let row">{{row.total | currency}} </mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="pagoComisionable">
+    <mat-header-cell *matHeaderCellDef>Pago</mat-header-cell>
+    <mat-cell *matCellDef="let row">{{row.pagoComisionable | currency}} </mat-cell>
+  </ng-container>
+  <ng-container matColumnDef="comisionImporte">
+    <mat-header-cell *matHeaderCellDef>Comisión</mat-header-cell>
+    <mat-cell *matCellDef="let row">{{row.comisionImporte | currency}} </mat-cell>
+  </ng-container>
+
+
+  <mat-header-row *matHeaderRowDef="displayColumns"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: displayColumns;"></mat-row>
+</mat-table>
+<mat-paginator #paginator
+               [pageSize]="50"
+               [pageSizeOptions]="[10, 20, 50, 100, 500]"
+               [showFirstLastButtons]="true">
+</mat-paginator>

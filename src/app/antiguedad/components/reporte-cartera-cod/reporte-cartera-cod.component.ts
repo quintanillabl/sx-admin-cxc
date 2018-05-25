@@ -8,7 +8,7 @@ import { MatDialogRef } from '@angular/material';
   template: `
     <form [formGroup]="form" novalidate (ngSubmit)="doAccept()">
       <h4 md-dialog-title>
-        Reporte de facturas cobradas
+        Cartera de COD
       </h4>
 
       <div layout="column" class="selector-form">
