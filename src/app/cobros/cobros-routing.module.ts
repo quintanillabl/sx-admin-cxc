@@ -12,6 +12,7 @@ const routes: Routes = [
     component: fromContainers.CobranzaComponent,
     data: { cartera: { clave: 'CRE', descripcion: 'CREDITO' } },
     children: [
+      { path: 'facturas', component: fromContainers.FacturasComponent },
       { path: 'cobros', component: fromContainers.CobrosComponent },
       {
         path: 'cobros/:id',

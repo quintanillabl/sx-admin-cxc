@@ -13,6 +13,12 @@ import { CobrosService } from '../../services';
 export class CobranzaComponent implements OnInit {
   navigation = [
     {
+      path: 'facturas',
+      title: 'Facturas',
+      descripcion: 'Registro de facturas',
+      icon: 'shopping_cart'
+    },
+    {
       path: 'cobros',
       title: 'Cobros',
       description: 'Registro de cobros',

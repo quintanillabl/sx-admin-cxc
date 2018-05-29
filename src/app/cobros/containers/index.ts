@@ -11,6 +11,7 @@ import { CargoShowComponent } from './cargo-show/cargo-show.component';
 import { CargoEditComponent } from './cargo-edit/cargo-edit.component';
 import { RevisionesComponent } from './revisiones/revisiones.component';
 import { ComisionesComponent } from './comisiones/comisiones.component';
+import { FacturasComponent } from './facturas/facturas.component';
 
 export const containers: any[] = [
   CobranzaComponent,
@@ -25,7 +26,8 @@ export const containers: any[] = [
   CargoShowComponent,
   CargoEditComponent,
   RevisionesComponent,
-  ComisionesComponent
+  ComisionesComponent,
+  FacturasComponent
 ];
 
 export * from './cobranza/cobranza.component';
@@ -41,3 +43,4 @@ export * from './cargo-show/cargo-show.component';
 export * from './cargo-edit/cargo-edit.component';
 export * from './revisiones/revisiones.component';
 export * from './comisiones/comisiones.component';
+export * from './facturas/facturas.component';

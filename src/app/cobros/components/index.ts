@@ -14,6 +14,7 @@ import { CobradorFieldComponent } from './cobrador-field/cobrador-field.componen
 import { GeneraComisionesComponent } from './genera-comisiones/genera-comisiones.component';
 import { ComisionesTableComponent } from './comisiones-table/comisiones-table.component';
 import { ReporteDeComisionesComponent } from './reporte-de-comisiones/reporte-de-comisiones.component';
+import { FacturasTable2Component } from './facturas-table2/facturas-table2.component';
 
 export const components: any[] = [
   CobrosTableComponent,
@@ -31,7 +32,8 @@ export const components: any[] = [
   CobradorFieldComponent,
   GeneraComisionesComponent,
   ComisionesTableComponent,
-  ReporteDeComisionesComponent
+  ReporteDeComisionesComponent,
+  FacturasTable2Component
 ];
 export const entryComponents: any[] = [
   FacturasSelectorComponent,
@@ -57,3 +59,4 @@ export * from './cobrador-field/cobrador-field.component';
 export * from './genera-comisiones/genera-comisiones.component';
 export * from './comisiones-table/comisiones-table.component';
 export * from './reporte-de-comisiones/reporte-de-comisiones.component';
+export * from './facturas-table2/facturas-table2.component';

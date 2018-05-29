@@ -1,0 +1,23 @@
+<td-data-table #dataTable [data]="filteredData" [columns]="columns" [selectable]="selectable" [clickable]="true" [multiple]="true"
+  [sortable]="true" [sortBy]="sortBy" [(ngModel)]="selectedRows" [sortOrder]="sortOrder" (sortChange)="sort($event)" (rowSelect)="selectionChange()"
+  (selectAll)="selectionChange()">
+  <ng-template tdDataTableTemplate="operaciones" let-value="value" let-row="row">
+    <button mat-icon-button (click)="print.emit(row)">
+      <mat-icon>print</mat-icon>
+    </button>
+    <button mat-icon-button (click)="download.emit(row)">
+      <mat-icon>file_download</mat-icon>
+    </button>
+  </ng-template>
+</td-data-table>
+
+<td-paging-bar #pagingBar [pageSize]="pageSize" [total]="filteredTotal" (change)="page($event)">
+  <span hide-xs>Registros por pagina:</span>
+  <mat-select [style.width.px]="10" [(ngModel)]="pageSize">
+    <mat-option *ngFor="let size of [10,50,100,500]" [value]="size">
+      {{size}}
+    </mat-option>
+  </mat-select>
+  {{pagingBar.range}}
+  <span hide-xs>of {{pagingBar.total}}</span>
+</td-paging-bar>
