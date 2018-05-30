@@ -3,7 +3,6 @@
     <span class="push-left-sm">
       <span class="mat-title">Facturas a revisión</span>
     </span>
-    <span flex></span>
     <span *ngIf="!searchBox.searchVisible" class="push-left-sm">
       <span *ngIf="selectedRows.length" class="mat-body-1">
         {{selectedRows.length}} registro(s) seleccionados
@@ -12,24 +11,25 @@
     <div layout class="pad-left pad-right pad-top" layout-align="center center">
 
       <mat-form-field class="pad-left">
-        <input matInput placeholder="Sucursal" type ="text" (input)="sucursal$.next($event.target.value)">
+        <input matInput placeholder="Sucursal" type="text" (input)="sucursal$.next($event.target.value)">
       </mat-form-field>
-      <mat-form-field class="pad-left">
-        <input matInput placeholder="Cobrador" type ="number" (input)="cobrador$.next($event.target.value)">
+      <mat-form-field class="pad-left" [style.max-width.px]="100">
+        <input matInput placeholder="Cobrador" type="number" (input)="cobrador$.next($event.target.value)">
       </mat-form-field>
-      <mat-form-field class="pad-left">
-        <input matInput placeholder="Factura" type ="number" (input)="factura$.next($event.target.value)">
+      <mat-form-field class="pad-left" [style.max-width.px]="120">
+        <input matInput placeholder="Factura" type="number" (input)="factura$.next($event.target.value)">
       </mat-form-field>
-      <mat-form-field class="pad-left">
-        <input matInput placeholder="Revisión / Cobro" type ="date" (input)="fechaRevision$.next($event.target.value)">
+      <mat-form-field class="pad-left pad-right">
+        <input matInput placeholder="Revisión / Cobro" type="date" (input)="fechaRevision$.next($event.target.value)">
       </mat-form-field>
-      <span flex></span>
-      <mat-checkbox (change)="porRecibir$.next($event.source.checked)" class="pad-right">Por recibir</mat-checkbox>
-      <mat-checkbox (change)="porRevisar$.next($event.source.checked)">Por revisar</mat-checkbox>
 
+      <span layout=column>
+        <mat-checkbox (change)="porRecibir$.next($event.source.checked)" class="pad-right">Por recibir</mat-checkbox>
+        <mat-checkbox (change)="porRevisar$.next($event.source.checked)">Por revisar</mat-checkbox>
+      </span>
     </div>
     <td-search-box #searchBox backIcon="arrow_back" class="push-right-sm" placeholder="Buscar" (searchDebounce)="search($event)"
-                   flex>
+      flex>
     </td-search-box>
     <span>
       <button mat-icon-button [matMenuTriggerFor]="toolbarMenu">
@@ -46,7 +46,7 @@
           <mat-icon>swap_vert</mat-icon> Actualizar
         </button>
         <button mat-menu-item (click)="reporte()">
-            <mat-icon>picture_as_pdf</mat-icon> Reporte
+          <mat-icon>picture_as_pdf</mat-icon> Reporte
         </button>
         <ng-container *ngIf="isSelectionEditable()">
           <button mat-menu-item (click)="recepcion(true)">
@@ -68,9 +68,7 @@
   <mat-divider></mat-divider>
   <div>
     <ng-template tdLoading [tdLoadingUntil]="!(loading$ | async)" tdLoadingStrategy="overlay">
-      <sx-ventas-credito-table #table
-        [data]="facturas$ | async"
-        (selection)="onSelection($event)" [selectedRows]="selectedRows">
+      <sx-ventas-credito-table #table [data]="facturas$ | async" (selection)="onSelection($event)" [selectedRows]="selectedRows">
       </sx-ventas-credito-table>
     </ng-template>
   </div>

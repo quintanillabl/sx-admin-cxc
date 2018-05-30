@@ -141,7 +141,6 @@ export class VentasCreditoTableComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes) {
     if (changes.data) {
-      console.log('Camio de facturas: ', changes);
       this.filter();
     }
   }

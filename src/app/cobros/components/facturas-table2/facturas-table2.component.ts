@@ -105,7 +105,7 @@ export class FacturasTable2Component implements OnInit, OnChanges {
 
   ngOnChanges(changes) {
     if (changes.data) {
-      //  console.log('Detectando cambios: ', changes);
+      // console.log('Detectando cambios: ', changes.data.currentValue);
       this.filter();
     }
   }
