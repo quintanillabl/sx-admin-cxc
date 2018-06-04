@@ -12,7 +12,8 @@ import {
   RepAntigueadCteComponent,
   RepExcepcionesDescComponent,
   RepFacturasNcComponent,
-  ReporteCarteraCodComponent
+  ReporteCarteraCodComponent,
+  RepAntigueadComponent
 } from '../../components';
 
 @Component({
@@ -33,7 +34,15 @@ export class AntiguedadComponent implements OnInit {
   }
 
   antiguedadGlobal() {
-    this.store.dispatch(new fromStore.PrintAntiguedadAction());
+    this.dialog
+      .open(RepAntigueadComponent, { data: {}, width: '400px' })
+      .afterClosed()
+      .subscribe(res => {
+        if (res) {
+          console.log('Reporte de fecha: ', res);
+          this.store.dispatch(new fromStore.PrintAntiguedadAction(res));
+        }
+      });
   }
 
   carteraCOD() {

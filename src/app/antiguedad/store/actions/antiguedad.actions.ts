@@ -61,6 +61,7 @@ export const PRINT_EXCEPCIONES_DESCUENTOS_ACTION =
 
 export class PrintAntiguedadAction implements Action {
   readonly type = PRINT_ANTIGUEDAD_ACTION;
+  constructor(public payload: any) {}
 }
 export class PrintCarteraCodAction implements Action {
   readonly type = PRINT_CARTERA_COD;

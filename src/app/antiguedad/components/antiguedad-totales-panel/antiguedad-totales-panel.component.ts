@@ -36,7 +36,7 @@ export class AntiguedadTotalesPanelComponent implements OnInit {
   }
 
   get de61_90() {
-    return _.sumBy(this.saldos, 'de31_60');
+    return _.sumBy(this.saldos, 'de61_90');
   }
 
   get mas90() {

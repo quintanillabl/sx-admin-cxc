@@ -68,7 +68,7 @@ export class CobranzaComponent implements OnInit {
   ngOnInit() {
     this.cartera = this.route.snapshot.data.cartera;
     if (this.cartera.clave === 'CON') {
-      this.navigation.splice(0, 1); // Contado no ocupa Cobros
+      this.navigation.splice(1, 1); // Contado no ocupa Cobros
     }
   }
 

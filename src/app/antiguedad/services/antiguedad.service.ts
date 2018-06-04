@@ -28,11 +28,12 @@ export class AntiguedadService {
       .pipe(catchError(error => Observable.throw(error)));
   }
 
-  print(): Observable<any> {
+  print(fecha): Observable<any> {
+    const params = new HttpParams().set('fecha', fecha);
     const url = this.config.buildApiUrl('cuentasPorCobrar/antiguedad/print');
     const headers = new HttpHeaders().set('Content-type', 'application/pdf');
     return this.http
-      .get(url, { headers: headers, responseType: 'blob' })
+      .get(url, { headers: headers, params: params, responseType: 'blob' })
       .pipe(catchError(error => Observable.throw(error)));
   }
 

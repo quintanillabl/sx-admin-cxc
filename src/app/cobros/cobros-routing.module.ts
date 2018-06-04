@@ -68,6 +68,7 @@ const routes: Routes = [
     component: fromContainers.CobranzaComponent,
     data: { cartera: { clave: 'CON', descripcion: 'CONTADO' } },
     children: [
+      { path: 'facturas', component: fromContainers.FacturasComponent },
       { path: 'devoluciones', component: fromContainers.DevolucionesComponent },
       {
         path: 'devoluciones/show/:id',
