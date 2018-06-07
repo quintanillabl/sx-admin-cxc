@@ -36,7 +36,7 @@ export class CobroComponent implements OnInit {
 
   ngOnInit() {
     this.cobro = this.route.snapshot.data.cobro;
-    // console.log('Administracion de cobro: ', this.cobro);
+    console.log('Administracion de cobro: ', this.cobro);
     this.cargarPendientes();
   }
 
@@ -51,7 +51,7 @@ export class CobroComponent implements OnInit {
   cargarPendientes() {
     this.selectedCuentasPorPagar = [];
     this.pendientes$ = this.service
-      .cuentasPorCobrar(this.cobro.cliente, 'CRE')
+      .cuentasPorCobrar(this.cobro.cliente, this.cobro.tipo)
       .pipe(catchError(err => Observable.of(err)));
   }
 

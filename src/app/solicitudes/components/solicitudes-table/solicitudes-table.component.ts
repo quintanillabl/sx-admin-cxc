@@ -21,6 +21,11 @@ export class SolicitudesTableComponent implements OnInit {
       width: 90
     },
     {
+      name: 'tipo',
+      label: 'Tipo',
+      width: 90
+    },
+    {
       name: 'fechaDeposito',
       label: 'Fecha Dep',
       numeric: false,

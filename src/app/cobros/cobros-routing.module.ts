@@ -105,9 +105,9 @@ const routes: Routes = [
     ]
   },
   {
-    path: 'jur',
+    path: 'che',
     component: fromContainers.CobranzaComponent,
-    data: { cartera: { clave: 'JUR', descripcion: 'JURIDICO' } },
+    data: { cartera: { clave: 'CHE', descripcion: 'CHEQUES DEVUELTOS' } },
     children: [
       { path: 'cobros', component: fromContainers.CobrosComponent },
       {
@@ -115,6 +115,7 @@ const routes: Routes = [
         component: fromContainers.CobroComponent,
         resolve: { cobro: CobroResolver }
       },
+      { path: 'facturas', component: fromContainers.FacturasComponent },
       {
         path: 'bonificaciones',
         component: fromContainers.BonificacionesComponent

@@ -6,6 +6,8 @@ import { MatDialog } from '@angular/material';
 import { FechaDialogComponent } from '../../../_shared/components';
 import { CobrosService } from '../../services';
 
+import * as _ from 'lodash';
+
 @Component({
   selector: 'sx-cobranza',
   templateUrl: './cobranza.component.html'
@@ -15,7 +17,7 @@ export class CobranzaComponent implements OnInit {
     {
       path: 'facturas',
       title: 'Facturas',
-      descripcion: 'Registro de facturas',
+      description: 'Cuentas por cobrar',
       icon: 'shopping_cart'
     },
     {
@@ -69,6 +71,11 @@ export class CobranzaComponent implements OnInit {
     this.cartera = this.route.snapshot.data.cartera;
     if (this.cartera.clave === 'CON') {
       this.navigation.splice(1, 1); // Contado no ocupa Cobros
+    }
+    if (this.cartera.clave === 'CHE') {
+      _.remove(this.navigation, item => item.path === 'devoluciones');
+      _.remove(this.navigation, item => item.path === 'revisiones');
+      _.remove(this.navigation, item => item.path === 'comisiones');
     }
   }
 

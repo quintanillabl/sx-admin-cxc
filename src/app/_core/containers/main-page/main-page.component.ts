@@ -40,7 +40,7 @@ export class MainPageComponent implements OnInit {
     },
     {
       icon: 'format_list_bulleted',
-      route: '/che',
+      route: '/cobranza/che',
       title: 'Cobranza (CHE)'
     },
     {
