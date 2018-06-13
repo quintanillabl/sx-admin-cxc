@@ -15,7 +15,7 @@
   <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
 
     <div layout="column" class="pad-left pad-right">
-      <sx-cliente-field formControlName="cliente" flex></sx-cliente-field>
+      <sx-cliente-field formControlName="cliente" flex tipo="TODOS"></sx-cliente-field>
       <div layout>
         <mat-form-field class="pad-right">
           <mat-select placeholder="Cálculo" formControlName="tipoDeCalculo">
@@ -40,7 +40,7 @@
           </textarea>
         </mat-form-field>
         <sx-facturas-selector-btn #insertBtn [disabled]="form.get('cliente').value === null" [cliente]="form.get('cliente').value"
-          (seleccionar)="agregarFacturas($event)">
+          [cartera]="cartera" (seleccionar)="agregarFacturas($event)">
         </sx-facturas-selector-btn>
       </div>
     </div>

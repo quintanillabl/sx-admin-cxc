@@ -23,7 +23,7 @@ export class FacturasSelectorComponent implements OnInit {
       nested: true,
       width: 120
     },
-    { name: 'tipoDocumento', label: 'Tipo', numeric: true, width: 70 },
+    { name: 'tipo', label: 'Tipo', numeric: true, width: 70 },
     { name: 'documento', label: 'Factura', numeric: true, width: 70 },
     {
       name: 'fecha',
