@@ -18,8 +18,11 @@ import { storeFreeze } from 'ngrx-store-freeze';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+
 import { SharedModule } from './_shared/shared.module';
+import { ReportesModule } from './reportes/reportes.module';
 import { CoreModule } from './_core/core.module';
+
 import { ConfigService } from './utils/config.service';
 import { ClientesModule } from './clientes/clientes.module';
 
@@ -51,7 +54,8 @@ export function onAppInit(configService: ConfigService): () => Promise<any> {
     StoreRouterConnectingModule,
 
     SharedModule,
-    CoreModule
+    CoreModule,
+    ReportesModule.forRoot()
     // ClientesModule.forRoot()
   ],
   providers: [

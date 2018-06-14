@@ -16,6 +16,9 @@ import {
   RepAntigueadComponent
 } from '../../components';
 
+import { ReportesService } from 'app/reportes/services';
+import { RepPeriodoSucursalComponent } from '../../../reportes/components';
+
 @Component({
   selector: 'sx-antiguedad',
   templateUrl: './antiguedad.component.html',
@@ -26,7 +29,8 @@ export class AntiguedadComponent implements OnInit {
 
   constructor(
     private store: Store<fromStore.AntiguedadDeSaldoState>,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private reportService: ReportesService
   ) {}
 
   ngOnInit() {
@@ -99,6 +103,35 @@ export class AntiguedadComponent implements OnInit {
           this.store.dispatch(
             new fromStore.PrintExceptionesDescuentosAction(res)
           );
+        }
+      });
+  }
+
+  ventasAcumuladas() {
+    // this.reportService.ventasAcumuladas();
+    this.dialog
+      .open(RepPeriodoSucursalComponent, {
+        data: { title: 'Reporte de ventas acumuladas' },
+        width: '550px'
+      })
+      .afterClosed()
+      .subscribe(command => {
+        if (command) {
+          this.reportService.runReport('ventas/ventasAcumuladas', command);
+        }
+      });
+  }
+
+  ventasPorFacturista() {
+    this.dialog
+      .open(RepPeriodoSucursalComponent, {
+        data: { title: 'Ventas por facturista', sucursalOpcional: false },
+        width: '550px'
+      })
+      .afterClosed()
+      .subscribe(command => {
+        if (command) {
+          this.reportService.runReport('ventas/ventaPorFacturista', command);
         }
       });
   }

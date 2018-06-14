@@ -1,54 +1,54 @@
-<mat-card >
+<mat-card>
   <mat-card-title>Totales </mat-card-title>
   <mat-divider></mat-divider>
   <div class="pad" layout="column">
     <mat-list>
 
       <mat-list-item>
-        <h2  mat-line> Sado</h2>
+        <h2 mat-line> Sado</h2>
         <h3>{{saldo | currency}}</h3>
       </mat-list-item>
-
       <mat-divider matInset></mat-divider>
 
       <mat-list-item>
-        <h2  mat-line> Vencido</h2>
-        <h3>{{vencido | currency}}</h3>
-      </mat-list-item>
-      <mat-divider matInset></mat-divider>
-
-      <mat-list-item>
-        <h2  mat-line> X Venver</h2>
+        <h2 mat-line> X Venver</h2>
         <h3>{{porVencer | currency}}</h3>
       </mat-list-item>
       <mat-divider matInset></mat-divider>
 
       <mat-list-item>
-        <h2  mat-line>De 1 a 30</h2>
+        <h2 mat-line> Vencido</h2>
+        <h3>{{vencido | currency}}</h3>
+      </mat-list-item>
+      <mat-divider matInset></mat-divider>
+
+
+      <mat-list-item>
+        <h2 mat-line>De 1 a 30</h2>
         <h3>{{de1_30 | currency}}</h3>
       </mat-list-item>
       <mat-divider matInset></mat-divider>
 
       <mat-list-item>
-        <h2  mat-line>De 31 a 60</h2>
+        <h2 mat-line>De 31 a 60</h2>
         <h3>{{de31_60 | currency}}</h3>
       </mat-list-item>
       <mat-divider matInset></mat-divider>
 
       <mat-list-item>
-        <h2  mat-line>De 61 a 90</h2>
+        <h2 mat-line>De 61 a 90</h2>
         <h3>{{de61_90 | currency}}</h3>
       </mat-list-item>
       <mat-divider matInset></mat-divider>
 
       <mat-list-item>
-        <h2  mat-line>Mas de 90</h2>
+        <h2 mat-line>Mas de 90</h2>
         <h3>{{mas90 | currency}}</h3>
       </mat-list-item>
       <mat-divider matInset></mat-divider>
 
       <mat-list-item>
-        <h2  mat-line>Participación</h2>
+        <h2 mat-line>Participación</h2>
         <h3>{{part/100 | percent}}</h3>
       </mat-list-item>
       <mat-divider matInset></mat-divider>
