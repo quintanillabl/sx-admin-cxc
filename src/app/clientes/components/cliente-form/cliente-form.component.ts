@@ -70,7 +70,8 @@ export class ClienteFormComponent implements OnInit {
         ]
       ],
       activo: [true, Validators.required],
-      cfdiMail: [null, [Validators.required, Validators.email]],
+      // cfdiMail: [null, [Validators.required, Validators.email]],
+      cfdiMail: [null, [Validators.email]],
       telefonos: this.fb.array([])
     });
   }
