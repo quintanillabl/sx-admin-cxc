@@ -33,6 +33,20 @@
       <p matLine> Reporte de cobranza </p>
     </mat-list-item>
     <mat-divider [inset]="true"></mat-divider>
+
+    <mat-list-item (click)="estadoDeCuentaGeneralChe()" *ngIf="cartera.clave == 'CHE'">
+      <mat-icon matListAvatar>insert_chart</mat-icon>
+      <h3 matLine> Estado de Cta </h3>
+      <p matLine> Estado de cta general </p>
+    </mat-list-item>
+
+    <mat-list-item (click)="estadoDeCuentaDetChe()" *ngIf="cartera.clave == 'CHE'">
+      <mat-icon matListAvatar>insert_chart</mat-icon>
+      <h3 matLine> Estado de Cta (DET)</h3>
+      <p matLine> Estado de cta Detalle </p>
+    </mat-list-item>
+
+    <mat-divider [inset]="true"></mat-divider>
   </mat-nav-list>
   <div>
     <router-outlet></router-outlet>

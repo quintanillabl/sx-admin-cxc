@@ -13,11 +13,12 @@ import {
   RepExcepcionesDescComponent,
   RepFacturasNcComponent,
   ReporteCarteraCodComponent,
-  RepAntigueadComponent
+  RepAntigueadComponent,
+  RepCtePerSucComponent
 } from '../../components';
 
 import { ReportesService } from 'app/reportes/services';
-import { RepPeriodoSucursalComponent } from '../../../reportes/components';
+import { RepPeriodoSucursalComponent } from 'app/reportes/components';
 
 @Component({
   selector: 'sx-antiguedad',
@@ -132,6 +133,20 @@ export class AntiguedadComponent implements OnInit {
       .subscribe(command => {
         if (command) {
           this.reportService.runReport('ventas/ventaPorFacturista', command);
+        }
+      });
+  }
+
+  ventasPorCliente() {
+    this.dialog
+      .open(RepCtePerSucComponent, {
+        data: { title: 'Ventas por cliente' },
+        width: '650px'
+      })
+      .afterClosed()
+      .subscribe(command => {
+        if (command) {
+          this.reportService.runReport('ventas/ventaPorCliente', command);
         }
       });
   }

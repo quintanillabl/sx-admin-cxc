@@ -7,6 +7,9 @@ import { FechaDialogComponent } from '../../../_shared/components';
 import { CobrosService } from '../../services';
 
 import * as _ from 'lodash';
+import * as moment from 'moment';
+
+import { ReportesService } from 'app/reportes/services';
 
 @Component({
   selector: 'sx-cobranza',
@@ -64,7 +67,8 @@ export class CobranzaComponent implements OnInit {
     public media: TdMediaService,
     private route: ActivatedRoute,
     private dialog: MatDialog,
-    private service: CobrosService
+    private service: CobrosService,
+    private reportService: ReportesService
   ) {}
 
   ngOnInit() {
@@ -98,5 +102,41 @@ export class CobranzaComponent implements OnInit {
         );
       }
     });
+  }
+
+  estadoDeCuentaGeneralChe() {
+    this.dialog
+      .open(FechaDialogComponent, {
+        data: { title: 'Estado de cuenta general' },
+        width: '650px'
+      })
+      .afterClosed()
+      .subscribe((fecha: Date) => {
+        if (fecha) {
+          const params = { fecha: moment(fecha).format('DD/MM/YYYY') };
+          this.reportService.runReport(
+            'cxc/cheques/estadoDeCuentaGeneralChe',
+            params
+          );
+        }
+      });
+  }
+
+  estadoDeCuentaDetChe() {
+    this.dialog
+      .open(FechaDialogComponent, {
+        data: { title: 'Estado de cuenta a detalle' },
+        width: '650px'
+      })
+      .afterClosed()
+      .subscribe((fecha: Date) => {
+        if (fecha) {
+          const params = { fecha: moment(fecha).format('DD/MM/YYYY') };
+          this.reportService.runReport(
+            'cxc/cheques/estadoDeCuentaDetChe',
+            params
+          );
+        }
+      });
   }
 }
