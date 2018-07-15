@@ -20,24 +20,18 @@ export class MejoresClientesService {
       .pipe(catchError(err => Observable.of(err)));
   }
 
-  generar(command: any): Observable<any[]> {
-    const url = `${this.apiUrl}/generarComisiones`;
-    const params = new HttpParams()
-      .set('fechaInicial', command.fechaInicial)
-      .set('fechaFinal', command.fechaFinal)
-      .set('tipo', command.tipo);
+  generar(ejercicio: number, mes: number): Observable<any[]> {
+    const url = `${this.apiUrl}/generar/${ejercicio}/${mes}`;
     return this.http
-      .get<any[]>(url, { params: params })
+      .get<any[]>(url)
       .pipe(catchError(err => Observable.of(err)));
   }
 
-  reporte(command: any): Observable<any> {
-    const url = `${this.apiUrl}/reporteDeComisiones`;
+  reporte(ejercicio: number, mes: number): Observable<any> {
+    const url = `${this.apiUrl}/reporte`;
     const params = new HttpParams()
-      .set('fechaInicial', command.fechaInicial)
-      .set('fechaFinal', command.fechaFinal)
-      .set('comisionista', command.comisionista)
-      .set('tipo', command.tipo);
+      .set('EJERCICIO', ejercicio.toString())
+      .set('MES', mes.toString())
     const headers = new HttpHeaders().set('Content-type', 'application/pdf');
     return this.http
       .get(url, { headers: headers, responseType: 'blob', params: params })

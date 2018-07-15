@@ -1,10 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 
 import { Observable } from 'rxjs/Observable';
+import { of } from 'rxjs/Observable/of';
+import { finalize, catchError } from 'rxjs/operators';
 
 import { MejoresClientesService } from '../../services';
 import { Mes } from 'app/_core/models/mes';
-import { TdDialogService } from '../../../../../node_modules/@covalent/core';
+
+import { TdDialogService } from '@covalent/core';
 
 @Component({
   selector: 'sx-mejores-clientes',
@@ -49,6 +52,7 @@ export class MejoresClientesComponent implements OnInit {
   ejercicio = 2018;
   mes: Mes;
   meses = Mes.MESES;
+  loading = false;
   constructor(
     private service: MejoresClientesService,
     private dialogService: TdDialogService
@@ -74,7 +78,14 @@ export class MejoresClientesComponent implements OnInit {
       .afterClosed()
       .subscribe(res => {
         if (res) {
-          console.log('Ejecutando...');
+          this.loading = true;
+          this.service
+            .generar(this.ejercicio, this.mes.clave)
+            .pipe(
+              finalize(() => (this.loading = false))
+              // catchError( (error => of(error) )
+            )
+            .subscribe(clientes => this.load());
         }
       });
   }
