@@ -75,6 +75,14 @@ export class CobranzaComponent implements OnInit {
     this.cartera = this.route.snapshot.data.cartera;
     if (this.cartera.clave === 'CON') {
       this.navigation.splice(1, 1); // Contado no ocupa Cobros
+      _.remove(this.navigation, item => item.path === 'comisiones');
+      _.remove(this.navigation, item => item.path === 'revisiones');
+      this.navigation.push({
+        path: 'mejoresClientes',
+        title: 'Mejores clientes',
+        description: 'Bonificaciones MC',
+        icon: 'people'
+      });
     }
     if (this.cartera.clave === 'CHE') {
       _.remove(this.navigation, item => item.path === 'devoluciones');

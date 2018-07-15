@@ -101,6 +101,10 @@ const routes: Routes = [
       {
         path: 'cargos/edit/:id',
         component: fromContainers.CargoEditComponent
+      },
+      {
+        path: 'mejoresClientes',
+        component: fromContainers.MejoresClientesComponent
       }
     ]
   },
