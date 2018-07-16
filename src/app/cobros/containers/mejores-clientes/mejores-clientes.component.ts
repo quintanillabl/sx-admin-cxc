@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/Observable/of';
 import { finalize, catchError } from 'rxjs/operators';
 
-import { MejoresClientesService } from '../../services';
+import { BonificacionesMCService } from '../../services';
 import { Mes } from 'app/_core/models/mes';
 
 import { TdDialogService } from '@covalent/core';
@@ -13,7 +13,7 @@ import { TdDialogService } from '@covalent/core';
   selector: 'sx-mejores-clientes',
   template: `
     <mat-card>
-      <sx-search-title title="Mejores clientes">
+      <sx-search-title title="Mejores clientes" (search)="onSearch($event)">
         <div class="options" layout flex>
 
           <mat-select placeholder="Ejercicio" [(value)]="ejercicio">
@@ -23,7 +23,7 @@ import { TdDialogService } from '@covalent/core';
           </mat-select>
 
 
-          <mat-select placeholder="Mes" [(ngModel)]="mes" class="pad-left">
+          <mat-select placeholder="Mes" [(ngModel)]="mes" class="pad-left" (change)="onChange($event)">
             <mat-option *ngFor="let mes of meses" [value]="mes">
               {{mes.descripcion}}
             </mat-option>
@@ -34,7 +34,8 @@ import { TdDialogService } from '@covalent/core';
       </sx-search-title>
       <mat-divider></mat-divider>
       <div class="mc-panel">
-        <sx-mejores-clientes-table [clientes]="clientes$ | async"></sx-mejores-clientes-table>
+        <sx-mejores-clientes-table
+          [clientes]="clientes$ | async" [search]="searchTerm"></sx-mejores-clientes-table>
       </div>
     </mat-card>
   `,
@@ -53,8 +54,9 @@ export class MejoresClientesComponent implements OnInit {
   mes: Mes;
   meses = Mes.MESES;
   loading = false;
+  searchTerm: string;
   constructor(
-    private service: MejoresClientesService,
+    private service: BonificacionesMCService,
     private dialogService: TdDialogService
   ) {}
 
@@ -65,6 +67,13 @@ export class MejoresClientesComponent implements OnInit {
 
   load() {
     this.clientes$ = this.service.list(this.ejercicio, this.mes.clave);
+  }
+
+  onSearch(event: string) {
+    this.searchTerm = event;
+  }
+  onChange(event) {
+    this.load();
   }
 
   generarRegistros() {

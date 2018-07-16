@@ -5,7 +5,8 @@ import { NotadecargoService } from './notadeCargo.service';
 import { RevisionesService } from './revisiones.service';
 import { ComisionesService } from './comisions.service';
 import { FacturasService } from './facturas.service';
-import { MejoresClientesService } from './mejores-clientes.service';
+import { BonificacionesMCService } from './bonificacionesMC.service';
+
 
 export const services: any[] = [
   CobrosService,
@@ -15,7 +16,7 @@ export const services: any[] = [
   RevisionesService,
   ComisionesService,
   FacturasService,
-  MejoresClientesService
+  BonificacionesMCService
 ];
 
 export * from './cobros.service';
@@ -25,4 +26,6 @@ export * from './notadeCargo.service';
 export * from './revisiones.service';
 export * from './comisions.service';
 export * from './facturas.service';
-export * from './mejores-clientes.service';
+export * from './bonificacionesMC.service';
+
+

@@ -1,1 +1,34 @@
-<h2>Tabla de registros</h2>
+<div class="table-container">
+  <mat-table [dataSource]="dataSource" matSort>
+    <ng-container matColumnDef="cliente">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Cliente</mat-header-cell>
+      <mat-cell *matCellDef="let row">{{row.nombre}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="ventas">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Ventas</mat-header-cell>
+      <mat-cell *matCellDef="let row">{{row.ventas | currency}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="bono">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Bono (%)</mat-header-cell>
+      <mat-cell *matCellDef="let row">{{row.bono | percent}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="importe">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Bono ($)</mat-header-cell>
+      <mat-cell *matCellDef="let row">{{row.importe | currency}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="vencimiento">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Vto</mat-header-cell>
+      <mat-cell *matCellDef="let row">{{row.importe | date}}</mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayColumns;"></mat-row>
+  </mat-table>
+  <mat-paginator #paginator [pageSize]="20" [pageSizeOptions]="[20, 40, 100, 200]" [showFirstLastButtons]="true">
+  </mat-paginator>
+
+</div>

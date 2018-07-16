@@ -4,23 +4,24 @@ import { Observable } from 'rxjs/Observable';
 
 import { ConfigService } from '../../utils/config.service';
 import { catchError } from 'rxjs/operators';
+import { BonificacionMC } from '../models/bonificacionMC';
 
 @Injectable()
-export class MejoresClientesService {
+export class BonificacionesMCService {
   private apiUrl: string;
 
   constructor(private http: HttpClient, private configService: ConfigService) {
     this.apiUrl = configService.buildApiUrl('crm/mejoresClientes');
   }
 
-  list(ejercicio: number, mes: number): Observable<any[]> {
+  list(ejercicio: number, mes: number): Observable<BonificacionMC[]> {
     const url = `${this.apiUrl}/${ejercicio}/${mes}`;
     return this.http
       .get<any[]>(url)
       .pipe(catchError(err => Observable.of(err)));
   }
 
-  generar(ejercicio: number, mes: number): Observable<any[]> {
+  generar(ejercicio: number, mes: number): Observable<BonificacionMC[]> {
     const url = `${this.apiUrl}/generar/${ejercicio}/${mes}`;
     return this.http
       .get<any[]>(url)
@@ -31,7 +32,7 @@ export class MejoresClientesService {
     const url = `${this.apiUrl}/reporte`;
     const params = new HttpParams()
       .set('EJERCICIO', ejercicio.toString())
-      .set('MES', mes.toString())
+      .set('MES', mes.toString());
     const headers = new HttpHeaders().set('Content-type', 'application/pdf');
     return this.http
       .get(url, { headers: headers, responseType: 'blob', params: params })
