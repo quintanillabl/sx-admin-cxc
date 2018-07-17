@@ -11,7 +11,7 @@ export class BonificacionesMCService {
   private apiUrl: string;
 
   constructor(private http: HttpClient, private configService: ConfigService) {
-    this.apiUrl = configService.buildApiUrl('crm/mejoresClientes');
+    this.apiUrl = configService.buildApiUrl('bonificacionesMC');
   }
 
   list(ejercicio: number, mes: number): Observable<BonificacionMC[]> {
@@ -25,6 +25,34 @@ export class BonificacionesMCService {
     const url = `${this.apiUrl}/generar/${ejercicio}/${mes}`;
     return this.http
       .get<any[]>(url)
+      .pipe(catchError(err => Observable.of(err)));
+  }
+
+  autorizar(bonificacionId: string): Observable<BonificacionMC> {
+    const url = `${this.apiUrl}/autorizar/${bonificacionId}`;
+    return this.http
+      .get<BonificacionMC>(url)
+      .pipe(catchError(err => Observable.of(err)));
+  }
+
+  autorizacionBatch(
+    ejercicio: number,
+    mes: number
+  ): Observable<BonificacionMC[]> {
+    const url = `${this.apiUrl}/autorizarBatch/${ejercicio}/${mes}`;
+    return this.http
+      .get<any[]>(url)
+      .pipe(catchError(err => Observable.of(err)));
+  }
+
+  suspender(
+    bonificacionId: string,
+    comentario: string
+  ): Observable<BonificacionMC> {
+    const params = new HttpParams().set('comentario', comentario);
+    const url = `${this.apiUrl}/suspender/${bonificacionId}`;
+    return this.http
+      .get<BonificacionMC>(url, { params: params })
       .pipe(catchError(err => Observable.of(err)));
   }
 

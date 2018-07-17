@@ -79,8 +79,8 @@ export class CobranzaComponent implements OnInit {
       _.remove(this.navigation, item => item.path === 'revisiones');
       this.navigation.push({
         path: 'mejoresClientes',
-        title: 'Mejores clientes',
-        description: 'Bonificaciones MC',
+        title: 'Bonificaciones MC',
+        description: 'Mejores clientes',
         icon: 'people'
       });
     }

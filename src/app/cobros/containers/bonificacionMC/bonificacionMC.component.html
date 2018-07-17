@@ -1,0 +1,96 @@
+<div layout *ngIf="bonificacion$ | async as bonificacion">
+  <mat-card flex="40">
+    <mat-card-title-group>
+      <mat-card-title>
+        {{bonificacion.nombre}}
+      </mat-card-title>
+      <mat-card-subtitle>
+        <span layout>
+          <span>{{bonificacion.mes}} / {{bonificacion.ejercicio}}</span>
+          <span flex></span>
+          <span>Posición:</span>
+          <span class="pad-left tc-blue-800"> {{bonificacion.posicion}}</span>
+        </span>
+      </mat-card-subtitle>
+    </mat-card-title-group>
+    <mat-divider></mat-divider>
+    <mat-card-content>
+      <mat-list>
+        <mat-list-item>
+          <h3 matLine> Ventas </h3>
+          <p matLine layout>
+            <span>Kilos: {{bonificacion.ventasKilos}}</span>
+            <span class="pad-left">Facturas: {{bonificacion.facturas}}</span>
+          </p>
+          <p matLine>U.Venta: {{bonificacion.ultimaVenta | date: 'dd/MM/yyyy'}}</p>
+          <span>{{bonificacion.ventas | currency}}</span>
+          <mat-divider matInset></mat-divider>
+        </mat-list-item>
+
+        <mat-list-item>
+          <h3 matLine> Bono ({{bonificacion.bono | percent}})</h3>
+          <span>{{bonificacion.importe | currency}}</span>
+          <mat-divider matInset></mat-divider>
+        </mat-list-item>
+
+        <mat-list-item>
+          <h3 matLine> Aplicado </h3>
+          <span>{{bonificacion.aplicado | currency}}</span>
+          <mat-divider matInset></mat-divider>
+        </mat-list-item>
+
+        <mat-list-item>
+          <h3 matLine> Ajuste </h3>
+          <span>{{bonificacion.ajuste | currency}}</span>
+          <mat-divider matInset></mat-divider>
+        </mat-list-item>
+
+        <mat-list-item>
+          <h3 matLine> Disponible </h3>
+          <span>{{bonificacion.disponible | currency}}</span>
+          <mat-divider matInset></mat-divider>
+        </mat-list-item>
+
+        <mat-list-item>
+          <h3 matLine> Autorizado </h3>
+          <span>{{bonificacion.autorizado | date: 'dd/MM/yyyy'}}</span>
+          <mat-divider matInset></mat-divider>
+        </mat-list-item>
+
+        <mat-list-item>
+          <h3 matLine> Vencimiento </h3>
+          <p matLine layout>
+            <span>Fecha: {{bonificacion.fecha | date: 'dd/MM/yyyy'}}</span>
+            <span class="pad-sm-left">Vig: {{bonificacion.vigenciaDias}} dias</span>
+          </p>
+          <span>{{bonificacion.vencimiento | date: 'dd/MM/yyyy'}}</span>
+          <mat-divider matInset></mat-divider>
+        </mat-list-item>
+
+        <mat-list-item *ngIf="bonificacion.suspendido">
+          <h3 matLine> Suspendido </h3>
+          <p matLine>
+            <span class="pad-sm-left">{{bonificacion.suspendidoComentario}}</span>
+          </p>
+          <span>{{bonificacion.suspendido | date: 'dd/MM/yyyy'}}</span>
+          <mat-divider matInset></mat-divider>
+        </mat-list-item>
+
+      </mat-list>
+    </mat-card-content>
+
+    <mat-card-actions align="end">
+      <ng-template tdLoading [tdLoadingUntil]="!(loading$ | async)" tdLoadingStrategy="overlay">
+        <button mat-button (click)="goBack()">
+          <mat-icon>arrow_back</mat-icon> Regresar
+        </button>
+        <button mat-button color="accent" (click)="autorizar(bonificacion)" *ngIf="!bonificacion.suspendido && !bonificacion.autorizado">
+          <mat-icon>check</mat-icon> Autorizar
+        </button>
+        <button mat-button color="warn" (click)="suspender(bonificacion)" *ngIf="!bonificacion.suspendido">
+          <mat-icon>not_interested</mat-icon> Suspender
+        </button>
+      </ng-template>
+    </mat-card-actions>
+  </mat-card>
+</div>

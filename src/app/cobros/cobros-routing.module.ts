@@ -104,7 +104,13 @@ const routes: Routes = [
       },
       {
         path: 'mejoresClientes',
+        canActivate: [fromGuards.BonificacionesMCGuard],
         component: fromContainers.MejoresClientesComponent
+      },
+      {
+        path: 'mejoresClientes/:bonificacionId',
+        canActivate: [fromGuards.BonificacionMCExistsGuard],
+        component: fromContainers.BonificacionMCComponent
       }
     ]
   },

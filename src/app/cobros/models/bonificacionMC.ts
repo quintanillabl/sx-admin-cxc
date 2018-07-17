@@ -11,6 +11,7 @@ export interface BonificacionMC {
   bono: number;
   importe: number;
   aplicado: number;
+  ajuste: number;
   disponible: number;
   vigenciaDias: number;
   vencimiento: string;
@@ -20,4 +21,5 @@ export interface BonificacionMC {
   ultimaAplicacion: string;
   dateCreated: string;
   lastUpdated: string;
+  posicion: number;
 }

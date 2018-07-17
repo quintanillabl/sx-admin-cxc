@@ -11,6 +11,8 @@ import {
 } from '@angular/core';
 import { MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
 
+import { BonificacionMC } from '../../models/bonificacionMC';
+
 @Component({
   selector: 'sx-mejores-clientes-table',
   templateUrl: './mejores-clientes-table.component.html',
@@ -19,12 +21,27 @@ import { MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
 export class MejoresClientesTableComponent
   implements OnInit, AfterViewInit, OnChanges {
   @Input() clientes = [];
-  @Input() displayColumns = ['cliente', 'ventas', 'bono', 'importe'];
+  @Input()
+  displayColumns = [
+    'cliente',
+    'ventas',
+    'bono',
+    'importe',
+    'aplicado',
+    'ajuste',
+    'disponible',
+    'autorizado',
+    'vencimiento',
+    'operaciones'
+  ];
   @Input() search: string;
-  dataSource = new MatTableDataSource<any>([]);
+  dataSource = new MatTableDataSource<BonificacionMC>([]);
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   @Output() select = new EventEmitter();
+  @Output() editar = new EventEmitter();
+  @Output() suspender = new EventEmitter();
+
   constructor() {}
 
   ngOnInit() {}
@@ -41,5 +58,15 @@ export class MejoresClientesTableComponent
     if (changes.search && changes.search.currentValue) {
       this.dataSource.filter = this.search;
     }
+  }
+
+  editarBonificacion(event: Event, bonificacion: BonificacionMC) {
+    event.stopPropagation();
+    this.editar.emit(bonificacion);
+  }
+
+  suspenderBonificacion(event: Event, bonificacion: BonificacionMC) {
+    event.stopPropagation();
+    this.suspender.emit(bonificacion);
   }
 }

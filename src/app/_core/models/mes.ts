@@ -16,6 +16,10 @@ export class Mes {
     new Mes(12, 'Diciembre')
   ];
 
+  static getMes(index: number) {
+    return this.MESES.find(item => item.clave === index);
+  }
+
   toString(): string {
     return this.descripcion;
   }

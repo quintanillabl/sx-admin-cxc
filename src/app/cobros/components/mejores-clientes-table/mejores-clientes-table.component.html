@@ -2,7 +2,9 @@
   <mat-table [dataSource]="dataSource" matSort>
     <ng-container matColumnDef="cliente">
       <mat-header-cell *matHeaderCellDef mat-sort-header>Cliente</mat-header-cell>
-      <mat-cell *matCellDef="let row">{{row.nombre}}</mat-cell>
+      <mat-cell *matCellDef="let row" [ngClass]="{'tc-pink-600': row.suspendido}">
+        {{row.nombre}}
+      </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="ventas">
@@ -20,13 +22,41 @@
       <mat-cell *matCellDef="let row">{{row.importe | currency}}</mat-cell>
     </ng-container>
 
+    <ng-container matColumnDef="aplicado">
+      <mat-header-cell *matHeaderCellDef>Aplicado</mat-header-cell>
+      <mat-cell *matCellDef="let row">{{row.aplicado | currency}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="ajuste">
+      <mat-header-cell *matHeaderCellDef>Ajuste</mat-header-cell>
+      <mat-cell *matCellDef="let row">{{row.ajuste | currency}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="disponible">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Disponible</mat-header-cell>
+      <mat-cell *matCellDef="let row" [ngClass]="{'tc-pink-600': row.disponible <= 0}">{{row.disponible | currency}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="autorizado">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Vto</mat-header-cell>
+      <mat-cell *matCellDef="let row">{{row.autorizado | date: 'dd/MM/yyyy'}}</mat-cell>
+    </ng-container>
+
     <ng-container matColumnDef="vencimiento">
       <mat-header-cell *matHeaderCellDef mat-sort-header>Vto</mat-header-cell>
-      <mat-cell *matCellDef="let row">{{row.importe | date}}</mat-cell>
+      <mat-cell *matCellDef="let row">{{row.vencimiento | date: 'dd/MM/yyyy'}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="operaciones">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let row, let i = index">
+        <!-- <mat-icon color="accent" class="cursor-pointer pad-md-left" *ngIf="!row.suspendido" (click)="suspenderBonificacion($event,  row)">not_interested</mat-icon> -->
+      </td>
     </ng-container>
 
     <mat-header-row *matHeaderRowDef="displayColumns"></mat-header-row>
-    <mat-row *matRowDef="let row; columns: displayColumns;"></mat-row>
+    <mat-row *matRowDef="let row; columns: displayColumns;" class="cursor-pointer" (click)="select.emit(row)">
+    </mat-row>
   </mat-table>
   <mat-paginator #paginator [pageSize]="20" [pageSizeOptions]="[20, 40, 100, 200]" [showFirstLastButtons]="true">
   </mat-paginator>
