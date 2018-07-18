@@ -9,6 +9,7 @@ import { ITdDataTableColumn } from '@covalent/core';
 import { Cliente } from '../../models';
 import { ClienteService } from '../../services';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { ReportesService } from '../../../reportes/services';
 
 @Component({
   selector: 'sx-cliente-facturas',
@@ -18,6 +19,7 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 export class ClienteFacturasComponent implements OnInit {
   cliente$: Observable<Cliente>;
   facturas$: Observable<any>;
+  selectedRows: any[] = [];
   term = '';
   search$ = new BehaviorSubject<string>('');
 
@@ -66,7 +68,8 @@ export class ClienteFacturasComponent implements OnInit {
     private route: ActivatedRoute,
     private datePipe: DatePipe,
     private currencyPipe: CurrencyPipe,
-    private service: ClienteService
+    private service: ClienteService,
+    private reportService: ReportesService
   ) {}
 
   ngOnInit() {
@@ -90,5 +93,14 @@ export class ClienteFacturasComponent implements OnInit {
 
   onSearch(term) {
     this.search$.next(term);
+  }
+
+  generarPagare() {
+    if (this.selectedRows.length > 0) {
+      const factura = this.selectedRows[0];
+      this.reportService.runReport('cuentasPorCobrar/generarPagare', {
+        id: factura.id
+      });
+    }
   }
 }

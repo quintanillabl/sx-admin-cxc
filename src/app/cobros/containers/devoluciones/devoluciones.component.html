@@ -33,7 +33,7 @@
   </div>
   <mat-divider></mat-divider>
   <td-data-table #dataTable [data]="filteredData" [columns]="columns" [selectable]="selectable" [clickable]="false" [multiple]="false"
-    [sortable]="true" [sortBy]="sortBy" [(ngModel)]="selectedRows" [sortOrder]="sortOrder" (sortChange)="sort($event)" [style.height.px]="420">
+    [sortable]="true" [sortBy]="sortBy" [(ngModel)]="selectedRows" [sortOrder]="sortOrder" (sortChange)="sort($event)" [style.height.px]="600">
     <ng-template tdDataTableTemplate="documento" let-value="value" let-row="row">
       <span class="tc-indigo-800 ">{{value}}</span>
     </ng-template>

@@ -22,4 +22,5 @@ export interface BonificacionMC {
   dateCreated: string;
   lastUpdated: string;
   posicion: number;
+  chequesDevueltos?: number;
 }

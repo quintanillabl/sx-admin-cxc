@@ -29,6 +29,7 @@
 
         <mat-list-item>
           <h3 matLine> Bono ({{bonificacion.bono | percent}})</h3>
+          <p matLine>Cheques Devueltos: {{bonificacion.chequesDevueltos}}</p>
           <span>{{bonificacion.importe | currency}}</span>
           <mat-divider matInset></mat-divider>
         </mat-list-item>
@@ -92,5 +93,9 @@
         </button>
       </ng-template>
     </mat-card-actions>
+  </mat-card>
+
+  <mat-card>
+    <mat-card-title>Aplicaciones</mat-card-title>
   </mat-card>
 </div>
