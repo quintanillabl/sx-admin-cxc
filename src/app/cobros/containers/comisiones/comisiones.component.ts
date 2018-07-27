@@ -54,11 +54,13 @@ export class ComisionesComponent implements OnInit, OnDestroy {
       }),
       combineLatest(this.cliente$, (data, term) => {
         if (term) {
-          return data.filter(item =>
-            item.cliente
-              .toString()
-              .toLowerCase()
-              .startsWith(term.toString().toLowerCase())
+          return data.filter(
+            item =>
+              item.cliente
+                .toString()
+                .toLowerCase()
+                .indexOf(term.toString().toLowerCase()) !== -1
+            // .startsWith(term.toString().toLowerCase())
           );
         } else {
           return data;

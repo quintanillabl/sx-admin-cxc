@@ -21,8 +21,8 @@ import { MAT_DIALOG_DATA } from '@angular/material';
       </div>
     </mat-dialog-content>
     <mat-dialog-actions>
-      <button mat-button mat-dialog-close>Canelar</button>
       <button mat-button [mat-dialog-close]="getData()" [disabled]="!tipo">Aceptar</button>
+      <button mat-button mat-dialog-close>Canelar</button>
     </mat-dialog-actions>
   `,
   styles: []

@@ -61,4 +61,9 @@ export class FacturasService {
       .put<any>(url, command)
       .pipe(catchError(err => Observable.of(err)));
   }
+
+  saldarCxc(cxcId: string) {
+    const url = `${this.apiUrl}/saldar/${cxcId}`;
+    return this.http.put(url, {}).pipe(catchError(err => Observable.of(err)));
+  }
 }

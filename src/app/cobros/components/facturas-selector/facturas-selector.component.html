@@ -1,16 +1,11 @@
-<div layout mat-dialog-title >
-  <mat-form-field >
+<div layout mat-dialog-title>
+  <mat-form-field>
     <input type="text" matInput placeholder="Buscar facturas " [formControl]="control">
-    <mat-icon matSuffix >search</mat-icon>
+    <mat-icon matSuffix>search</mat-icon>
     <mat-hint>{{cliente.nombre}}</mat-hint>
   </mat-form-field>
 </div>
-<td-data-table
-  [columns]="columns" [data]="rows"
-  [style.height.px]="450"
-  [selectable]="true"
-  [multiple]="true"
-  [(ngModel)]="selectedRows">
+<td-data-table [columns]="columns" [data]="rows" [style.height.px]="450" [selectable]="true" [multiple]="true" [(ngModel)]="selectedRows">
   <ng-template tdDataTableTemplate="tipoDocumento" let-value="value" let-row="row">
     {{value === 'NOTA_DE_CARGO' ? 'N.CARGO': value}}
   </ng-template>

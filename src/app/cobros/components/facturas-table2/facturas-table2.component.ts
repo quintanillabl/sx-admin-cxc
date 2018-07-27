@@ -20,8 +20,8 @@ import {
 @Component({
   selector: 'sx-facturas-table2',
   templateUrl: './facturas-table2.component.html',
-  providers: [DatePipe, CurrencyPipe],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  providers: [DatePipe, CurrencyPipe]
+  // changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FacturasTable2Component implements OnInit, OnChanges {
   columns: ITdDataTableColumn[] = [

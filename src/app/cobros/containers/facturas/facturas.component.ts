@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { Observable } from 'rxjs/Observable';
-import { finalize, catchError } from 'rxjs/operators';
+import { finalize, catchError, tap } from 'rxjs/operators';
 
 import { FacturasService } from '../../services';
 import { CuentaPorCobrar } from '../../models/cuentaPorCobrar';
@@ -41,12 +41,13 @@ import { TdDialogService, TdLoadingService } from '@covalent/core';
           <button mat-menu-item (click)="envioBatch()" [disabled]="selected.length<= 0">
             <mat-icon>email</mat-icon> Enviar
           </button>
+          <button class="actions" mat-menu-item (click)="saldar()"> Saldar </button>
         </mat-menu>
         </span>
     </div>
     <mat-divider></mat-divider>
     <div class="facturas-container" *tdLoading="'procesando'; strategy:'overlay'; color:'accent'">
-      <sx-facturas-table2 [data]="facturas$ | async" [selectedRows]="selected"
+      <sx-facturas-table2 [data]="facturas" [selectedRows]="selected"
       (print)="printCfdi($event)"
       (download)="downloadCfdi($event)">
       </sx-facturas-table2>
@@ -69,13 +70,15 @@ import { TdDialogService, TdLoadingService } from '@covalent/core';
   ]
 })
 export class FacturasComponent implements OnInit {
-  facturas$: Observable<CuentaPorCobrar[]>;
+  // facturas$: Observable<CuentaPorCobrar[]>;
+  facturas: CuentaPorCobrar[];
 
   selected: CuentaPorCobrar[] = [];
 
   cartera: { clave: string; descripcion: string };
 
   filtro: any = {};
+  private procesando = false;
 
   constructor(
     private service: FacturasService,
@@ -93,7 +96,12 @@ export class FacturasComponent implements OnInit {
   }
 
   load() {
-    this.facturas$ = this.service.list(this.filtro);
+    // this.facturas$ = this.service.list(this.filtro);
+    this.procesando = true;
+    this.service
+      .list(this.filtro)
+      .pipe(finalize(() => (this.procesando = false)))
+      .subscribe(res => (this.facturas = res));
   }
 
   search() {
@@ -193,5 +201,36 @@ export class FacturasComponent implements OnInit {
             });
         }
       });
+  }
+
+  saldar() {
+    const facturas = this.selected;
+    if (facturas.length > 0) {
+      const msg = `Saldar ${
+        this.selected.length
+      } cuenta por cobrar seleccionadas`;
+      this.dialogService
+        .openConfirm({
+          title: 'Cuentas por cobrar',
+          message: msg,
+          acceptButton: 'Aceptar',
+          cancelButton: 'Cancelar'
+        })
+        .afterClosed()
+        .subscribe((res: Array<any>) => {
+          if (res) {
+            facturas.forEach(item => {
+              this.procesando = true;
+              this.service
+                .saldarCxc(item.id)
+                .pipe(finalize(() => (this.procesando = false)))
+                .subscribe((cxc: any) => {
+                  console.log('Saldada: ', cxc);
+                  this.load();
+                });
+            });
+          }
+        });
+    }
   }
 }
