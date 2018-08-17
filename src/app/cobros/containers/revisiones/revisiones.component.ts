@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { Observable ,  Subject ,  BehaviorSubject } from 'rxjs';
 
 import { TdDialogService } from '@covalent/core';
 import { MatDialog } from '@angular/material';
@@ -16,10 +16,7 @@ import {
   RevisionFormComponent,
   VentasCreditoTableComponent
 } from '../../components';
-
-import { Subject } from 'rxjs/Subject';
 import { combineLatest } from 'rxjs/operators';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 import * as moment from 'moment';
 

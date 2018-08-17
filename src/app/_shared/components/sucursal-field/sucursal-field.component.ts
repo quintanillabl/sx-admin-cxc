@@ -2,8 +2,7 @@ import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { HttpClient, HttpParams } from '@angular/common/http';
 
-import { Observable } from 'rxjs/Observable';
-import { Subscription } from 'rxjs/Subscription';
+import { Observable ,  Subscription } from 'rxjs';
 
 import { ConfigService } from 'app/utils/config.service';
 import { Sucursal } from 'app/_core/models/sucursal';

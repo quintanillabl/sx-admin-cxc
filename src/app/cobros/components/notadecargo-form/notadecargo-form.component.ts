@@ -17,7 +17,7 @@ import {
   FormArray,
   FormControl
 } from '@angular/forms';
-import { Subject } from 'rxjs/Subject';
+import { Subject } from 'rxjs';
 import * as _ from 'lodash';
 
 import { NotaDeCargo } from '../../models/notaDeCargo';

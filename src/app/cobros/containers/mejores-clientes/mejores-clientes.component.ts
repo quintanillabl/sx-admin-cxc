@@ -4,7 +4,7 @@ import { Store, select } from '@ngrx/store';
 import * as fromRoot from 'app/store';
 import * as fromStore from '../../store';
 
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { of } from 'rxjs/Observable/of';
 import { finalize, catchError } from 'rxjs/operators';
 
@@ -24,14 +24,14 @@ import { Ejercicio } from '../../../_core/models/ejercicio';
       <sx-search-title title="Bonificaciones mejores clientes de contado" (search)="onSearch($event)">
         <div class="options" layout flex>
 
-          <mat-select placeholder="Ejercicio" [(value)]="ejercicio" (change)="cambiarPeriodo()">
+          <mat-select placeholder="Ejercicio" [(value)]="ejercicio" (selectionChange)="cambiarPeriodo()">
             <mat-option *ngFor="let ejercicio of [2018,2019]" [value]="ejercicio">
               {{ejercicio}}
             </mat-option>
           </mat-select>
 
 
-          <mat-select placeholder="Mes" [(ngModel)]="mes" class="pad-left" (change)="cambiarPeriodo()">
+          <mat-select placeholder="Mes" [(ngModel)]="mes" class="pad-left" (selectionChange)="cambiarPeriodo()">
             <mat-option *ngFor="let mes of meses" [value]="mes">
               {{mes.descripcion}}
             </mat-option>

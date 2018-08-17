@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { DatePipe, CurrencyPipe } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 
 import { NotaDeCargo } from '../../models/notaDeCargo';
 import { NotadecargoService } from '../../services';

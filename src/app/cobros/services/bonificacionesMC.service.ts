@@ -1,6 +1,7 @@
+
+import {throwError as observableThrowError, of as observableOf,  Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
 
 import { ConfigService } from '../../utils/config.service';
 import { catchError } from 'rxjs/operators';
@@ -18,21 +19,21 @@ export class BonificacionesMCService {
     const url = `${this.apiUrl}/${ejercicio}/${mes}`;
     return this.http
       .get<any[]>(url)
-      .pipe(catchError(err => Observable.of(err)));
+      .pipe(catchError(err => observableOf(err)));
   }
 
   generar(ejercicio: number, mes: number): Observable<BonificacionMC[]> {
     const url = `${this.apiUrl}/generar/${ejercicio}/${mes}`;
     return this.http
       .get<any[]>(url)
-      .pipe(catchError(err => Observable.of(err)));
+      .pipe(catchError(err => observableOf(err)));
   }
 
   autorizar(bonificacionId: string): Observable<BonificacionMC> {
     const url = `${this.apiUrl}/autorizar/${bonificacionId}`;
     return this.http
       .get<BonificacionMC>(url)
-      .pipe(catchError(err => Observable.of(err)));
+      .pipe(catchError(err => observableOf(err)));
   }
 
   autorizacionBatch(
@@ -42,7 +43,7 @@ export class BonificacionesMCService {
     const url = `${this.apiUrl}/autorizarBatch/${ejercicio}/${mes}`;
     return this.http
       .get<any[]>(url)
-      .pipe(catchError(err => Observable.of(err)));
+      .pipe(catchError(err => observableOf(err)));
   }
 
   suspender(
@@ -53,7 +54,7 @@ export class BonificacionesMCService {
     const url = `${this.apiUrl}/suspender/${bonificacionId}`;
     return this.http
       .get<BonificacionMC>(url, { params: params })
-      .pipe(catchError(err => Observable.of(err)));
+      .pipe(catchError(err => observableOf(err)));
   }
 
   reporte(ejercicio: number, mes: number): Observable<any> {
@@ -64,6 +65,6 @@ export class BonificacionesMCService {
     const headers = new HttpHeaders().set('Content-type', 'application/pdf');
     return this.http
       .get(url, { headers: headers, responseType: 'blob', params: params })
-      .pipe(catchError(error => Observable.throw(error)));
+      .pipe(catchError(error => observableThrowError(error)));
   }
 }

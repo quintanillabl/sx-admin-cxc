@@ -5,9 +5,8 @@ import { Store } from '@ngrx/store';
 import * as fromStore from '../store';
 import * as bonificacionesActions from '../store/actions/bonificacionMC.actions';
 
-import { Observable } from 'rxjs/Observable';
+import { Observable ,  of } from 'rxjs';
 import { tap, filter, take, switchMap, catchError } from 'rxjs/operators';
-import { of } from 'rxjs/observable/of';
 
 @Injectable()
 export class BonificacionesMCGuard implements CanActivate {

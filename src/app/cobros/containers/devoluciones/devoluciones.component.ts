@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { DatePipe, CurrencyPipe } from '@angular/common';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 
 import { NotascxcService } from '../../services/notascxc.service';
 import {

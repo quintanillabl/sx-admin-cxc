@@ -1,8 +1,9 @@
+
+import {of as observableOf,  Observable } from 'rxjs';
+
+import {switchMap, map,  catchError } from 'rxjs/operators';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-
-import { Observable } from 'rxjs/Observable';
-import { catchError } from 'rxjs/operators';
 
 import { Cliente } from '../../models';
 import { ClienteService } from '../../services';
@@ -32,16 +33,16 @@ export class ClienteSociosComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.cliente$ = this.route.parent.data.map(data => data.cliente);
+    this.cliente$ = this.route.parent.data.pipe(map(data => data.cliente));
     this.load();
   }
 
   load() {
-    this.socios$ = this.cliente$.switchMap(cliente => {
+    this.socios$ = this.cliente$.pipe(switchMap(cliente => {
       return this.service
         .socios(cliente)
-        .pipe(catchError(err => Observable.of(err)));
-    });
+        .pipe(catchError(err => observableOf(err)));
+    }));
   }
 
   onSelect(row) {
@@ -58,7 +59,7 @@ export class ClienteSociosComponent implements OnInit {
         console.log('Actualizando socio: ', socio);
         this.service
           .updateSocio(row.cliente, socio)
-          .pipe(catchError(error => Observable.of(error)))
+          .pipe(catchError(error => observableOf(error)))
           .subscribe(socioRes => this.load());
       }
     });

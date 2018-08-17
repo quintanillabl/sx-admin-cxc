@@ -5,7 +5,7 @@ import * as fromStore from '../../store';
 import * as fromCheques from '../../store/actions/cheques.actions';
 import { ChequeDevuelto } from '../../models/chequeDevuelto';
 
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'sx-cheques',

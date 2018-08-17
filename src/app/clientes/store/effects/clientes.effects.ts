@@ -5,7 +5,7 @@ import * as fromRoot from 'app/store';
 import * as clienteActions from '../actions/clientes.action';
 
 import { map, switchMap, catchError, tap } from 'rxjs/operators';
-import { of } from 'rxjs/observable/of';
+import { of } from 'rxjs';
 
 import { ClienteService } from '../../services/cliente.service';
 

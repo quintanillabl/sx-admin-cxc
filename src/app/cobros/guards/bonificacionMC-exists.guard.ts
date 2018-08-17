@@ -5,7 +5,7 @@ import { Store } from '@ngrx/store';
 import * as fromStore from '../store';
 import * as bonificacionesActions from '../store/actions/bonificacionMC.actions';
 
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { tap, map, filter, take, switchMap } from 'rxjs/operators';
 import { BonificacionMC } from '../models/bonificacionMC';
 

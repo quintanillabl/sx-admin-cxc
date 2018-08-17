@@ -1,6 +1,7 @@
+
+import {of as observableOf,  Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
 import * as _ from 'lodash';
 
 import { ConfigService } from '../../utils/config.service';
@@ -28,7 +29,7 @@ export class CobrosService {
     });
     return this.http
       .get<Cobro[]>(this.apiUrl, { params: params })
-      .pipe(catchError(err => Observable.of(err)));
+      .pipe(catchError(err => observableOf(err)));
   }
 
   disponibles(filtro: {} = {}): Observable<Cobro[]> {
@@ -39,7 +40,7 @@ export class CobrosService {
     const url = `${this.apiUrl}/disponibles`;
     return this.http
       .get<Cobro[]>(url, { params: params })
-      .pipe(catchError(err => Observable.of(err)));
+      .pipe(catchError(err => observableOf(err)));
   }
 
   cobrosMonetarios(filtro: any = {}) {
@@ -50,7 +51,7 @@ export class CobrosService {
     const url = `${this.apiUrl}/cobrosMonetarios`;
     return this.http
       .get<Cobro[]>(url, { params: params })
-      .pipe(catchError(err => Observable.of(err)));
+      .pipe(catchError(err => observableOf(err)));
   }
 
   reporteDeComisionesTarjeta(sucursal, fecha: Date) {
@@ -107,7 +108,7 @@ export class CobrosService {
     const url = `${this.apiUrl}/aplicar/${cobro.id}`;
     return this.http
       .put(url, {}, { params: params })
-      .pipe(catchError(err => Observable.of(err)));
+      .pipe(catchError(err => observableOf(err)));
   }
 
   reporteDeCobranza(fecha: Date, cartera: string) {

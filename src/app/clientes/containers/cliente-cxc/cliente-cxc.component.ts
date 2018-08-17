@@ -1,14 +1,15 @@
+
+import {of as observableOf,  Observable } from 'rxjs';
+
+import {delay, switchMap,  catchError, finalize } from 'rxjs/operators';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { Store } from '@ngrx/store';
 import * as fromStore from '../../store';
 
-import { Observable } from 'rxjs/Observable';
-
 import { Cliente } from '../../models';
 import { ClienteService } from '../../services';
-import { catchError, finalize } from 'rxjs/operators';
 import { TdDialogService } from '@covalent/core';
 
 @Component({
@@ -37,14 +38,14 @@ export class ClienteCxcComponent implements OnInit {
 
   load() {
     this.procesando = true;
-    this.cuentasPorCobrar$ = this.cliente$.switchMap(cliente => {
+    this.cuentasPorCobrar$ = this.cliente$.pipe(switchMap(cliente => {
       return this.service
         .cxc(cliente, { term: '' })
         .pipe(
-          catchError(err => Observable.of(err)),
+          catchError(err => observableOf(err)),
           finalize(() => (this.procesando = false))
         );
-    });
+    }));
   }
 
   saldar() {
@@ -64,8 +65,8 @@ export class ClienteCxcComponent implements OnInit {
             this.procesando = true;
             facturas.forEach(item => {
               this.service
-                .saldarCxc(item.id)
-                .delay(2000)
+                .saldarCxc(item.id).pipe(
+                delay(2000))
                 .subscribe((cxc: any) => cxc);
               console.log('Saldando cxc: ', item);
             });

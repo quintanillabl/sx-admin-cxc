@@ -1,6 +1,7 @@
+
+import {throwError as observableThrowError, of as observableOf,  Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
 
 import { ConfigService } from '../../utils/config.service';
 import { catchError } from 'rxjs/operators';
@@ -19,14 +20,14 @@ export class RevisionesService {
     const url = `${this.apiUrl}/pendientes`;
     return this.http
       .get<VentaCredito[]>(url)
-      .pipe(catchError(err => Observable.of(err)));
+      .pipe(catchError(err => observableOf(err)));
   }
 
   update(credito: VentaCredito): Observable<VentaCredito> {
     const url = `${this.apiUrl}/${credito.id}`;
     return this.http
       .put<VentaCredito>(url, credito)
-      .pipe(catchError(error => Observable.throw(error)));
+      .pipe(catchError(error => observableThrowError(error)));
   }
 
   batchUpdate(command: {
@@ -36,28 +37,28 @@ export class RevisionesService {
     const url = `${this.apiUrl}/batchUpdate`;
     return this.http
       .post<VentaCredito[]>(url, command)
-      .pipe(catchError(error => Observable.throw(error)));
+      .pipe(catchError(error => observableThrowError(error)));
   }
 
   recepcionCxc(facturas: VentaCredito[]): Observable<VentaCredito[]> {
     const url = `${this.apiUrl}/registrarRecepcionCxC`;
     return this.http
       .put<VentaCredito[]>(url, { facturas })
-      .pipe(catchError(error => Observable.throw(error)));
+      .pipe(catchError(error => observableThrowError(error)));
   }
 
   cancelarRecepcionCxC(facturas: VentaCredito[]): Observable<VentaCredito[]> {
     const url = `${this.apiUrl}/cancelarRecepcionCxC`;
     return this.http
       .put<VentaCredito[]>(url, { facturas })
-      .pipe(catchError(error => Observable.throw(error)));
+      .pipe(catchError(error => observableThrowError(error)));
   }
 
   registrarRvisada(facturas: VentaCredito[]): Observable<VentaCredito[]> {
     const url = `${this.apiUrl}/registrarRvisada`;
     return this.http
       .put<VentaCredito[]>(url, { facturas })
-      .pipe(catchError(error => Observable.throw(error)));
+      .pipe(catchError(error => observableThrowError(error)));
   }
 
   actualizar(): Observable<Array<any>> {
@@ -67,12 +68,12 @@ export class RevisionesService {
 
   generar(): Observable<any> {
     const url = `${this.apiUrl}/generar`;
-    return this.http.post(url, {}).pipe(catchError(err => Observable.of(err)));
+    return this.http.post(url, {}).pipe(catchError(err => observableOf(err)));
   }
 
   recalcular(): Observable<any> {
     const url = `${this.apiUrl}/recalcular`;
-    return this.http.post(url, {}).pipe(catchError(err => Observable.of(err)));
+    return this.http.post(url, {}).pipe(catchError(err => observableOf(err)));
   }
 
   reporteDeRevision(command: any) {
@@ -88,6 +89,6 @@ export class RevisionesService {
     const headers = new HttpHeaders().set('Content-type', 'application/pdf');
     return this.http
       .get(url, { headers: headers, responseType: 'blob', params: params })
-      .pipe(catchError(error => Observable.throw(error)));
+      .pipe(catchError(error => observableThrowError(error)));
   }
 }

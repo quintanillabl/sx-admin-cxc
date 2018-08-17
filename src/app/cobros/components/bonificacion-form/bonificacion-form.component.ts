@@ -17,8 +17,10 @@ import {
   FormControl,
   AbstractControl
 } from '@angular/forms';
-import { Observable } from 'rxjs/Observable';
-import { Subject } from 'rxjs/Subject';
+
+import { Observable, Subject, combineLatest } from 'rxjs';
+import { takeUntil, startWith } from 'rxjs/operators';
+
 import * as _ from 'lodash';
 
 import { BonoficacionFormValidator } from './bonificacion-form.validator';
@@ -93,7 +95,7 @@ export class BonificacionFormComponent implements OnInit, OnDestroy {
   private observarTipoDeCalculo() {
     this.form
       .get('tipoDeCalculo')
-      .valueChanges.takeUntil(this.destroy$)
+      .valueChanges.pipe(takeUntil(this.destroy$))
       .subscribe((tipo: string) => {
         switch (tipo) {
           case 'PORCENTAJE':
@@ -111,12 +113,13 @@ export class BonificacionFormComponent implements OnInit, OnDestroy {
   private observarDescuentos() {
     const desc$ = this.form
       .get('descuento')
-      .valueChanges.takeUntil(this.destroy$);
+      .valueChanges.pipe(takeUntil(this.destroy$));
+
     const desc2$ = this.form
       .get('descuento2')
-      .valueChanges.startWith(0)
-      .takeUntil(this.destroy$);
-    Observable.combineLatest(desc$, desc2$, (desc1: number, desc2: number) => {
+      .valueChanges.pipe(takeUntil(this.destroy$), startWith(0));
+
+    combineLatest(desc$, desc2$, (desc1: number, desc2: number) => {
       if (desc2 > 0.0) {
         const descuento = +desc1;
         const r = 100.0 - descuento;
@@ -127,7 +130,7 @@ export class BonificacionFormComponent implements OnInit, OnDestroy {
         return +desc1;
       }
     })
-      .takeUntil(this.destroy$)
+      .pipe(takeUntil(this.destroy$))
       .subscribe(neto => {
         this.descuentoNeto = neto;
         this.actualizar();

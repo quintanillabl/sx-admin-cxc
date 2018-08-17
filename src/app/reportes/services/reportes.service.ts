@@ -2,7 +2,7 @@ import { Injectable, ComponentRef } from '@angular/core';
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 
 import { catchError } from 'rxjs/operators';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 
 import { ConfigService } from '../../utils/config.service';
 

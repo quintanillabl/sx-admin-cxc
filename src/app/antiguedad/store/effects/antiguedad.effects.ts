@@ -11,7 +11,7 @@ import {
   distinctUntilChanged,
   filter
 } from 'rxjs/operators';
-import { of } from 'rxjs/observable/of';
+import { of } from 'rxjs';
 
 import { AntiguedadDeSaldo } from '../../models/antiguedadDeSaldo';
 import { AntiguedadService } from '../../services';

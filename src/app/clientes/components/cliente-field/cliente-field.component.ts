@@ -1,3 +1,5 @@
+
+import {switchMap, startWith} from 'rxjs/operators';
 import {
   Component,
   OnInit,
@@ -12,7 +14,7 @@ import {
   FormControl,
   NG_VALUE_ACCESSOR
 } from '@angular/forms';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { ClienteService } from '../../services';
 import { Cliente } from '../../models';
 
@@ -77,9 +79,9 @@ export class ClienteFieldComponent implements OnInit {
   constructor(private service: ClienteService) {}
 
   ngOnInit() {
-    this.clientes$ = this.searchControl.valueChanges
-      .startWith(null)
-      .switchMap(term => this.service.list({ term, cartera: this.tipo }));
+    this.clientes$ = this.searchControl.valueChanges.pipe(
+      startWith(null),
+      switchMap(term => this.service.list({ term, cartera: this.tipo })),);
   }
 
   select(event) {

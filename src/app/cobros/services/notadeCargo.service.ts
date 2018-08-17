@@ -1,6 +1,8 @@
+
+import {shareReplay} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import * as _ from 'lodash';
 
 import { ConfigService } from '../../utils/config.service';
@@ -25,8 +27,8 @@ export class NotadecargoService {
       params = params.set(key, value);
     });
     return this.http
-      .get<NotaDeCargo[]>(this.apiUrl, { params: params })
-      .shareReplay();
+      .get<NotaDeCargo[]>(this.apiUrl, { params: params }).pipe(
+      shareReplay());
   }
 
   buscarCuentasPorCobrar(filtro?): Observable<any> {

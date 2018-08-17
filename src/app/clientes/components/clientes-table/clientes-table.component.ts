@@ -6,7 +6,7 @@ import {
   EventEmitter,
   ChangeDetectionStrategy
 } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 
 import { Cliente } from '../../models';
 import { ClientesDataSource } from '../../containers/clientes-list/clientes.datasource';

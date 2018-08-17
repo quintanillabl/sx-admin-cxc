@@ -4,7 +4,7 @@ import { Store, select } from '@ngrx/store';
 import * as fromRoot from 'app/store';
 import * as fromStore from '../../store';
 
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 
 import { BonificacionMC } from '../../models/bonificacionMC';
 import { TdDialogService } from '@covalent/core';

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { TdDialogService, TdLoadingService } from '@covalent/core';
 import { Cartera } from '../../models/cartera';
 import { NotascxcService } from '../../services';
