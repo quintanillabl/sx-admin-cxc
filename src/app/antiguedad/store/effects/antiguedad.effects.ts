@@ -71,8 +71,8 @@ export class AntiguedadEffects {
     .ofType(fromActions.PRINT_ANTIGUEDAD_ACTION)
     .pipe(
       map((action: fromActions.PrintAntiguedadAction) => action.payload),
-      tap(fecha => {
-        this.service.print(fecha).subscribe(
+      tap(command => {
+        this.service.print(command).subscribe(
           res => {
             const blob = new Blob([res], {
               type: 'application/pdf'

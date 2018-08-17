@@ -44,7 +44,7 @@ export class AntiguedadComponent implements OnInit {
       .afterClosed()
       .subscribe(res => {
         if (res) {
-          console.log('Reporte de fecha: ', res);
+          console.log('Reporte : ', res);
           this.store.dispatch(new fromStore.PrintAntiguedadAction(res));
         }
       });

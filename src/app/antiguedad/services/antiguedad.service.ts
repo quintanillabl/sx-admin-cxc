@@ -28,8 +28,15 @@ export class AntiguedadService {
       .pipe(catchError(error => Observable.throw(error)));
   }
 
-  print(fecha): Observable<any> {
-    const params = new HttpParams().set('fecha', fecha);
+  print(command: {
+    fecha: string;
+    sort: string;
+    order: string;
+  }): Observable<any> {
+    const params = new HttpParams()
+      .set('fecha', command.fecha)
+      .set('sort', command.sort)
+      .set('order', command.order);
     const url = this.config.buildApiUrl('cuentasPorCobrar/antiguedad/print');
     const headers = new HttpHeaders().set('Content-type', 'application/pdf');
     return this.http
