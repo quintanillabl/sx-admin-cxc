@@ -1,5 +1,4 @@
-
-import {of as observableOf,  Observable } from 'rxjs';
+import { of as observableOf, Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import * as _ from 'lodash';
@@ -67,13 +66,13 @@ export class CobrosService {
     });
   }
 
-  save(com: Cobro) {
-    return this.http.post(this.apiUrl, com);
+  save(com: Cobro): Observable<Cobro> {
+    return this.http.post<Cobro>(this.apiUrl, com);
   }
 
-  update(com: Cobro) {
+  update(com: Cobro): Observable<Cobro> {
     const url = `${this.apiUrl}/${com.id}`;
-    return this.http.put(url, com);
+    return this.http.put<Cobro>(url, com);
   }
 
   delete(id: string) {
@@ -81,9 +80,9 @@ export class CobrosService {
     return this.http.delete(url);
   }
 
-  saldar(com: Cobro) {
+  saldar(com: Cobro): Observable<Cobro> {
     const url = `${this.apiUrl}/saldar/${com.id}`;
-    return this.http.put(url, com);
+    return this.http.put<Cobro>(url, {});
   }
 
   sucursales(): Observable<any> {
