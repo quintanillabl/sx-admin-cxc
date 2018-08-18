@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { DatePipe, CurrencyPipe } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 import { NotaDeCargo } from '../../models/notaDeCargo';
 import { NotadecargoService } from '../../services';
@@ -105,6 +105,6 @@ export class CargosComponent implements OnInit {
 
   handleError(error) {
     console.error(error);
-    return Observable.of([]);
+    return of([]);
   }
 }

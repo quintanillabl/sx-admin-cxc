@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
 import { TdDialogService, TdLoadingService } from '@covalent/core';
+
+import { Observable, empty } from 'rxjs';
+import { catchError, finalize } from 'rxjs/operators';
+
 import { Cartera } from '../../models/cartera';
 import { NotascxcService } from '../../services';
 
@@ -47,8 +50,10 @@ export class BonificacionComponent implements OnInit {
     this.loadingService.register('procesando');
     this.service
       .save(nota)
-      .finally(() => this.loadingService.resolve('procesando'))
-      .catch(error2 => this.handelError2(error2))
+      .pipe(
+        finalize(() => this.loadingService.resolve('procesando')),
+        catchError(error2 => this.handelError2(error2))
+      )
       .subscribe((res: any) => {
         console.log('Nota persistida: ', res);
         this.router.navigate(['../show', res.id], { relativeTo: this.route });
@@ -64,6 +69,6 @@ export class BonificacionComponent implements OnInit {
       message: message,
       closeButton: 'Cerrar'
     });
-    return Observable.empty();
+    return empty();
   }
 }

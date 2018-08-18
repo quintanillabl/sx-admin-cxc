@@ -1,11 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
 import { MatSnackBar } from '@angular/material';
+import { TdLoadingService, TdDialogService } from '@covalent/core';
+
+import { Observable, empty } from 'rxjs';
+import { switchMap, finalize, catchError } from 'rxjs/operators';
+
 import { NotaDeCargo } from '../../models/notaDeCargo';
 import { Cartera } from '../../models/cartera';
 import { NotadecargoService } from '../../services';
-import { TdLoadingService, TdDialogService } from '@covalent/core';
 
 @Component({
   selector: 'sx-cargo-edit',
@@ -38,9 +41,11 @@ export class CargoEditComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.nota$ = this.route.paramMap.switchMap(params => {
-      return this.service.get(params.get('id'));
-    });
+    this.nota$ = this.route.paramMap.pipe(
+      switchMap(params => {
+        return this.service.get(params.get('id'));
+      })
+    );
   }
 
   onCancel(nota) {
@@ -54,7 +59,7 @@ export class CargoEditComponent implements OnInit {
     this._loadingService.register('processing');
     this.service
       .update(nota)
-      .finally(() => this._loadingService.resolve('processing'))
+      .pipe(finalize(() => this._loadingService.resolve('processing')))
       .subscribe(res => {
         console.log('Res: ', res);
         this.router.navigate(['../../show', nota.id], {
@@ -69,8 +74,10 @@ export class CargoEditComponent implements OnInit {
       this._loadingService.register('processing');
       this.service
         .timbrar(nota)
-        .catch(error2 => this.handelError2(error2))
-        .finally(() => this._loadingService.resolve('processing'))
+        .pipe(
+          catchError(error2 => this.handelError2(error2)),
+          finalize(() => this._loadingService.resolve('processing'))
+        )
         .subscribe(res => {
           console.log('Nota timbrada: ', res);
           this.router.navigate(['../../show', nota.id], {
@@ -90,7 +97,7 @@ export class CargoEditComponent implements OnInit {
       message: message,
       closeButton: 'Cerrar'
     });
-    return Observable.empty();
+    return empty();
   }
 
   toast(message: string, action: string) {

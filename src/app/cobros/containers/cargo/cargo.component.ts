@@ -3,6 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 
 import { NotadecargoService } from '../../services';
 import { TdLoadingService } from '@covalent/core';
+import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'sx-nota-de-cargo-create',
@@ -43,7 +44,7 @@ export class CargoComponent implements OnInit {
     this._loadingService.register('processing');
     this.service
       .save(nota)
-      .finally(() => this._loadingService.resolve('processing'))
+      .pipe(finalize(() => this._loadingService.resolve('processing')))
       .subscribe((res: any) => {
         console.log('Res: ', res);
         // this.router.navigate(['../'], {relativeTo: this.route})

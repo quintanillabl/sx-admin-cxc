@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { catchError, finalize } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import * as _ from 'lodash';
 
 import { Cobro } from '../../models/cobro';
@@ -43,7 +43,7 @@ export class CobroComponent implements OnInit {
   reload() {
     this.service
       .get(this.cobro.id)
-      .pipe(catchError(err => Observable.of(err)))
+      .pipe(catchError(err => of(err)))
       .subscribe(res => (this.cobro = res));
     this.cargarPendientes();
   }
@@ -52,7 +52,7 @@ export class CobroComponent implements OnInit {
     this.selectedCuentasPorPagar = [];
     this.pendientes$ = this.service
       .cuentasPorCobrar(this.cobro.cliente, this.cobro.tipo)
-      .pipe(catchError(err => Observable.of(err)));
+      .pipe(catchError(err => of(err)));
   }
 
   onSelection(rows) {
@@ -111,7 +111,7 @@ export class CobroComponent implements OnInit {
       .update(pago)
       .pipe(
         finalize(() => this.loadingService.resolve('saving')),
-        catchError(err => Observable.of(err))
+        catchError(err => of(err))
       )
       .subscribe(res => {
         // console.log('Res: ', res);
@@ -135,7 +135,7 @@ export class CobroComponent implements OnInit {
           this.service
             .saldar(cobro)
             .pipe(
-              catchError(err => Observable.of(err)),
+              catchError(err => of(err)),
               finalize(() => this.loadingService.resolve('saldando'))
             )
             .subscribe(cc => {

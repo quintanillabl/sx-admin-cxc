@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { DatePipe, CurrencyPipe } from '@angular/common';
-import { Observable } from 'rxjs';
+
+import { Observable, empty } from 'rxjs';
+import { tap, catchError, finalize } from 'rxjs/operators';
 
 import { NotascxcService } from '../../services/notascxc.service';
 import {
@@ -123,9 +125,11 @@ export class DevolucionesComponent implements OnInit {
         cartera: this.cartera.clave,
         term: this.term
       })
-      .do(() => (this.procesando = true))
-      .catch(error => this.handelError2(error))
-      .finally(() => this.loadingService.resolve('procesando'))
+      .pipe(
+        tap(() => (this.procesando = true)),
+        catchError(error => this.handelError2(error)),
+        finalize(() => this.loadingService.resolve('procesando'))
+      )
       .subscribe(res => {
         this.data = res;
         this.filteredData = res;
@@ -164,9 +168,11 @@ export class DevolucionesComponent implements OnInit {
   generarNota(nota) {
     this.service
       .generarNotaDeDevolucion(nota, this.cartera.clave)
-      .do(() => (this.procesando = true))
-      .catch(error => this.handelError2(error))
-      .finally(() => (this.procesando = false))
+      .pipe(
+        tap(() => (this.procesando = true)),
+        catchError(error => this.handelError2(error)),
+        finalize(() => (this.procesando = false))
+      )
       .subscribe((res: any) => {
         console.log('Notas generadas: ', res);
         this.router.navigate(['show', res.id], { relativeTo: this.route });
@@ -177,8 +183,10 @@ export class DevolucionesComponent implements OnInit {
     this.loadingService.register('procesando');
     this.service
       .timbrar(nota)
-      .finally(() => this.loadingService.resolve('procesando'))
-      .catch(error => this.handelError2(error))
+      .pipe(
+        finalize(() => this.loadingService.resolve('procesando')),
+        catchError(error => this.handelError2(error))
+      )
       .subscribe(res => {
         console.log('Nota timbrada: ', res);
         // this.pendientes = false
@@ -247,6 +255,6 @@ export class DevolucionesComponent implements OnInit {
       message: message,
       closeButton: 'Cerrar'
     });
-    return Observable.empty();
+    return empty();
   }
 }

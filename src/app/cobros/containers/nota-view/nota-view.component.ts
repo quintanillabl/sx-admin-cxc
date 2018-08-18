@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+
+import { Observable, empty } from 'rxjs';
+import { switchMap, catchError, finalize } from 'rxjs/operators';
 
 import { Router, ActivatedRoute } from '@angular/router';
 
@@ -27,10 +29,12 @@ export class NotaViewComponent implements OnInit {
 
   ngOnInit() {
     this.route.paramMap
-      .switchMap(params => {
-        console.log('Params: ', params);
-        return this.service.get(params.get('id'));
-      })
+      .pipe(
+        switchMap(params => {
+          console.log('Params: ', params);
+          return this.service.get(params.get('id'));
+        })
+      )
       .subscribe(nota => {
         this.nota = nota;
         console.log('Nota:', nota);
@@ -39,29 +43,28 @@ export class NotaViewComponent implements OnInit {
 
   reload() {
     this.route.paramMap
-      .switchMap(params => {
-        console.log('Params: ', params);
-        return this.service.get(params.get('id'));
-      })
+      .pipe(
+        switchMap(params => {
+          console.log('Params: ', params);
+          return this.service.get(params.get('id'));
+        })
+      )
       .subscribe(nota => (this.nota = nota));
   }
 
   print(nota) {
     // this.loadingService.register('procesando');
-    this.service
-      .print(nota)
-      .delay(1000)
-      .subscribe(
-        res => {
-          const blob = new Blob([res], {
-            type: 'application/pdf'
-          });
-          // this.loadingService.resolve('saving');
-          const fileURL = window.URL.createObjectURL(blob);
-          window.open(fileURL, '_blank');
-        },
-        error2 => console.log(error2)
-      );
+    this.service.print(nota).subscribe(
+      res => {
+        const blob = new Blob([res], {
+          type: 'application/pdf'
+        });
+        // this.loadingService.resolve('saving');
+        const fileURL = window.URL.createObjectURL(blob);
+        window.open(fileURL, '_blank');
+      },
+      error2 => console.log(error2)
+    );
   }
 
   timbrar(nota) {
@@ -78,8 +81,10 @@ export class NotaViewComponent implements OnInit {
     if (!nota.cfdi) {
       this.service
         .timbrar(nota)
-        .catch(error2 => this.handelError2(error2))
-        .finally(() => this.loadingService.resolve('procesando'))
+        .pipe(
+          catchError(error2 => this.handelError2(error2)),
+          finalize(() => this.loadingService.resolve('procesando'))
+        )
         .subscribe(res => {
           console.log('Nota timbrada: ', res);
           this.reload();
@@ -116,10 +121,12 @@ export class NotaViewComponent implements OnInit {
           this.loadingService.register('procesando');
           this.service
             .aplicar(nota)
-            .catch(error2 => this.handelError2(error2))
-            .finally(() => this.loadingService.resolve('procesando'))
-            .subscribe(res => {
-              console.log('Nota aplicada: ', res);
+            .pipe(
+              catchError(error2 => this.handelError2(error2)),
+              finalize(() => this.loadingService.resolve('procesando'))
+            )
+            .subscribe(n => {
+              console.log('Nota aplicada: ', n);
               this.reload();
             });
         }
@@ -148,8 +155,10 @@ export class NotaViewComponent implements OnInit {
     this.loadingService.register('procesando');
     this.service
       .enviarPorEmail(nota.cfdi, target)
-      .finally(() => this.loadingService.resolve('procesando'))
-      .catch(error2 => this.handelError2(error2))
+      .pipe(
+        finalize(() => this.loadingService.resolve('procesando')),
+        catchError(error2 => this.handelError2(error2))
+      )
       .subscribe((val: any) => {
         console.log('Val: ', val);
         this.toast('Factura enviada a: ' + val.target, '');
@@ -165,7 +174,7 @@ export class NotaViewComponent implements OnInit {
       message: message,
       closeButton: 'Cerrar'
     });
-    return Observable.empty();
+    return empty();
   }
 
   toast(message: string, action: string) {
@@ -192,8 +201,10 @@ export class NotaViewComponent implements OnInit {
           this.loadingService.register('procesando');
           this.service
             .delete(nota.id)
-            .catch(error2 => this.handelError2(error2))
-            .finally(() => this.loadingService.resolve('procesando'))
+            .pipe(
+              catchError(error2 => this.handelError2(error2)),
+              finalize(() => this.loadingService.resolve('procesando'))
+            )
             .subscribe(ok => {
               this.goToParent(nota);
             });

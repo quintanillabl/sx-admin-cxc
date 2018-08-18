@@ -1,18 +1,21 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
 import { MatDialog } from '@angular/material';
 
 import { SolicitudFormComponent } from '../../components';
 import { SolicitudService } from '../../services/solicitud.service';
 import { TdLoadingService } from '@covalent/core';
+
+import { Observable, of } from 'rxjs';
 import { finalize, delay, catchError } from 'rxjs/operators';
+
+import { SolicitudDeDeposito } from '../../models';
 
 @Component({
   selector: 'sx-solicitudes-pendientes',
   templateUrl: './solicitudes-pendientes.component.html'
 })
 export class SolicitudesPendientesComponent implements OnInit {
-  solicitudes$: Observable<Array<any>>;
+  solicitudes$: Observable<SolicitudDeDeposito[]>;
   term = '';
   constructor(
     private service: SolicitudService,
@@ -41,7 +44,7 @@ export class SolicitudesPendientesComponent implements OnInit {
 
   handleError(error) {
     console.error(error);
-    return Observable.of([]);
+    return of([]);
   }
 
   insert() {
