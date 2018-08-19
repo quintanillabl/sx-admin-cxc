@@ -26,10 +26,10 @@ export class CobrosEffects {
 
   @Effect()
   loadCobros$ = this.actions$.pipe(
-    ofType(CobroActionTypes.LoadCobros),
-    switchMap(() => {
+    ofType<fromActions.LoadCobros>(CobroActionTypes.LoadCobros),
+    switchMap(action => {
       return this.service
-        .list()
+        .disponibles({ cartera: action.payload.clave })
         .pipe(
           map(res => new fromActions.LoadCobrosSuccess(res)),
           catchError(error => of(new fromActions.LoadCobrosFail(error)))

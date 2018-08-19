@@ -13,7 +13,11 @@ const routes: Routes = [
     data: { cartera: { clave: 'CRE', descripcion: 'CREDITO' } },
     children: [
       { path: 'facturas', component: fromContainers.FacturasComponent },
-      { path: 'cobros', component: fromContainers.CobrosComponent },
+      {
+        path: 'cobros',
+        canActivate: [fromGuards.CobrosGuard],
+        component: fromContainers.CobrosComponent
+      },
       {
         path: 'cobros/:id',
         component: fromContainers.CobroComponent,

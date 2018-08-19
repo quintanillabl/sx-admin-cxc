@@ -14,10 +14,10 @@ $primary: mat-palette($mat-red, 700);
 $accent:  mat-palette($mat-blue, 800, A100, A400);
 $warn:    mat-palette($mat-red, 600);
 
+$hoover:  mat-palette($mat-gray, 300, A300, A400);
+$active:  mat-palette($mat-gray, 600, A100, A400);
 
-// $primary: mat-palette($mat-orange, 800, 100, 900);
-// $accent:  mat-palette($mat-light-blue, 600, 100, 900);
-// $warn:    mat-palette($mat-red, 600, 100, 900);
+
 $theme: mat-light-theme($primary, $accent, $warn);
 
 @include angular-material-theme($theme);
@@ -40,14 +40,33 @@ mat-nav-list {
     }
   }
 }
+// Mat Table row active color
 .mat-row.active {
-  // background: #4387cc;
-  // background: mat-color($primary);
-  background-color: mat-color($accent);
-  mat-cell {
-    color: mat-color($accent, default-contrast)
+  background-color: mat-color($active);
+  .mat-cell {
+    color: mat-color($active, default-contrast)
   }
-
 }
+
+
+
+.mat-row.suspendido {
+  // background-color: mat-color($accent);
+  .mat-cell {
+    color: mat-color($accent);
+
+  }
+}
+
+.mat-row {
+  position: relative; // For matRipple
+  &:hover:not(.active) {
+    background: mat-color($hoover);
+    .mat-cell {
+      color: mat-color($hoover, default-contrast)
+    }
+  }
+}
+
 
 

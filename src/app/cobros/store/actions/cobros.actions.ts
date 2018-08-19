@@ -2,6 +2,7 @@ import { Action } from '@ngrx/store';
 import { Update } from '@ngrx/entity';
 
 import { Cobro } from '../../models/cobro';
+import { Cartera } from '../../models/cartera';
 
 export enum CobroActionTypes {
   GetCobro = '[Cobro] GetCobro One Cobro',
@@ -24,6 +25,7 @@ export enum CobroActionTypes {
 
 export class LoadCobros implements Action {
   readonly type = CobroActionTypes.LoadCobros;
+  constructor(public payload: Cartera) {}
 }
 export class LoadCobrosFail implements Action {
   readonly type = CobroActionTypes.LoadCobrosFail;

@@ -10,26 +10,26 @@
         <span class="fill-space"></span>
         <span>
           <span class="pad-right">Disponible: </span>
-          <span class="tc-indigo-600">{{cobro.disponible | currency: 'USD':1.2-2}}</span>
+          <span class="tc-indigo-600">{{cobro.disponible | currency}}</span>
         </span>
       </mat-toolbar>
     </ng-template>
     <td-expansion-summary>
       <div layout layout-padding>
         <mat-form-field [style.width.px]="150">
-          <input matInput [disabled]="true" placeholder="Importe" [value]="cobro.importe | currency: 'USD':1.2-2" class="tc-indigo-800">
+          <input matInput [disabled]="true" placeholder="Importe" [value]="cobro.importe | currency" class="tc-indigo-800">
         </mat-form-field>
         <mat-form-field [style.width.px]="150" class="pad-left-sm">
-          <input matInput [disabled]="true" placeholder="Aplicado" [value]="cobro.aplicado| currency: 'USD':1.2-2" class="tc-indigo-800">
+          <input matInput [disabled]="true" placeholder="Aplicado" [value]="cobro.aplicado| currency" class="tc-indigo-800">
         </mat-form-field>
         <mat-form-field [style.width.px]="120" class="pad-left-sm">
-          <input matInput [disabled]="true" placeholder="Diferencia" [value]="cobro.diferencia| currency: 'USD':1.2-2" class="tc-indigo-800">
+          <input matInput [disabled]="true" placeholder="Diferencia" [value]="cobro.diferencia| currency" class="tc-indigo-800">
         </mat-form-field>
         <mat-form-field>
-          <input matInput [disabled]="true" placeholder="Disponible" [value]="cobro.disponible| currency: 'USD':1.2-2" class="tc-indigo-800">
+          <input matInput [disabled]="true" placeholder="Disponible" [value]="cobro.disponible| currency" class="tc-indigo-800">
         </mat-form-field>
         <mat-form-field [style.width.px]="150">
-          <input matInput [disabled]="true" placeholder="Por Aplicar" [value]="porAplicar| currency: 'USD':1.2-2" class="tc-indigo-800">
+          <input matInput [disabled]="true" placeholder="Por Aplicar" [value]="porAplicar| currency" class="tc-indigo-800">
         </mat-form-field>
 
         <span *tdLoading="'saving'; mode:'indeterminate'; type:'circle'; strategy:'overlay'; ">
@@ -71,20 +71,20 @@
     <div layout layout-padding>
       <span flex>
         <span>Importe: </span>
-        <span class="pad-left tc-indigo-800">{{cobro.importe | currency: 'USD':1.2-2}}</span>
+        <span class="pad-left tc-indigo-800">{{cobro.importe | currency}}</span>
       </span>
       <span flex>
         <span>Aplicado: </span>
-        <span class="pad-left tc-indigo-800">{{cobro.aplicado | currency: 'USD':1.2-2 }}</span>
+        <span class="pad-left tc-indigo-800">{{cobro.aplicado | currency }}</span>
       </span>
       <span flex>
         <span>Disponible: </span>
-        <span class="pad-left tc-indigo-800">{{cobro.disponible | currency: 'USD':1.2-2}}</span>
+        <span class="pad-left tc-indigo-800">{{cobro.disponible | currency}}</span>
       </span>
 
       <span flex>
         <span>Por aplicar: </span>
-        <span class="pad-left tc-indigo-800">{{porAplicar | currency: 'USD':1.2-2}}</span>
+        <span class="pad-left tc-indigo-800">{{porAplicar | currency}}</span>
       </span>
       <!-- <span>
         <button mat-raised-button (click)="aplicar()" color="primary" *ngIf="cobro.disponible > 0" [disabled]="porAplicar <= 0.0">Aplicar

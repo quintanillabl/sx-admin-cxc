@@ -26,6 +26,7 @@ export interface Cobro {
   comentario?: string;
   pendientesDeAplicar?: Array<any>;
   fechaDeAplicacion?: string;
+  selected?: boolean;
 }
 
 export interface CobroTarjeta {

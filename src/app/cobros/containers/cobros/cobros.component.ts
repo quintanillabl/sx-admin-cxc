@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Observable } from 'rxjs';
+import { Store, select } from '@ngrx/store';
+import * as fromStore from '../../store';
+
+import { Observable, Subject } from 'rxjs';
 
 import { Cobro } from '../../models/cobro';
-import { CobrosService } from '../../services';
-import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'sx-cobros',
@@ -12,53 +13,18 @@ import { Router, ActivatedRoute } from '@angular/router';
 })
 export class CobrosComponent implements OnInit {
   cobros$: Observable<Cobro[]>;
-  term = '';
   cartera: { clave: string; descripcion: string };
-  _disponibles = true;
+  search$ = new Subject();
 
-  constructor(
-    private servie: CobrosService,
-    private router: Router,
-    private route: ActivatedRoute
-  ) {}
+  constructor(private store: Store<fromStore.CobranzaState>) {}
 
   ngOnInit() {
-    this.route.parent.data.subscribe(data => {
-      // console.log('Parent data: ', data);
-      this.cartera = data.cartera;
-      this.load();
-    });
+    this.cobros$ = this.store.pipe(select(fromStore.getAllCobros));
   }
 
-  load() {
-    if (this.disponibles) {
-      this.cobros$ = this.servie.disponibles({
-        cartera: this.cartera.clave,
-        term: this.term
-      });
-    } else {
-      this.cobros$ = this.servie.list({
-        cartera: this.cartera.clave,
-        term: this.term
-      });
-    }
-  }
+  load() {}
 
-  onSearch(event) {
-    this.term = event;
-    this.load();
-  }
-
-  onSelect(cobro: Cobro) {
-    const path = `cobranza/${this.cartera.clave.toLowerCase()}/cobros`;
-    this.router.navigate([path, cobro.id]);
-  }
-
-  get disponibles() {
-    return this._disponibles;
-  }
-  set disponibles(val) {
-    this._disponibles = val;
-    this.load();
+  onSearch(event: string) {
+    this.search$.next(event);
   }
 }

@@ -1,101 +1,83 @@
 import {
   Component,
   OnInit,
+  ChangeDetectionStrategy,
   Input,
+  OnChanges,
+  SimpleChanges,
+  ViewChild,
   Output,
-  EventEmitter,
-  ChangeDetectionStrategy
+  EventEmitter
 } from '@angular/core';
-import { DatePipe, CurrencyPipe } from '@angular/common';
-import { ITdDataTableColumn } from '@covalent/core';
+import { MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
 
 import { Cobro } from '../../models/cobro';
-import { PagosUtils } from '../../../_core/services/pagos-utils.service';
+import { PagosUtils } from 'app/_core/services/pagos-utils.service';
+
+import * as _ from 'lodash';
 
 @Component({
   selector: 'sx-cobros-table',
-  template: `
-    <td-data-table [data]="cobros" [columns]="columns">
-      <ng-template tdDataTableTemplate="tipo" let-value="value" let-row="row" >
-        <span (click)="select.emit(row)" class="cursor-pointer" flex>{{value}}</span>
-      </ng-template>
-
-      <ng-template tdDataTableTemplate="cliente.nombre" let-value="value" let-row="row" >
-        <span (click)="select.emit(row)" class="cursor-pointer" flex>{{value}}</span>
-      </ng-template>
-
-      <ng-template tdDataTableTemplate="disponible" let-value="value" let-row="row" >
-        <span (click)="select.emit(row)" class="cursor-pointer" [ngClass]="{'tc-indigo-800':value > 0}" flex>
-          {{value | currency: 'USD': 1.2-2}}
-        </span>
-      </ng-template>
-
-    </td-data-table>
-  `,
-  styles: [``],
-  providers: [DatePipe, CurrencyPipe],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  templateUrl: './cobros-table.component.html',
+  styleUrls: ['./cobros-table.component.scss']
 })
-export class CobrosTableComponent implements OnInit {
+export class CobrosTableComponent implements OnInit, OnChanges {
   @Input() cobros: Cobro[] = [];
-  @Output() select = new EventEmitter<Cobro>();
+  @Input() filter: string;
+  dataSource = new MatTableDataSource<Cobro>([]);
 
-  columns: ITdDataTableColumn[] = [
-    { name: 'tipo', label: 'Tipo', numeric: false, width: 70 },
-    {
-      name: 'fecha',
-      label: 'Fecha',
-      numeric: false,
-      format: date => this.datePipe.transform(date, 'dd/MM/yyyy'),
-      width: 90
-    },
-    {
-      name: 'cliente.nombre',
-      label: 'Cliente',
-      sortable: true,
-      numeric: false,
-      nested: true
-    },
-    {
-      name: 'formaDePago',
-      label: 'F.Pago',
-      sortable: true,
-      numeric: false,
-      nested: true,
-      width: 100,
-      format: value => this.pagosUtils.slim(value)
-    },
-    {
-      name: 'referencia',
-      label: 'Referencia',
-      sortable: true,
-      numeric: false,
-      nested: true,
-      width: 120
-    },
-    {
-      name: 'importe',
-      label: 'Importe',
-      sortable: true,
-      numeric: false,
-      format: value => this.currencyPipe.transform(value, 'USD'),
-      width: 150
-    },
-    {
-      name: 'disponible',
-      label: 'Disponible',
-      sortable: true,
-      numeric: false,
-      format: value => this.currencyPipe.transform(value, 'USD'),
-      width: 150
-    }
+  displayColumns = [
+    'nombre',
+    'tipo',
+    'fecha',
+    'formaDePago',
+    'referencia',
+    'moneda',
+    'importe',
+    'aplicado',
+    'disponible'
   ];
+  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @Output() print = new EventEmitter();
+  @Output() select = new EventEmitter<Cobro[]>();
+  @Output() edit = new EventEmitter<Cobro>();
+  @Output() delete = new EventEmitter<Cobro>();
 
-  constructor(
-    private datePipe: DatePipe,
-    private currencyPipe: CurrencyPipe,
-    private pagosUtils: PagosUtils
-  ) {}
+  constructor(private pagosUtils: PagosUtils) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+  }
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.cobros && changes.cobros.currentValue) {
+      this.dataSource.data = changes.cobros.currentValue;
+    }
+    if (changes.filter) {
+      const text = changes.filter.currentValue
+        ? changes.filter.currentValue
+        : '';
+      this.dataSource.filter = text.toLowerCase();
+    }
+  }
+  toogleSelect(event: Cobro) {
+    event.selected = !event.selected;
+    const data = this.cobros.filter(item => item.selected);
+    this.select.emit([...data]);
+  }
+
+  onEdit($event: Event, row) {
+    $event.preventDefault();
+    this.edit.emit(row);
+  }
+
+  getTotal(property: string) {
+    return _.sumBy(this.dataSource.filteredData, property);
+  }
+
+  getFormaDePago(cobro: Cobro) {
+    return this.pagosUtils.slim(cobro.formaDePago);
+  }
 }
