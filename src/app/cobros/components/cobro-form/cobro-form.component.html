@@ -1,0 +1,49 @@
+<mat-card>
+  <form [formGroup]="form">
+    <div layout layout-align="start center" class="mat-title pad-left pad-top">
+      <button mat-icon-button>
+        <mat-icon [routerLink]="['/clientes', cobro.cliente.id]">person</mat-icon>
+      </button>
+      <span class="pad-left pad-right"> {{cobro.nombre}}</span>
+      <span class="pad-left">({{cobro.fecha | date: 'dd/MM/yyyy'}})</span>
+      <span flex></span>
+      <span>Importe:</span>
+      <span class="pad-left pad-right tc-blue-600">{{cobro.importe | currency}}</span>
+      <span>Aplicado:</span>
+      <span class="pad-left pad-right tc-pink-600">{{cobro.aplicado | currency}}</span>
+      <span>Disponible:</span>
+      <span class="pad-left pad-right tc-blue-600">{{cobro.disponible | currency}} ({{cobro.moneda}})</span>
+    </div>
+    <mat-divider></mat-divider>
+    <div layout class="pad-left pad-right">
+
+      <mat-form-field>
+        <input matInput [value]="cobro.formaDePago" [disabled]="true" placeholder="Forma de pago">
+      </mat-form-field>
+      <mat-form-field class="pad-left">
+        <input matInput [value]="cobro.moneda" [disabled]="true" placeholder="Moneda">
+      </mat-form-field>
+      <mat-form-field class="pad-left">
+        <input matInput [value]="cobro.tipoDeCambio" [disabled]="true" placeholder="T.C">
+      </mat-form-field>
+      <sx-upper-case-field formControlName="comentario" placeholder="Comentario" flex class="pad-left">
+      </sx-upper-case-field>
+      <mat-form-field class="pad-left">
+        <input matInput placeholder="Filtrar " (input)="onFilter(filtro.value)" #filtro autocomplete="off">
+      </mat-form-field>
+    </div>
+    <mat-divider></mat-divider>
+    <!-- <sx-aplicaciones-table [aplicaciones]="pago.aplicaciones" [filtro]="filtro$ | async"></sx-aplicaciones-table> -->
+
+    <mat-divider></mat-divider>
+    <mat-card-actions>
+      <button type="button" mat-button [routerLink]="['../']">
+        <mat-icon>arrow_back</mat-icon> Cobros
+      </button>
+      <button type="button" mat-button color="primary" (click)="onSave()" [disabled]="form.invalid || form.pristine">
+        <mat-icon>save</mat-icon> Salvar
+      </button>
+      <ng-content></ng-content>
+    </mat-card-actions>
+  </form>
+</mat-card>

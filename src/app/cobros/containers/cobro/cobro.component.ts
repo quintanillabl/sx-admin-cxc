@@ -1,4 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+
+import { Store, select } from '@ngrx/store';
+import * as fromStore from '../../store';
+import * as fromActions from '../../store/actions/cobros.actions';
+
 import { ActivatedRoute } from '@angular/router';
 import { catchError, finalize } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
@@ -9,115 +14,35 @@ import { CobrosService } from '../../services';
 import { TdDialogService, TdLoadingService } from '@covalent/core';
 import { MatDialog } from '@angular/material';
 import { FechaDialogComponent } from '../../../_shared/components';
+import { CuentaPorCobrar } from '../../models';
 
 @Component({
   selector: 'sx-cobro',
-  templateUrl: './cobro.component.html',
-  styles: [
-    `
-    .fill-space {
-      flex: 1 1 auto;
-    }
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: `
+    <div *ngIf="cobro$ | async as cobro">
+       <sx-cobro-form [cobro]="cobro"></sx-cobro-form>
+    </div>
   `
-  ]
 })
 export class CobroComponent implements OnInit {
-  cobro: Cobro;
-  pendientes$: Observable<Array<any>>;
-  selectedCuentasPorPagar = <any>[];
+  cobro$: Observable<Cobro>;
+  pendientes$: Observable<CuentaPorCobrar[]>;
 
   constructor(
-    private route: ActivatedRoute,
-    private service: CobrosService,
+    private store: Store<fromStore.CobranzaState>,
     private dialogService: TdDialogService,
-    private loadingService: TdLoadingService,
     private dialog: MatDialog
   ) {}
 
   ngOnInit() {
-    this.cobro = this.route.snapshot.data.cobro;
-    console.log('Administracion de cobro: ', this.cobro);
-    this.cargarPendientes();
+    this.cobro$ = this.store.pipe(select(fromStore.getSelectedCobro));
+    this.cobro$.subscribe(c => console.log('Cobro: ', c));
   }
 
-  reload() {
-    this.service
-      .get(this.cobro.id)
-      .pipe(catchError(err => of(err)))
-      .subscribe(res => (this.cobro = res));
-    this.cargarPendientes();
-  }
+  aplicar() {}
 
-  cargarPendientes() {
-    this.selectedCuentasPorPagar = [];
-    this.pendientes$ = this.service
-      .cuentasPorCobrar(this.cobro.cliente, this.cobro.tipo)
-      .pipe(catchError(err => of(err)));
-  }
-
-  onSelection(rows) {
-    this.selectedCuentasPorPagar = rows;
-  }
-
-  get porAplicar() {
-    const saldoTotal = _.sumBy(
-      this.selectedCuentasPorPagar,
-      (item: any) => item.saldo
-    );
-    return saldoTotal <= this.cobro.disponible
-      ? saldoTotal
-      : this.cobro.disponible;
-  }
-
-  aplicar() {
-    if (this.porAplicar > 0) {
-      const dialogRef = this.dialog.open(FechaDialogComponent, {
-        data: { title: `Aplicar ${_.round(this.porAplicar, 2)} en fecha` }
-      });
-      dialogRef.afterClosed().subscribe(fecha => {
-        if (fecha) {
-          // console.log('Aplicar en: ', fecha);
-          this.doAplicarSeleccion(fecha);
-        }
-      });
-      /*
-      this.dialogService
-        .openConfirm({
-          title: 'Aplicar pago',
-          message: `Se aplicara el abono de ${this.porAplicar} a ${
-            this.selectedCuentasPorPagar.length
-          } facturas`,
-          acceptButton: 'Aplicar',
-          cancelButton: 'Cancelar'
-        })
-        .afterClosed()
-        .subscribe(res => {
-          if (res) {
-            this.doAplicarSeleccion();
-          }
-        });
-        */
-    }
-  }
-
-  doAplicarSeleccion(fecha: Date) {
-    this.loadingService.register('saving');
-    const pago = { ...this.cobro };
-    pago.fechaDeAplicacion = fecha.toISOString();
-    pago.pendientesDeAplicar = this.selectedCuentasPorPagar.map((item: any) => {
-      return { id: item.id };
-    });
-    this.service
-      .update(pago)
-      .pipe(
-        finalize(() => this.loadingService.resolve('saving')),
-        catchError(err => of(err))
-      )
-      .subscribe(res => {
-        // console.log('Res: ', res);
-        this.reload();
-      });
-  }
+  doAplicarSeleccion(fecha: Date) {}
 
   saldar(cobro: Cobro) {
     this.dialogService
@@ -131,16 +56,6 @@ export class CobroComponent implements OnInit {
       .subscribe(res => {
         if (res) {
           console.log('Saldando disponible de cobro: ', cobro);
-          this.loadingService.register('saldando');
-          this.service
-            .saldar(cobro)
-            .pipe(
-              catchError(err => of(err)),
-              finalize(() => this.loadingService.resolve('saldando'))
-            )
-            .subscribe(cc => {
-              this.reload();
-            });
         }
       });
   }

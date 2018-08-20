@@ -1,6 +1,9 @@
+import { Cliente } from '../../clientes/models';
+
 export interface Cobro {
   id?: string;
-  cliente: { id: string; nombre: string };
+  cliente: Partial<Cliente>;
+  nombre: string;
   sucursal: { id: string; nombre: string };
   tipo: string;
   fecha: string;

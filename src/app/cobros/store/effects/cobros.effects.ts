@@ -85,6 +85,7 @@ export class CobrosEffects {
     map(() => new fromRoot.Go({ path: ['../..'] }))
   );
 
+  /*
   @Effect()
   updateSuccess$ = this.actions$.pipe(
     ofType<fromActions.UpdateCobroSuccess>(CobroActionTypes.UpdateCobroSuccess),
@@ -96,4 +97,5 @@ export class CobrosEffects {
     ),
     map(cobro => new fromRoot.Go({ path: ['ordenes/cobros', cobro.id] }))
   );
+  */
 }

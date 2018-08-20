@@ -16,6 +16,7 @@ import { ComisionesTableComponent } from './comisiones-table/comisiones-table.co
 import { ReporteDeComisionesComponent } from './reporte-de-comisiones/reporte-de-comisiones.component';
 import { FacturasTable2Component } from './facturas-table2/facturas-table2.component';
 import { MejoresClientesTableComponent } from './mejores-clientes-table/mejores-clientes-table.component';
+import { CobroFormComponent } from './cobro-form/cobro-form.component';
 
 export const components: any[] = [
   CobrosTableComponent,
@@ -35,7 +36,8 @@ export const components: any[] = [
   ComisionesTableComponent,
   ReporteDeComisionesComponent,
   FacturasTable2Component,
-  MejoresClientesTableComponent
+  MejoresClientesTableComponent,
+  CobroFormComponent
 ];
 export const entryComponents: any[] = [
   FacturasSelectorComponent,
@@ -63,3 +65,5 @@ export * from './comisiones-table/comisiones-table.component';
 export * from './reporte-de-comisiones/reporte-de-comisiones.component';
 export * from './facturas-table2/facturas-table2.component';
 export * from './mejores-clientes-table/mejores-clientes-table.component';
+
+export * from './cobro-form/cobro-form.component';

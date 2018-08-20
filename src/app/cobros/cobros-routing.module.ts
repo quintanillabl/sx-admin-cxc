@@ -19,9 +19,10 @@ const routes: Routes = [
         component: fromContainers.CobrosComponent
       },
       {
-        path: 'cobros/:id',
-        component: fromContainers.CobroComponent,
-        resolve: { cobro: CobroResolver }
+        path: 'cobros/:cobroId',
+        canActivate: [fromGuards.CobrosGuard, fromGuards.CobroExistsGuard],
+        component: fromContainers.CobroComponent
+        // resolve: { cobro: CobroResolver }
       },
       {
         path: 'revisiones',
