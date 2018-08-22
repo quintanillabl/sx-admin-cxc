@@ -3,10 +3,17 @@ import { Cobro } from './cobro';
 
 export interface AplicacionDeCobro {
   id?: string;
-  cxc: Partial<CuentaPorCobrar>;
+  cuentaPorCobrar: Partial<CuentaPorCobrar>;
   cobro: Partial<Cobro>;
   import: number;
   fecha: string;
   formaDePago: string;
   recibo: string;
+  sucursal?: string;
+  fechaDocumento?: string;
+  folioDocumento?: string;
+  serieDocumento?: string;
+  totalDocumento?: number;
+  pagoslDocumento?: number;
+  saldoDocumento?: number;
 }

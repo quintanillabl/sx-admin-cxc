@@ -1,33 +1,25 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { MatDialog } from '@angular/material';
+import { TdDialogService } from '@covalent/core';
 
 import { Store, select } from '@ngrx/store';
 import * as fromStore from '../../store';
 import * as fromActions from '../../store/actions/cobros.actions';
 
-import { ActivatedRoute } from '@angular/router';
-import { catchError, finalize } from 'rxjs/operators';
-import { Observable, of } from 'rxjs';
-import * as _ from 'lodash';
+import { Observable, Observer } from 'rxjs';
 
-import { Cobro } from '../../models/cobro';
-import { CobrosService } from '../../services';
-import { TdDialogService, TdLoadingService } from '@covalent/core';
-import { MatDialog } from '@angular/material';
-import { FechaDialogComponent } from '../../../_shared/components';
-import { CuentaPorCobrar } from '../../models';
+import { Cobro, CuentaPorCobrar } from '../../models';
+import { FechaDialogComponent } from 'app/_shared/components';
+
+import * as _ from 'lodash';
 
 @Component({
   selector: 'sx-cobro',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `
-    <div *ngIf="cobro$ | async as cobro">
-       <sx-cobro-form [cobro]="cobro"></sx-cobro-form>
-    </div>
-  `
+  templateUrl: './cobro.component.html'
 })
 export class CobroComponent implements OnInit {
   cobro$: Observable<Cobro>;
-  pendientes$: Observable<CuentaPorCobrar[]>;
 
   constructor(
     private store: Store<fromStore.CobranzaState>,
@@ -37,12 +29,29 @@ export class CobroComponent implements OnInit {
 
   ngOnInit() {
     this.cobro$ = this.store.pipe(select(fromStore.getSelectedCobro));
-    this.cobro$.subscribe(c => console.log('Cobro: ', c));
   }
 
-  aplicar() {}
+  aplicar(cobro: Cobro, cuentas: CuentaPorCobrar[]) {
+    this.dialog
+      .open(FechaDialogComponent, {
+        data: { fecha: new Date(), title: 'Fecha de aplicación' }
+      })
+      .afterClosed()
+      .subscribe(res => {
+        if (res !== null) {
+          this.doAplicarSeleccion(cobro, cuentas, res);
+        }
+      });
+  }
 
-  doAplicarSeleccion(fecha: Date) {}
+  doAplicarSeleccion(cobro: Cobro, cuentas: CuentaPorCobrar[], fecha: Date) {
+    const command = {
+      cobro,
+      cuentas,
+      fecha
+    };
+    this.store.dispatch(new fromActions.AgregarAplicaciones(command));
+  }
 
   saldar(cobro: Cobro) {
     this.dialogService
@@ -58,5 +67,29 @@ export class CobroComponent implements OnInit {
           console.log('Saldando disponible de cobro: ', cobro);
         }
       });
+  }
+
+  generarRecibo(event: Cobro) {
+    this.confirm(
+      'Generar recibo electrónico de pago',
+      `Importe: ${event.importe}`
+    ).subscribe(res => {
+      if (res) {
+        this.store.dispatch(new fromActions.GenerarRecibo(event));
+      }
+    });
+  }
+
+  confirm(title: string, message: string): Observable<any> {
+    const acceptButton = 'Aceptar';
+    const cancelButton = 'Cancelar';
+    return this.dialogService
+      .openConfirm({
+        title,
+        message,
+        acceptButton,
+        cancelButton
+      })
+      .afterClosed();
   }
 }

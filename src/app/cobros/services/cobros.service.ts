@@ -1,4 +1,4 @@
-import { of as observableOf, Observable } from 'rxjs';
+import { throwError as observableOf, Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import * as _ from 'lodash';
@@ -7,6 +7,7 @@ import { ConfigService } from '../../utils/config.service';
 import { Cobro } from '../models/cobro';
 import { catchError } from 'rxjs/operators';
 import { Cliente } from '../../clientes/models';
+import { CuentaPorCobrar } from '../models';
 
 @Injectable()
 export class CobrosService {
@@ -110,6 +111,32 @@ export class CobrosService {
       .pipe(catchError(err => observableOf(err)));
   }
 
+  registrarAcplicaciones(
+    cobro: Cobro,
+    cuentas: CuentaPorCobrar[],
+    fecha: Date
+  ): Observable<Cobro> {
+    const url = `${this.apiUrl}/aplicar/${cobro.id}`;
+    const cxcs = cuentas.map(item => {
+      return { id: item.id };
+    });
+    const command = {
+      cobro: cobro.id,
+      cuentas: cxcs,
+      fecha: fecha.toISOString()
+    };
+    return this.http
+      .put<Cobro>(url, command)
+      .pipe(catchError(err => observableOf(err)));
+  }
+
+  generarRecibo(cobro: Cobro): Observable<Cobro> {
+    const url = `${this.apiUrl}/timbrar/${cobro.id}`;
+    return this.http
+      .put<Cobro>(url, {}, {})
+      .pipe(catchError(err => observableOf(err)));
+  }
+
   reporteDeCobranza(fecha: Date, cartera: string) {
     const url = `${this.apiUrl}/reporteDeCobranza`;
     const params = new HttpParams()
@@ -121,5 +148,25 @@ export class CobrosService {
       params: params,
       responseType: 'blob'
     });
+  }
+
+  imprimirRecibo(cobro: Cobro) {
+    const url = `${this.apiUrl}/imprimirRecibo/${cobro.id}`;
+    const headers = new HttpHeaders().set('Content-type', 'application/pdf');
+    return this.http
+      .get(url, {
+        headers: headers,
+        responseType: 'blob'
+      })
+      .subscribe(
+        res => {
+          const blob = new Blob([res], {
+            type: 'application/pdf'
+          });
+          const fileURL = window.URL.createObjectURL(blob);
+          window.open(fileURL, '_blank');
+        },
+        error => console.log('Error ', error)
+      );
   }
 }

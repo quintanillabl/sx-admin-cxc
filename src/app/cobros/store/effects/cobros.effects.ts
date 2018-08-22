@@ -14,6 +14,7 @@ import * as fromActions from '../actions/cobros.actions';
 import { CobrosService } from '../../services';
 
 import { MatSnackBar } from '@angular/material';
+import { TdDialogService } from '@covalent/core';
 
 @Injectable()
 export class CobrosEffects {
@@ -21,19 +22,23 @@ export class CobrosEffects {
     private actions$: Actions,
     private service: CobrosService,
     private store: Store<fromStore.CobranzaState>,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private dialogService: TdDialogService
   ) {}
 
   @Effect()
   loadCobros$ = this.actions$.pipe(
     ofType<fromActions.LoadCobros>(CobroActionTypes.LoadCobros),
     switchMap(action => {
-      return this.service
-        .disponibles({ cartera: action.payload.clave })
-        .pipe(
-          map(res => new fromActions.LoadCobrosSuccess(res)),
-          catchError(error => of(new fromActions.LoadCobrosFail(error)))
-        );
+      return (
+        this.service
+          // .disponibles({ cartera: action.payload.clave })
+          .list({ cartera: action.payload.clave })
+          .pipe(
+            map(res => new fromActions.LoadCobrosSuccess(res)),
+            catchError(error => of(new fromActions.LoadCobrosFail(error)))
+          )
+      );
     })
   );
 
@@ -85,17 +90,64 @@ export class CobrosEffects {
     map(() => new fromRoot.Go({ path: ['../..'] }))
   );
 
-  /*
   @Effect()
-  updateSuccess$ = this.actions$.pipe(
-    ofType<fromActions.UpdateCobroSuccess>(CobroActionTypes.UpdateCobroSuccess),
-    map(action => action.payload),
-    tap(cobro =>
-      this.snackBar.open(`Cobro ${cobro.importe} actualizado `, 'Cerrar', {
-        duration: 5000
-      })
+  aplicarCobro$ = this.actions$.pipe(
+    ofType<fromActions.AgregarAplicaciones>(
+      CobroActionTypes.AgregarAplicaciones
     ),
-    map(cobro => new fromRoot.Go({ path: ['ordenes/cobros', cobro.id] }))
+    map(action => action.payload),
+    switchMap(command => {
+      return this.service
+        .registrarAcplicaciones(command.cobro, command.cuentas, command.fecha)
+        .pipe(
+          map(res => new fromActions.UpdateCobroSuccess(res)),
+          catchError(error => of(new fromActions.UpdateCobroFail(error)))
+        );
+    })
   );
-  */
+
+  @Effect()
+  generarReciboCobro$ = this.actions$.pipe(
+    ofType<fromActions.GenerarRecibo>(CobroActionTypes.GenerarRecibo),
+    map(action => action.payload),
+    switchMap(cobro => {
+      return this.service
+        .generarRecibo(cobro)
+        .pipe(
+          map(res => new fromActions.UpdateCobroSuccess(res)),
+          catchError(error => of(new fromActions.UpdateCobroFail(error)))
+        );
+    })
+  );
+
+  @Effect({ dispatch: false })
+  updateFail$ = this.actions$.pipe(
+    ofType<fromActions.UpdateCobroFail>(CobroActionTypes.UpdateCobroFail),
+    map(action => action.payload),
+    tap(response => {
+      const message = response.error ? response.error.message : 'Error';
+      console.error('Error actualizando cobro error: ', response.message);
+      this.dialogService.openAlert({
+        message: `${response.status} ${message}`,
+        title: `Error ${response.status}`,
+        closeButton: 'Cerrar'
+      });
+      /*
+      this.snackBar.open(`Eerror ${response.status} `, 'Cerrar', {
+        duration: 10000,
+        verticalPosition: 'top',
+        politeness: 'assertive'
+      });
+      */
+    })
+  );
+
+  @Effect({ dispatch: false })
+  imprimirReciboCobro$ = this.actions$.pipe(
+    ofType<fromActions.PrintRecibo>(CobroActionTypes.PrintRecibo),
+    map(action => action.payload),
+    tap(cobro => {
+      this.service.imprimirRecibo(cobro);
+    })
+  );
 }

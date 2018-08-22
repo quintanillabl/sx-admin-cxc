@@ -3,6 +3,7 @@ import { Update } from '@ngrx/entity';
 
 import { Cobro } from '../../models/cobro';
 import { Cartera } from '../../models/cartera';
+import { CuentaPorCobrar } from '../../models';
 
 export enum CobroActionTypes {
   GetCobro = '[Cobro] GetCobro One Cobro',
@@ -20,7 +21,10 @@ export enum CobroActionTypes {
   DeleteCobro = '[Cobro] Delete Cobro',
   DeleteCobroFail = '[Cobro] Delete Cobro Fail',
   DeleteCobroSuccess = '[Cobro] Delete Cobro Success',
-  ClearCobros = '[Cobro] Clear Cobros'
+  ClearCobros = '[Cobro] Clear Cobros',
+  AgregarAplicaciones = '[Cobro] Aplicar Cobros',
+  GenerarRecibo = '[Cobro] Generar recibo electronico',
+  PrintRecibo = '[Cobro] Print recibo electronico'
 }
 
 export class LoadCobros implements Action {
@@ -80,6 +84,27 @@ export class ClearCobros implements Action {
   readonly type = CobroActionTypes.ClearCobros;
 }
 
+export class AgregarAplicaciones implements Action {
+  readonly type = CobroActionTypes.AgregarAplicaciones;
+  constructor(
+    public payload: {
+      cobro: Cobro;
+      cuentas: CuentaPorCobrar[];
+      fecha: Date;
+    }
+  ) {}
+}
+
+export class GenerarRecibo implements Action {
+  readonly type = CobroActionTypes.GenerarRecibo;
+  constructor(public payload: Cobro) {}
+}
+
+export class PrintRecibo implements Action {
+  readonly type = CobroActionTypes.PrintRecibo;
+  constructor(public payload: Cobro) {}
+}
+
 export type CobroActions =
   | LoadCobros
   | LoadCobrosFail
@@ -93,4 +118,7 @@ export type CobroActions =
   | DeleteCobro
   | DeleteCobroFail
   | DeleteCobroSuccess
-  | ClearCobros;
+  | ClearCobros
+  | AgregarAplicaciones
+  | GenerarRecibo
+  | PrintRecibo;

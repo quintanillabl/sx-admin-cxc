@@ -30,6 +30,7 @@ export interface Cobro {
   pendientesDeAplicar?: Array<any>;
   fechaDeAplicacion?: string;
   selected?: boolean;
+  recibo?: string;
 }
 
 export interface CobroTarjeta {

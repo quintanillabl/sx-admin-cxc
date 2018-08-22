@@ -17,6 +17,9 @@ export const initialState: State = adapter.getInitialState({
 
 export function reducer(state = initialState, action: CobroActions): State {
   switch (action.type) {
+    case CobroActionTypes.PrintRecibo:
+    case CobroActionTypes.GenerarRecibo:
+    case CobroActionTypes.AgregarAplicaciones:
     case CobroActionTypes.DeleteCobro:
     case CobroActionTypes.AddCobro:
     case CobroActionTypes.LoadCobros: {

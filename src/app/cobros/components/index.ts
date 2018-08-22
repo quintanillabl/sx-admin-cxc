@@ -17,6 +17,11 @@ import { ReporteDeComisionesComponent } from './reporte-de-comisiones/reporte-de
 import { FacturasTable2Component } from './facturas-table2/facturas-table2.component';
 import { MejoresClientesTableComponent } from './mejores-clientes-table/mejores-clientes-table.component';
 import { CobroFormComponent } from './cobro-form/cobro-form.component';
+import { CxCSelectorComponent } from './cxc-selector/cxc-selector.component';
+import { CxCSelectorDialogComponent } from './cxc-selector/cxc-selector-dialog.component';
+import { CxCTableComponent } from './cxc-table/cxc-table.component';
+import { CfdiPrintComponent } from './cfdis-actions/cfdi-print.component';
+import { CfdiXmlComponent } from './cfdis-actions/cfdi-xml.component';
 
 export const components: any[] = [
   CobrosTableComponent,
@@ -37,14 +42,20 @@ export const components: any[] = [
   ReporteDeComisionesComponent,
   FacturasTable2Component,
   MejoresClientesTableComponent,
-  CobroFormComponent
+  CobroFormComponent,
+  CxCSelectorDialogComponent,
+  CxCSelectorComponent,
+  CxCTableComponent,
+  CfdiPrintComponent,
+  CfdiXmlComponent
 ];
 export const entryComponents: any[] = [
   FacturasSelectorComponent,
   RevisionFormComponent,
   ReporteDeRevisionComponent,
   GeneraComisionesComponent,
-  ReporteDeComisionesComponent
+  ReporteDeComisionesComponent,
+  CxCSelectorDialogComponent
 ];
 
 export * from './cobros-table/cobros-table.component';
@@ -67,3 +78,9 @@ export * from './facturas-table2/facturas-table2.component';
 export * from './mejores-clientes-table/mejores-clientes-table.component';
 
 export * from './cobro-form/cobro-form.component';
+export * from './cxc-selector/cxc-selector.component';
+export * from './cxc-selector/cxc-selector-dialog.component';
+export * from './cxc-table/cxc-table.component';
+
+export * from './cfdis-actions/cfdi-print.component';
+export * from './cfdis-actions/cfdi-xml.component';

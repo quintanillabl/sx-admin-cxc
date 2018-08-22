@@ -11,40 +11,42 @@ import {
 } from '@angular/core';
 import { MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
 
-import { Cobro } from '../../models/cobro';
-import { PagosUtils } from 'app/_core/services/pagos-utils.service';
+import { CuentaPorCobrar } from '../../models';
 
 import * as _ from 'lodash';
+import { PagosUtils } from 'app/_core/services/pagos-utils.service';
 
 @Component({
-  selector: 'sx-cobros-table',
+  selector: 'sx-cxc-table',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: './cobros-table.component.html',
-  styleUrls: ['./cobros-table.component.scss']
+  templateUrl: './cxc-table.component.html',
+  styleUrls: ['./cxc-table.component.scss']
 })
-export class CobrosTableComponent implements OnInit, OnChanges {
-  @Input() cobros: Cobro[] = [];
+export class CxCTableComponent implements OnInit, OnChanges {
+  @Input() cuentas: CuentaPorCobrar[] = [];
   @Input() filter: string;
-  dataSource = new MatTableDataSource<Cobro>([]);
+  dataSource = new MatTableDataSource<CuentaPorCobrar>([]);
 
+  @Input()
   displayColumns = [
+    'sucursal',
     'nombre',
     'tipo',
     'fecha',
-    'formaDePago',
-    'referencia',
+    'documento',
     'moneda',
-    'importe',
+    'total',
+    'cobros',
     'aplicado',
-    'recibo',
-    'disponible'
+    'saldo'
   ];
+
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @Output() print = new EventEmitter();
-  @Output() select = new EventEmitter<Cobro[]>();
-  @Output() edit = new EventEmitter<Cobro>();
-  @Output() delete = new EventEmitter<Cobro>();
+  @Output() select = new EventEmitter<CuentaPorCobrar[]>();
+  @Output() edit = new EventEmitter<CuentaPorCobrar>();
+  @Output() delete = new EventEmitter<CuentaPorCobrar>();
 
   constructor(private pagosUtils: PagosUtils) {}
 
@@ -53,8 +55,8 @@ export class CobrosTableComponent implements OnInit, OnChanges {
     this.dataSource.sort = this.sort;
   }
   ngOnChanges(changes: SimpleChanges) {
-    if (changes.cobros && changes.cobros.currentValue) {
-      this.dataSource.data = changes.cobros.currentValue;
+    if (changes.cuentas && changes.cuentas.currentValue) {
+      this.dataSource.data = changes.cuentas.currentValue;
     }
     if (changes.filter) {
       const text = changes.filter.currentValue
@@ -63,9 +65,9 @@ export class CobrosTableComponent implements OnInit, OnChanges {
       this.dataSource.filter = text.toLowerCase();
     }
   }
-  toogleSelect(event: Cobro) {
+  toogleSelect(event: CuentaPorCobrar) {
     event.selected = !event.selected;
-    const data = this.cobros.filter(item => item.selected);
+    const data = this.cuentas.filter(item => item.selected);
     this.select.emit([...data]);
   }
 
@@ -78,7 +80,7 @@ export class CobrosTableComponent implements OnInit, OnChanges {
     return _.sumBy(this.dataSource.filteredData, property);
   }
 
-  getFormaDePago(cobro: Cobro) {
-    return this.pagosUtils.slim(cobro.formaDePago);
+  getFormaDePago(cxp: CuentaPorCobrar) {
+    return this.pagosUtils.slim(cxp.formaDePago);
   }
 }

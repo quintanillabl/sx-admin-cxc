@@ -14,7 +14,7 @@ import { MAT_DIALOG_DATA } from '@angular/material';
     </mat-dialog-content>
   <mat-dialog-actions>
     <button mat-button [mat-dialog-close]="fecha">Aceptar</button>
-    <button mat-button mat-dialog-close>Canelar</button>
+    <button mat-button mat-dialog-close="null">Canelar</button>
   </mat-dialog-actions>
 `
 })
@@ -25,6 +25,7 @@ export class FechaDialogComponent implements OnInit {
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any) {
     this.title = data.title || '';
+    this.fecha = data.fecha || new Date();
   }
 
   ngOnInit() {}

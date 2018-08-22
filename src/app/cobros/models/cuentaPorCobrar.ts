@@ -26,4 +26,5 @@ export interface CuentaPorCobrar {
   atraso: number;
   cancelada?: string;
   credito: VentaCredito;
+  selected?: boolean;
 }

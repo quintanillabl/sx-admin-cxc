@@ -21,22 +21,23 @@ import * as _ from 'lodash';
   templateUrl: './aplicaciones-table.component.html',
   styleUrls: ['./aplicaciones-table.component.scss']
 })
-export class AplicacionesComponent implements OnInit, OnChanges {
+export class AplicacionesTableComponent implements OnInit, OnChanges {
   @Input() aplicaciones: AplicacionDeCobro[] = [];
 
   @Output() delete = new EventEmitter();
   @Input() filtro;
 
   displayColumns = [
-    'serie',
-    'folio',
-    'fechaDocto',
-    'uuid',
+    'sucursal',
+    'serieDocumento',
+    'folioDocumento',
+    'fechaDocumento',
     'moneda',
     'fecha',
-    'documentoTotal',
+    'totalDocumento',
+    'pagosDocumento',
+    'saldoDocumento',
     'importe',
-    'comentario',
     'operaciones'
   ];
 

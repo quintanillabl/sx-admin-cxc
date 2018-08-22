@@ -45,11 +45,6 @@ export class CobroExistsGuard implements CanActivate {
     return this.service.get(id).pipe(
       map(cobro => new fromActions.UpdateCobroSuccess(cobro)),
       tap(action => this.store.dispatch(action)),
-      tap(action =>
-        this.store.dispatch(
-          new fromActions.SetCurrentCliente(action.payload.cliente)
-        )
-      ),
       map(action => !!action.payload),
       catchError(error => {
         console.error('No se puede activar la ruta error: ', error);
