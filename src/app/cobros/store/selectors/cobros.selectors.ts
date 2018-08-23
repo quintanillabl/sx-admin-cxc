@@ -37,3 +37,8 @@ export const getSelectedCobro = createSelector(
     return router.state && entities[router.state.params.cobroId];
   }
 );
+
+export const getCobrosFilter = createSelector(
+  getCobrosState,
+  fromCobros.getCobrosFilter
+);

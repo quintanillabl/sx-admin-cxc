@@ -37,6 +37,7 @@ export class AplicacionesTableComponent implements OnInit, OnChanges {
     'totalDocumento',
     'pagosDocumento',
     'saldoDocumento',
+    'uuidDocumento',
     'importe',
     'operaciones'
   ];

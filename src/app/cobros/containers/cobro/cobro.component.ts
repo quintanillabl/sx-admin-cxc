@@ -54,19 +54,12 @@ export class CobroComponent implements OnInit {
   }
 
   saldar(cobro: Cobro) {
-    this.dialogService
-      .openConfirm({
-        title: 'Cobros',
-        message: 'Saldar el disponible de: $ ' + cobro.disponible,
-        acceptButton: 'Aceptar',
-        cancelButton: 'Cancelar'
-      })
-      .afterClosed()
-      .subscribe(res => {
-        if (res) {
-          console.log('Saldando disponible de cobro: ', cobro);
-        }
-      });
+    this.confirm(
+      'Cobros',
+      `Saldar el disponible de $ ${cobro.disponible}`
+    ).subscribe(res => {
+      this.store.dispatch(new fromActions.SaldarRecibo(cobro));
+    });
   }
 
   generarRecibo(event: Cobro) {
@@ -91,5 +84,13 @@ export class CobroComponent implements OnInit {
         cancelButton
       })
       .afterClosed();
+  }
+
+  disponibleSaldable(cobro: Cobro) {
+    if (cobro.disponible > 0 && cobro.disponible <= 100) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }

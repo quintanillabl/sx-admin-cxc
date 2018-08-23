@@ -4,6 +4,8 @@
       <mat-icon [routerLink]="['/clientes', cobro.cliente.id]">person</mat-icon>
     </button>
     <span class="pad-left pad-right mat-title"> {{cobro.nombre}}</span>
+    <span flex></span>
+    <span class="pad-left pad-right mat-title">Fecha: {{cobro.fecha | date: 'dd/MM/yyyy'}}</span>
   </div>
   <mat-divider></mat-divider>
   <div class="pad-top pad-left pad-right">
@@ -19,6 +21,7 @@
 
     <sx-cxc-selector [disabled]="cobro.disponible <= 0" [cliente]="cobro.cliente" [cartera]="cobro.tipo" [maximoPermitido]="cobro.disponible"
       (select)="aplicar(cobro, $event)" title="Agregar facturas"></sx-cxc-selector>
+    <button (click)="saldar(cobro)" mat-button [disabled]="!disponibleSaldable(cobro)">Saldar</button>
 
     <ng-container *ngIf="cobro.disponible <= 0 && !cobro.cfdi ">
       <button mat-button (click)="generarRecibo(cobro)"> Generar recibo (CFDI)</button>

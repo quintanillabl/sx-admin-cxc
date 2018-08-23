@@ -16,4 +16,5 @@ export interface AplicacionDeCobro {
   totalDocumento?: number;
   pagoslDocumento?: number;
   saldoDocumento?: number;
+  uuidDocumento?: string;
 }

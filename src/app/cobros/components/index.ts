@@ -22,6 +22,8 @@ import { CxCSelectorDialogComponent } from './cxc-selector/cxc-selector-dialog.c
 import { CxCTableComponent } from './cxc-table/cxc-table.component';
 import { CfdiPrintComponent } from './cfdis-actions/cfdi-print.component';
 import { CfdiXmlComponent } from './cfdis-actions/cfdi-xml.component';
+import { CobrosFilterComponent } from './cobros-filter/cobros-filter.component';
+import { CobrosFilterDialogComponent } from './cobros-filter/cobros-filter-dialog.component';
 
 export const components: any[] = [
   CobrosTableComponent,
@@ -47,7 +49,9 @@ export const components: any[] = [
   CxCSelectorComponent,
   CxCTableComponent,
   CfdiPrintComponent,
-  CfdiXmlComponent
+  CfdiXmlComponent,
+  CobrosFilterComponent,
+  CobrosFilterDialogComponent
 ];
 export const entryComponents: any[] = [
   FacturasSelectorComponent,
@@ -55,7 +59,8 @@ export const entryComponents: any[] = [
   ReporteDeRevisionComponent,
   GeneraComisionesComponent,
   ReporteDeComisionesComponent,
-  CxCSelectorDialogComponent
+  CxCSelectorDialogComponent,
+  CobrosFilterDialogComponent
 ];
 
 export * from './cobros-table/cobros-table.component';
@@ -84,3 +89,5 @@ export * from './cxc-table/cxc-table.component';
 
 export * from './cfdis-actions/cfdi-print.component';
 export * from './cfdis-actions/cfdi-xml.component';
+export * from './cobros-filter/cobros-filter.component';
+export * from './cobros-filter/cobros-filter-dialog.component';

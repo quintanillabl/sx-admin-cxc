@@ -15,6 +15,7 @@ import { CobrosService } from '../../services';
 
 import { MatSnackBar } from '@angular/material';
 import { TdDialogService } from '@covalent/core';
+import * as fromCobros from '../../store/selectors/cobros.selectors';
 
 @Injectable()
 export class CobrosEffects {
@@ -29,16 +30,27 @@ export class CobrosEffects {
   @Effect()
   loadCobros$ = this.actions$.pipe(
     ofType<fromActions.LoadCobros>(CobroActionTypes.LoadCobros),
+    map(action => action.payload),
+    switchMap(cartera => {
+      return this.service
+        .list({ cartera: cartera.clave })
+        .pipe(
+          map(res => new fromActions.LoadCobrosSuccess(res)),
+          catchError(error => of(new fromActions.LoadCobrosFail(error)))
+        );
+    })
+  );
+
+  @Effect()
+  searchCobros$ = this.actions$.pipe(
+    ofType<fromActions.SearchCobros>(CobroActionTypes.SearchCobros),
     switchMap(action => {
-      return (
-        this.service
-          // .disponibles({ cartera: action.payload.clave })
-          .list({ cartera: action.payload.clave })
-          .pipe(
-            map(res => new fromActions.LoadCobrosSuccess(res)),
-            catchError(error => of(new fromActions.LoadCobrosFail(error)))
-          )
-      );
+      return this.service
+        .search(action.payload)
+        .pipe(
+          map(res => new fromActions.LoadCobrosSuccess(res)),
+          catchError(error => of(new fromActions.LoadCobrosFail(error)))
+        );
     })
   );
 
@@ -113,6 +125,20 @@ export class CobrosEffects {
     switchMap(cobro => {
       return this.service
         .generarRecibo(cobro)
+        .pipe(
+          map(res => new fromActions.UpdateCobroSuccess(res)),
+          catchError(error => of(new fromActions.UpdateCobroFail(error)))
+        );
+    })
+  );
+
+  @Effect()
+  saldarReciboCobro$ = this.actions$.pipe(
+    ofType<fromActions.SaldarRecibo>(CobroActionTypes.SaldarRecibo),
+    map(action => action.payload),
+    switchMap(cobro => {
+      return this.service
+        .saldar(cobro)
         .pipe(
           map(res => new fromActions.UpdateCobroSuccess(res)),
           catchError(error => of(new fromActions.UpdateCobroFail(error)))

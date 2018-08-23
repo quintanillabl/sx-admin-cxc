@@ -46,3 +46,11 @@ export interface CobroCheque {
   numero: string;
   numeroDeCuenta: string;
 }
+
+export interface CobroFilter {
+  fechaInicial?: Date;
+  fechaFinal?: Date;
+  cliente?: Partial<Cliente>;
+  registros?: number;
+  pendientes?: boolean;
+}

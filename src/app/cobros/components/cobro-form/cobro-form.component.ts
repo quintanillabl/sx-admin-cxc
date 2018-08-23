@@ -6,6 +6,7 @@ import {
 } from '@angular/core';
 
 import { Cobro } from '../../models';
+import { PagosUtils } from 'app/_core/services/pagos-utils.service';
 
 @Component({
   selector: 'sx-cobro-form',
@@ -16,11 +17,21 @@ import { Cobro } from '../../models';
     .small-field {
       max-width: 100px;
     }
+    .importes {
+      max-width: 130px;
+    }
+    .moneda-field {
+      max-width: 70px;
+    }
   `
   ]
 })
 export class CobroFormComponent implements OnInit {
   @Input() cobro: Cobro;
-  constructor() {}
+  constructor(private pagoUtils: PagosUtils) {}
   ngOnInit() {}
+
+  get formaDePago() {
+    return this.pagoUtils.slim(this.cobro.formaDePago);
+  }
 }

@@ -1,7 +1,7 @@
 import { Action } from '@ngrx/store';
 import { Update } from '@ngrx/entity';
 
-import { Cobro } from '../../models/cobro';
+import { Cobro, CobroFilter } from '../../models/cobro';
 import { Cartera } from '../../models/cartera';
 import { CuentaPorCobrar } from '../../models';
 
@@ -24,7 +24,10 @@ export enum CobroActionTypes {
   ClearCobros = '[Cobro] Clear Cobros',
   AgregarAplicaciones = '[Cobro] Aplicar Cobros',
   GenerarRecibo = '[Cobro] Generar recibo electronico',
-  PrintRecibo = '[Cobro] Print recibo electronico'
+  SaldarRecibo = '[Cobro] Saldar recibo electronico',
+  PrintRecibo = '[Cobro] Print recibo electronico',
+  SetCobrosFilter = '[Cobro] Set Cobro filter',
+  SearchCobros = '[Cobro] Search Cobro filter'
 }
 
 export class LoadCobros implements Action {
@@ -105,6 +108,21 @@ export class PrintRecibo implements Action {
   constructor(public payload: Cobro) {}
 }
 
+export class SaldarRecibo implements Action {
+  readonly type = CobroActionTypes.SaldarRecibo;
+  constructor(public payload: Cobro) {}
+}
+
+export class SetCobrosFilter implements Action {
+  readonly type = CobroActionTypes.SetCobrosFilter;
+  constructor(public payload: CobroFilter) {}
+}
+
+export class SearchCobros implements Action {
+  readonly type = CobroActionTypes.SearchCobros;
+  constructor(public payload: CobroFilter) {}
+}
+
 export type CobroActions =
   | LoadCobros
   | LoadCobrosFail
@@ -121,4 +139,6 @@ export type CobroActions =
   | ClearCobros
   | AgregarAplicaciones
   | GenerarRecibo
-  | PrintRecibo;
+  | PrintRecibo
+  | SaldarRecibo
+  | SetCobrosFilter;

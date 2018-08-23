@@ -4,7 +4,7 @@ import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import * as _ from 'lodash';
 
 import { ConfigService } from '../../utils/config.service';
-import { Cobro } from '../models/cobro';
+import { Cobro, CobroFilter } from '../models/cobro';
 import { catchError } from 'rxjs/operators';
 import { Cliente } from '../../clientes/models';
 import { CuentaPorCobrar } from '../models';
@@ -22,10 +22,30 @@ export class CobrosService {
     return this.http.get<Cobro>(url);
   }
 
+  search(filtro: {}): Observable<Cobro[]> {
+    let params = new HttpParams();
+    _.forIn(filtro, (value: any, key) => {
+      if (value instanceof Date) {
+        const fecha: Date = value;
+        params = params.set(key, fecha.toISOString());
+      } else {
+        params = params.set(key, value);
+      }
+    });
+    return this.http
+      .get<Cobro[]>(this.apiUrl, { params: params })
+      .pipe(catchError(err => observableOf(err)));
+  }
+
   list(filtro: {} = {}): Observable<Cobro[]> {
     let params = new HttpParams();
-    _.forIn(filtro, (value, key) => {
-      params = params.set(key, value);
+    _.forIn(filtro, (value: any, key) => {
+      if (value instanceof Date) {
+        const fecha: Date = value;
+        params = params.set(key, fecha.toISOString());
+      } else {
+        params = params.set(key, value);
+      }
     });
     return this.http
       .get<Cobro[]>(this.apiUrl, { params: params })
