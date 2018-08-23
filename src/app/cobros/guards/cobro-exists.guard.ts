@@ -33,7 +33,7 @@ export class CobroExistsGuard implements CanActivate {
     return this.store.select(fromStore.getCobrosLoaded).pipe(
       tap(loaded => {
         if (!loaded) {
-          this.store.dispatch(new fromStore.LoadCobros(cartera));
+          this.store.dispatch(new fromStore.LoadCobros());
         }
       }),
       filter(loaded => loaded), // Waiting for loaded

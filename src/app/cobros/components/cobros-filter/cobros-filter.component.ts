@@ -12,17 +12,21 @@ import { CobroFilter } from '../../models';
 })
 export class CobrosFilterComponent implements OnInit {
   @Input() color = 'primary';
-  @Output() filter = new EventEmitter<CobroFilter>();
+  @Input() filter: CobroFilter;
+  @Input() tipo;
+  @Output() change = new EventEmitter<CobroFilter>();
   constructor(private dialog: MatDialog) {}
 
   ngOnInit() {}
 
   openFilter() {
     this.dialog
-      .open(CobrosFilterDialogComponent, { data: {} })
+      .open(CobrosFilterDialogComponent, {
+        data: { filter: this.filter, tipo: this.tipo }
+      })
       .afterClosed()
       .subscribe(command => {
-        this.filter.emit(command);
+        this.change.emit(command);
       });
   }
 }

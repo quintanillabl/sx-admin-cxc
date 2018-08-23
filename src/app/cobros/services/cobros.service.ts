@@ -23,6 +23,7 @@ export class CobrosService {
   }
 
   search(filtro: {}): Observable<Cobro[]> {
+    const url = `${this.apiUrl}/search`;
     let params = new HttpParams();
     _.forIn(filtro, (value: any, key) => {
       if (value instanceof Date) {
@@ -33,7 +34,7 @@ export class CobrosService {
       }
     });
     return this.http
-      .get<Cobro[]>(this.apiUrl, { params: params })
+      .get<Cobro[]>(url, { params: params })
       .pipe(catchError(err => observableOf(err)));
   }
 

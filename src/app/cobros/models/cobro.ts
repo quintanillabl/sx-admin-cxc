@@ -1,4 +1,5 @@
 import { Cliente } from '../../clientes/models';
+import { Periodo } from '../../_core/models/periodo';
 
 export interface Cobro {
   id?: string;
@@ -53,4 +54,17 @@ export interface CobroFilter {
   cliente?: Partial<Cliente>;
   registros?: number;
   pendientes?: boolean;
+}
+
+export function build(
+  registros: number = 50,
+  pendientes: boolean = true
+): CobroFilter {
+  const periodo = Periodo.monthToDay();
+  return {
+    fechaInicial: periodo.fechaInicial,
+    fechaFinal: periodo.fechaFinal,
+    registros,
+    pendientes
+  };
 }

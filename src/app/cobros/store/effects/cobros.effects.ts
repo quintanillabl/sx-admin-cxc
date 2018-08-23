@@ -4,18 +4,23 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Store, select } from '@ngrx/store';
 import * as fromRoot from 'app/store';
 import * as fromStore from '../../store';
+import * as fromActions from '../actions/cobros.actions';
+import * as fromCobros from '../../store/selectors/cobros.selectors';
 
 import { of } from 'rxjs';
-import { map, switchMap, tap, catchError, take } from 'rxjs/operators';
+import {
+  map,
+  switchMap,
+  tap,
+  catchError,
+  withLatestFrom
+} from 'rxjs/operators';
 
 import { CobroActionTypes } from '../actions/cobros.actions';
-import * as fromActions from '../actions/cobros.actions';
 
 import { CobrosService } from '../../services';
 
-import { MatSnackBar } from '@angular/material';
 import { TdDialogService } from '@covalent/core';
-import * as fromCobros from '../../store/selectors/cobros.selectors';
 
 @Injectable()
 export class CobrosEffects {
@@ -23,17 +28,26 @@ export class CobrosEffects {
     private actions$: Actions,
     private service: CobrosService,
     private store: Store<fromStore.CobranzaState>,
-    private snackBar: MatSnackBar,
     private dialogService: TdDialogService
   ) {}
 
   @Effect()
   loadCobros$ = this.actions$.pipe(
     ofType<fromActions.LoadCobros>(CobroActionTypes.LoadCobros),
-    map(action => action.payload),
-    switchMap(cartera => {
+    withLatestFrom(
+      this.store.pipe(select(fromCobros.getCobrosCartera)),
+      this.store.pipe(select(fromCobros.getCobrosFilter)),
+      (action, cartera, filter) => {
+        return {
+          ...filter,
+          cartera,
+          cliente: filter.cliente ? filter.cliente.id : null
+        };
+      }
+    ),
+    switchMap(command => {
       return this.service
-        .list({ cartera: cartera.clave })
+        .search(command)
         .pipe(
           map(res => new fromActions.LoadCobrosSuccess(res)),
           catchError(error => of(new fromActions.LoadCobrosFail(error)))
@@ -42,16 +56,9 @@ export class CobrosEffects {
   );
 
   @Effect()
-  searchCobros$ = this.actions$.pipe(
-    ofType<fromActions.SearchCobros>(CobroActionTypes.SearchCobros),
-    switchMap(action => {
-      return this.service
-        .search(action.payload)
-        .pipe(
-          map(res => new fromActions.LoadCobrosSuccess(res)),
-          catchError(error => of(new fromActions.LoadCobrosFail(error)))
-        );
-    })
+  setCobros = this.actions$.pipe(
+    ofType<fromActions.SetCobrosFilter>(CobroActionTypes.SetCobrosFilter),
+    map(action => new fromActions.LoadCobros())
   );
 
   @Effect()

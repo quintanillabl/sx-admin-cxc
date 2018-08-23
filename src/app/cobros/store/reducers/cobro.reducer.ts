@@ -1,11 +1,12 @@
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
 
-import { Cobro, CobroFilter } from '../../models';
+import { Cobro, CobroFilter, build } from '../../models/cobro';
 import { CobroActions, CobroActionTypes } from '../actions/cobros.actions';
 
 export interface State extends EntityState<Cobro> {
   loading: boolean;
   loaded: boolean;
+  cartera: string;
   filter: CobroFilter;
 }
 
@@ -14,11 +15,20 @@ export const adapter: EntityAdapter<Cobro> = createEntityAdapter<Cobro>();
 export const initialState: State = adapter.getInitialState({
   loading: false,
   loaded: false,
-  filter: undefined
+  cartera: 'CRE',
+  filter: build(50, true)
 });
 
 export function reducer(state = initialState, action: CobroActions): State {
   switch (action.type) {
+    case CobroActionTypes.SetCobrosCartera: {
+      const cartera = action.payload.cartera;
+      return {
+        ...state,
+        cartera
+      };
+    }
+
     case CobroActionTypes.SaldarRecibo:
     case CobroActionTypes.PrintRecibo:
     case CobroActionTypes.GenerarRecibo:
@@ -101,6 +111,7 @@ export const {
   selectTotal
 } = adapter.getSelectors();
 
+export const getCobrosCartera = (state: State) => state.cartera;
 export const getCobrosLoading = (state: State) => state.loading;
 export const getCobrosLoaded = (state: State) => state.loaded;
 export const getCobrosFilter = (state: State) => state.filter;
