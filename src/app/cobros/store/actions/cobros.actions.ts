@@ -25,7 +25,8 @@ export enum CobroActionTypes {
   GenerarRecibo = '[Cobro] Generar recibo electronico',
   SaldarRecibo = '[Cobro] Saldar recibo electronico',
   PrintRecibo = '[Cobro] Print recibo electronico',
-  SetCobrosCartera = '[Cobro] Set cartera',
+  PrintReciboFail = '[Cobro] Print recibo electronico Fail',
+  PrintReciboSuccess = '[Cobro] Print recibo electronico Success',
   SetCobrosFilter = '[Cobro] Set Cobro filter'
 }
 
@@ -85,18 +86,12 @@ export class ClearCobros implements Action {
   readonly type = CobroActionTypes.ClearCobros;
 }
 
-export class SetCobrosCartera implements Action {
-  readonly type = CobroActionTypes.SetCobrosCartera;
-  constructor(public payload: { cartera: string }) {}
-}
-
 export class AgregarAplicaciones implements Action {
   readonly type = CobroActionTypes.AgregarAplicaciones;
   constructor(
     public payload: {
       cobro: Cobro;
-      cuentas: CuentaPorCobrar[];
-      fecha: Date;
+      cuentas: CuentaPorCobrar[]
     }
   ) {}
 }
@@ -109,6 +104,14 @@ export class GenerarRecibo implements Action {
 export class PrintRecibo implements Action {
   readonly type = CobroActionTypes.PrintRecibo;
   constructor(public payload: Cobro) {}
+}
+export class PrintReciboFail implements Action {
+  readonly type = CobroActionTypes.PrintReciboFail;
+  constructor(public payload: any) {}
+}
+export class PrintReciboSuccess implements Action {
+  readonly type = CobroActionTypes.PrintReciboSuccess;
+  constructor(public payload: any) {}
 }
 
 export class SaldarRecibo implements Action {
@@ -138,6 +141,7 @@ export type CobroActions =
   | AgregarAplicaciones
   | GenerarRecibo
   | PrintRecibo
+  | PrintReciboFail
+  | PrintReciboSuccess
   | SaldarRecibo
-  | SetCobrosCartera
   | SetCobrosFilter;

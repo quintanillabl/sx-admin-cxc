@@ -28,8 +28,3 @@ export const reducers: ActionReducerMap<CobranzaState> = {
 
 // Cobranza slice
 export const getCobranzaState = createFeatureSelector('cobranza');
-
-export const getCartera = createSelector(
-  getCobranzaState,
-  fromCobranza.getCartera
-);

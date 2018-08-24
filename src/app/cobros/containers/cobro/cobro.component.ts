@@ -6,10 +6,9 @@ import { Store, select } from '@ngrx/store';
 import * as fromStore from '../../store';
 import * as fromActions from '../../store/actions/cobros.actions';
 
-import { Observable, Observer } from 'rxjs';
+import { Observable } from 'rxjs';
 
 import { Cobro, CuentaPorCobrar } from '../../models';
-import { FechaDialogComponent } from 'app/_shared/components';
 
 import * as _ from 'lodash';
 
@@ -32,23 +31,15 @@ export class CobroComponent implements OnInit {
   }
 
   aplicar(cobro: Cobro, cuentas: CuentaPorCobrar[]) {
-    this.dialog
-      .open(FechaDialogComponent, {
-        data: { fecha: new Date(), title: 'Fecha de aplicación' }
-      })
-      .afterClosed()
-      .subscribe(res => {
-        if (res !== null) {
-          this.doAplicarSeleccion(cobro, cuentas, res);
-        }
-      });
+    if (cuentas.length > 0) {
+      this.doAplicarSeleccion(cobro, cuentas);
+    }
   }
 
-  doAplicarSeleccion(cobro: Cobro, cuentas: CuentaPorCobrar[], fecha: Date) {
+  doAplicarSeleccion(cobro: Cobro, cuentas: CuentaPorCobrar[]) {
     const command = {
       cobro,
-      cuentas,
-      fecha
+      cuentas
     };
     this.store.dispatch(new fromActions.AgregarAplicaciones(command));
   }
@@ -92,5 +83,9 @@ export class CobroComponent implements OnInit {
     } else {
       return false;
     }
+  }
+
+  printRecibo(event: Cobro) {
+    this.store.dispatch(new fromActions.PrintRecibo(event));
   }
 }

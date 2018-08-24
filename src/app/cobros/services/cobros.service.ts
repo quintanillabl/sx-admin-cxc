@@ -134,8 +134,7 @@ export class CobrosService {
 
   registrarAcplicaciones(
     cobro: Cobro,
-    cuentas: CuentaPorCobrar[],
-    fecha: Date
+    cuentas: CuentaPorCobrar[]
   ): Observable<Cobro> {
     const url = `${this.apiUrl}/aplicar/${cobro.id}`;
     const cxcs = cuentas.map(item => {
@@ -143,8 +142,7 @@ export class CobrosService {
     });
     const command = {
       cobro: cobro.id,
-      cuentas: cxcs,
-      fecha: fecha.toISOString()
+      cuentas: cxcs
     };
     return this.http
       .put<Cobro>(url, command)
@@ -171,14 +169,14 @@ export class CobrosService {
     });
   }
 
-  imprimirRecibo(cobro: Cobro) {
+  imprimirRecibo(cobro: Cobro): Observable<any> {
     const url = `${this.apiUrl}/imprimirRecibo/${cobro.id}`;
     const headers = new HttpHeaders().set('Content-type', 'application/pdf');
-    return this.http
-      .get(url, {
-        headers: headers,
-        responseType: 'blob'
-      })
+    return this.http.get(url, {
+      headers: headers,
+      responseType: 'blob'
+    });
+    /*
       .subscribe(
         res => {
           const blob = new Blob([res], {
@@ -189,5 +187,6 @@ export class CobrosService {
         },
         error => console.log('Error ', error)
       );
+      */
   }
 }

@@ -7,7 +7,7 @@
     <td-search-box class="push-right-sm" placeholder="Filtrar" flex (searchDebounce)="onSearch($event)" [alwaysVisible]="false"
       autocomplete="off" [value]="filter">
     </td-search-box>
-    <sx-cobros-filter (change)="onFilter($event)" [filter]="cobrosFilter$ | async" [tipo]="getTipo((cartera$ | async))"></sx-cobros-filter>
+    <sx-cobros-filter (change)="onFilter($event)" [filter]="cobrosFilter$ | async" [cartera]="cartera$ | async"></sx-cobros-filter>
   </div>
   <mat-divider></mat-divider>
   <sx-cobros-table [cobros]="cobros$ | async" [filter]="filter"></sx-cobros-table>

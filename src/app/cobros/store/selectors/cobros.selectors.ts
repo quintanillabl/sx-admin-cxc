@@ -42,8 +42,3 @@ export const getCobrosFilter = createSelector(
   getCobrosState,
   fromCobros.getCobrosFilter
 );
-
-export const getCobrosCartera = createSelector(
-  getCobrosState,
-  fromCobros.getCobrosCartera
-);

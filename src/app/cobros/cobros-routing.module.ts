@@ -116,6 +116,16 @@ const routes: Routes = [
         path: 'mejoresClientes/:bonificacionId',
         canActivate: [fromGuards.BonificacionMCExistsGuard],
         component: fromContainers.BonificacionMCComponent
+      },
+      {
+        path: 'cobros',
+        canActivate: [fromGuards.CobrosGuard],
+        component: fromContainers.CobrosComponent
+      },
+      {
+        path: 'cobros/:cobroId',
+        canActivate: [fromGuards.CobrosGuard, fromGuards.CobroExistsGuard],
+        component: fromContainers.CobroComponent
       }
     ]
   },

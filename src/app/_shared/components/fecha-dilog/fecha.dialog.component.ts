@@ -14,7 +14,7 @@ import { MAT_DIALOG_DATA } from '@angular/material';
     </mat-dialog-content>
   <mat-dialog-actions>
     <button mat-button [mat-dialog-close]="fecha">Aceptar</button>
-    <button mat-button mat-dialog-close="null">Canelar</button>
+    <button mat-button mat-dialog-close>Canelar</button>
   </mat-dialog-actions>
 `
 })

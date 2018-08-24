@@ -21,6 +21,7 @@ export class CobroExistsGuard implements CanActivate {
 
   canActivate(route: ActivatedRouteSnapshot): Observable<boolean> {
     const cartera: Cartera = route.parent.data.cartera;
+    console.log('Cartera: ', cartera);
     return this.checkStore(cartera).pipe(
       switchMap(() => {
         const id = route.params.cobroId;

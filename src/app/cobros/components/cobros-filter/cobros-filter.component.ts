@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material';
 
 import { CobrosFilterDialogComponent } from './cobros-filter-dialog.component';
 import { CobroFilter } from '../../models';
+import { Cartera } from '../../models/cartera';
 
 @Component({
   selector: 'sx-cobros-filter',
@@ -13,7 +14,7 @@ import { CobroFilter } from '../../models';
 export class CobrosFilterComponent implements OnInit {
   @Input() color = 'primary';
   @Input() filter: CobroFilter;
-  @Input() tipo;
+  @Input() cartera: Cartera;
   @Output() change = new EventEmitter<CobroFilter>();
   constructor(private dialog: MatDialog) {}
 
@@ -22,11 +23,13 @@ export class CobrosFilterComponent implements OnInit {
   openFilter() {
     this.dialog
       .open(CobrosFilterDialogComponent, {
-        data: { filter: this.filter, tipo: this.tipo }
+        data: { filter: this.filter, tipo: this.cartera.clave }
       })
       .afterClosed()
       .subscribe(command => {
-        this.change.emit(command);
+        if (command) {
+          this.change.emit(command);
+        }
       });
   }
 }

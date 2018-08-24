@@ -2,6 +2,7 @@ import {
   CobranzaActions,
   CobranzaActionTypes
 } from '../actions/conbranza.actions';
+
 import { Cartera } from '../../models/cartera';
 
 export interface State {

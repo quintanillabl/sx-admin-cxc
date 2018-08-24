@@ -5,6 +5,7 @@ import { Store, select } from '@ngrx/store';
 import * as fromRoot from 'app/store';
 import * as fromStore from '../../store';
 import * as fromActions from '../actions/cobros.actions';
+import * as fromCobranza from '../../store/selectors/cobranza.selectors';
 import * as fromCobros from '../../store/selectors/cobros.selectors';
 
 import { of } from 'rxjs';
@@ -35,12 +36,12 @@ export class CobrosEffects {
   loadCobros$ = this.actions$.pipe(
     ofType<fromActions.LoadCobros>(CobroActionTypes.LoadCobros),
     withLatestFrom(
-      this.store.pipe(select(fromCobros.getCobrosCartera)),
+      this.store.pipe(select(fromCobranza.getCartera)),
       this.store.pipe(select(fromCobros.getCobrosFilter)),
       (action, cartera, filter) => {
         return {
           ...filter,
-          cartera,
+          cartera: cartera.clave,
           cliente: filter.cliente ? filter.cliente.id : null
         };
       }
@@ -117,7 +118,7 @@ export class CobrosEffects {
     map(action => action.payload),
     switchMap(command => {
       return this.service
-        .registrarAcplicaciones(command.cobro, command.cuentas, command.fecha)
+        .registrarAcplicaciones(command.cobro, command.cuentas)
         .pipe(
           map(res => new fromActions.UpdateCobroSuccess(res)),
           catchError(error => of(new fromActions.UpdateCobroFail(error)))
@@ -155,11 +156,14 @@ export class CobrosEffects {
 
   @Effect({ dispatch: false })
   updateFail$ = this.actions$.pipe(
-    ofType<fromActions.UpdateCobroFail>(CobroActionTypes.UpdateCobroFail),
+    ofType<fromActions.UpdateCobroFail | fromActions.PrintReciboFail>(
+      CobroActionTypes.UpdateCobroFail,
+      CobroActionTypes.PrintReciboFail
+    ),
     map(action => action.payload),
     tap(response => {
       const message = response.error ? response.error.message : 'Error';
-      console.error('Error actualizando cobro error: ', response.message);
+      console.error('Error: ', response.message);
       this.dialogService.openAlert({
         message: `${response.status} ${message}`,
         title: `Error ${response.status}`,
@@ -175,12 +179,30 @@ export class CobrosEffects {
     })
   );
 
-  @Effect({ dispatch: false })
+  @Effect()
   imprimirReciboCobro$ = this.actions$.pipe(
     ofType<fromActions.PrintRecibo>(CobroActionTypes.PrintRecibo),
     map(action => action.payload),
-    tap(cobro => {
-      this.service.imprimirRecibo(cobro);
+    switchMap(cobro => {
+      return this.service
+        .imprimirRecibo(cobro)
+        .pipe(
+          map(res => new fromActions.PrintReciboSuccess(res)),
+          catchError(error => of(new fromActions.PrintReciboFail(error)))
+        );
+    })
+  );
+
+  @Effect({ dispatch: false })
+  printSuccess$ = this.actions$.pipe(
+    ofType<fromActions.PrintReciboSuccess>(CobroActionTypes.PrintReciboSuccess),
+    map(action => action.payload),
+    tap(res => {
+      const blob = new Blob([res], {
+        type: 'application/pdf'
+      });
+      const fileURL = window.URL.createObjectURL(blob);
+      window.open(fileURL, '_blank');
     })
   );
 }
