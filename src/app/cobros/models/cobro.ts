@@ -60,7 +60,7 @@ export function build(
   registros: number = 50,
   pendientes: boolean = true
 ): CobroFilter {
-  const periodo = Periodo.monthToDay();
+  const periodo = Periodo.fromNow(30);
   return {
     fechaInicial: periodo.fechaInicial,
     fechaFinal: periodo.fechaFinal,
