@@ -3,7 +3,13 @@ import { ActivatedRoute } from '@angular/router';
 import { TdMediaService } from '@covalent/core';
 import { MatDialog } from '@angular/material';
 
-import { FechaDialogComponent } from '../../../_shared/components';
+import { Store, select } from '@ngrx/store';
+import * as fromStore from '../../store';
+
+import { Observable, combineLatest } from 'rxjs';
+import { merge } from 'rxjs/operators';
+
+import { FechaDialogComponent } from 'app/_shared/components';
 import { CobrosService } from '../../services';
 
 import * as _ from 'lodash';
@@ -63,8 +69,11 @@ export class CobranzaComponent implements OnInit {
 
   cartera: { clave: string; descripcion: string };
 
+  loading$: Observable<boolean>;
+
   constructor(
     public media: TdMediaService,
+    private store: Store<fromStore.CobranzaState>,
     private route: ActivatedRoute,
     private dialog: MatDialog,
     private service: CobrosService,
@@ -72,9 +81,15 @@ export class CobranzaComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    // this.loading$ = this.store.pipe(select(fromStore.getCobrosLoading));
+    this.loading$ = combineLatest(
+      this.store.pipe(select(fromStore.getCobrosLoading)),
+      (cobrosLoading: boolean) => cobrosLoading
+    );
+
     this.cartera = this.route.snapshot.data.cartera;
     if (this.cartera.clave === 'CON') {
-      this.navigation.splice(1, 1); // Contado no ocupa Cobros
+      // this.navigation.splice(1, 1); // Contado no ocupa Cobros
       _.remove(this.navigation, item => item.path === 'comisiones');
       _.remove(this.navigation, item => item.path === 'revisiones');
       this.navigation.push({

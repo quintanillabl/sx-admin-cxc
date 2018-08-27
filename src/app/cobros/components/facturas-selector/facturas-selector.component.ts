@@ -4,9 +4,10 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { FormControl } from '@angular/forms';
 import { TdDataTableColumnComponent } from '@covalent/core/data-table/data-table-column/data-table-column.component';
 import { ITdDataTableColumn } from '@covalent/core/data-table/data-table.component';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
-import { Observable } from 'rxjs/Observable';
+import { BehaviorSubject ,  Observable } from 'rxjs';
+import {tap, catchError, finalize, debounceTime, switchMap, distinctUntilChanged } from 'rxjs/operators';
+
 import { NotascxcService } from '../../services';
 
 @Component({
@@ -74,21 +75,20 @@ export class FacturasSelectorComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.control.valueChanges
-      .debounceTime(300)
-      .distinctUntilChanged()
-      .switchMap(term =>
+    this.control.valueChanges.pipe(
+      debounceTime(300),
+      distinctUntilChanged(),
+      switchMap(term =>
         this.service
           .buscarFacturasPendientes({
             term: term,
             cliente: this.cliente.id,
             cartera: this.cartera
-          })
-          .do(() => (this.procesando = true))
-          .catch(error => Observable.of([]))
-          .finally(() => (this.procesando = false))
-      )
-      .subscribe(res => (this.rows = res));
+          }).pipe(
+            tap(() => (this.procesando = true)),
+            finalize(() => this.procesando = false)
+          ))
+        ).subscribe(res => (this.rows = res));
   }
 
   close() {

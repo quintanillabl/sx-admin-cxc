@@ -1,12 +1,13 @@
+import { throwError as observableOf, Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
 import * as _ from 'lodash';
 
 import { ConfigService } from '../../utils/config.service';
-import { Cobro } from '../models/cobro';
+import { Cobro, CobroFilter } from '../models/cobro';
 import { catchError } from 'rxjs/operators';
 import { Cliente } from '../../clientes/models';
+import { CuentaPorCobrar } from '../models';
 
 @Injectable()
 export class CobrosService {
@@ -21,14 +22,35 @@ export class CobrosService {
     return this.http.get<Cobro>(url);
   }
 
+  search(filtro: {}): Observable<Cobro[]> {
+    const url = `${this.apiUrl}/search`;
+    let params = new HttpParams();
+    _.forIn(filtro, (value: any, key) => {
+      if (value instanceof Date) {
+        const fecha: Date = value;
+        params = params.set(key, fecha.toISOString());
+      } else {
+        params = params.set(key, value);
+      }
+    });
+    return this.http
+      .get<Cobro[]>(url, { params: params })
+      .pipe(catchError(err => observableOf(err)));
+  }
+
   list(filtro: {} = {}): Observable<Cobro[]> {
     let params = new HttpParams();
-    _.forIn(filtro, (value, key) => {
-      params = params.set(key, value);
+    _.forIn(filtro, (value: any, key) => {
+      if (value instanceof Date) {
+        const fecha: Date = value;
+        params = params.set(key, fecha.toISOString());
+      } else {
+        params = params.set(key, value);
+      }
     });
     return this.http
       .get<Cobro[]>(this.apiUrl, { params: params })
-      .pipe(catchError(err => Observable.of(err)));
+      .pipe(catchError(err => observableOf(err)));
   }
 
   disponibles(filtro: {} = {}): Observable<Cobro[]> {
@@ -39,7 +61,7 @@ export class CobrosService {
     const url = `${this.apiUrl}/disponibles`;
     return this.http
       .get<Cobro[]>(url, { params: params })
-      .pipe(catchError(err => Observable.of(err)));
+      .pipe(catchError(err => observableOf(err)));
   }
 
   cobrosMonetarios(filtro: any = {}) {
@@ -50,7 +72,7 @@ export class CobrosService {
     const url = `${this.apiUrl}/cobrosMonetarios`;
     return this.http
       .get<Cobro[]>(url, { params: params })
-      .pipe(catchError(err => Observable.of(err)));
+      .pipe(catchError(err => observableOf(err)));
   }
 
   reporteDeComisionesTarjeta(sucursal, fecha: Date) {
@@ -66,13 +88,13 @@ export class CobrosService {
     });
   }
 
-  save(com: Cobro) {
-    return this.http.post(this.apiUrl, com);
+  save(com: Cobro): Observable<Cobro> {
+    return this.http.post<Cobro>(this.apiUrl, com);
   }
 
-  update(com: Cobro) {
+  update(com: Cobro): Observable<Cobro> {
     const url = `${this.apiUrl}/${com.id}`;
-    return this.http.put(url, com);
+    return this.http.put<Cobro>(url, com);
   }
 
   delete(id: string) {
@@ -80,9 +102,9 @@ export class CobrosService {
     return this.http.delete(url);
   }
 
-  saldar(com: Cobro) {
+  saldar(com: Cobro): Observable<Cobro> {
     const url = `${this.apiUrl}/saldar/${com.id}`;
-    return this.http.put(url, com);
+    return this.http.put<Cobro>(url, {});
   }
 
   sucursales(): Observable<any> {
@@ -107,7 +129,31 @@ export class CobrosService {
     const url = `${this.apiUrl}/aplicar/${cobro.id}`;
     return this.http
       .put(url, {}, { params: params })
-      .pipe(catchError(err => Observable.of(err)));
+      .pipe(catchError(err => observableOf(err)));
+  }
+
+  registrarAcplicaciones(
+    cobro: Cobro,
+    cuentas: CuentaPorCobrar[]
+  ): Observable<Cobro> {
+    const url = `${this.apiUrl}/aplicar/${cobro.id}`;
+    const cxcs = cuentas.map(item => {
+      return { id: item.id };
+    });
+    const command = {
+      cobro: cobro.id,
+      cuentas: cxcs
+    };
+    return this.http
+      .put<Cobro>(url, command)
+      .pipe(catchError(err => observableOf(err)));
+  }
+
+  generarRecibo(cobro: Cobro): Observable<Cobro> {
+    const url = `${this.apiUrl}/timbrar/${cobro.id}`;
+    return this.http
+      .put<Cobro>(url, {}, {})
+      .pipe(catchError(err => observableOf(err)));
   }
 
   reporteDeCobranza(fecha: Date, cartera: string) {
@@ -121,5 +167,26 @@ export class CobrosService {
       params: params,
       responseType: 'blob'
     });
+  }
+
+  imprimirRecibo(cobro: Cobro): Observable<any> {
+    const url = `${this.apiUrl}/imprimirRecibo/${cobro.id}`;
+    const headers = new HttpHeaders().set('Content-type', 'application/pdf');
+    return this.http.get(url, {
+      headers: headers,
+      responseType: 'blob'
+    });
+    /*
+      .subscribe(
+        res => {
+          const blob = new Blob([res], {
+            type: 'application/pdf'
+          });
+          const fileURL = window.URL.createObjectURL(blob);
+          window.open(fileURL, '_blank');
+        },
+        error => console.log('Error ', error)
+      );
+      */
   }
 }

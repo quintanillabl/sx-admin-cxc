@@ -5,9 +5,8 @@ import { Store } from '@ngrx/store';
 import * as fromStore from '../store';
 import * as fromCheques from '../store/actions/cheques.actions';
 
-import { Observable } from 'rxjs/Observable';
+import { Observable ,  of } from 'rxjs';
 import { tap, filter, take, switchMap, catchError } from 'rxjs/operators';
-import { of } from 'rxjs/observable/of';
 
 @Injectable()
 export class ChequesGuard implements CanActivate {

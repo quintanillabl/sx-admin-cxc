@@ -48,9 +48,9 @@
 
     <mat-divider [inset]="true"></mat-divider>
   </mat-nav-list>
-  <div>
+  <ng-template tdLoading [tdLoadingUntil]="!(loading$ | async)" tdLoadingStrategy="overlay">
     <router-outlet></router-outlet>
-  </div>
+  </ng-template>
 
   <td-layout-footer>
     <sx-footer></sx-footer>

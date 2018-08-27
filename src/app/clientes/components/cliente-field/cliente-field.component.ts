@@ -1,3 +1,4 @@
+import { switchMap, startWith } from 'rxjs/operators';
 import {
   Component,
   OnInit,
@@ -12,7 +13,7 @@ import {
   FormControl,
   NG_VALUE_ACCESSOR
 } from '@angular/forms';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { ClienteService } from '../../services';
 import { Cliente } from '../../models';
 
@@ -38,9 +39,10 @@ export const CLIENTE_LOOKUPFIELD_VALUE_ACCESSOR: any = {
     </mat-error>
   </mat-form-field>
   <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="select($event)">
+    <mat-option [value]="null">Todos</mat-option>
     <mat-option *ngFor="let cliente of clientes$ | async " [value]="cliente"
       [ngClass]="{'tc-red-800': !cliente.activo}">
-        {{cliente.nombre}} ({{cliente.rfc}}) - {{cliente.credito ? 'Credito': 'Contado' }}
+        {{cliente.nombre}}  ({{cliente.credito ? 'Credito': 'Contado' }})
     </mat-option>
   </mat-autocomplete>
   `,
@@ -77,27 +79,26 @@ export class ClienteFieldComponent implements OnInit {
   constructor(private service: ClienteService) {}
 
   ngOnInit() {
-    this.clientes$ = this.searchControl.valueChanges
-      .startWith(null)
-      .switchMap(term => this.service.list({ term, cartera: this.tipo }));
+    this.clientes$ = this.searchControl.valueChanges.pipe(
+      startWith(null),
+      switchMap(term => this.service.list({ term, cartera: this.tipo }))
+    );
   }
 
   select(event) {
-    // console.log('Selected: ', event.option.value);
     this.onChange(event.option.value);
   }
 
   displayFn(cliente: Cliente) {
     return cliente
-      ? `${cliente.nombre} (${cliente.rfc}) [${
-          cliente.credito ? 'Crédito' : 'Contado'
-        }]`
+      ? `${cliente.nombre} (${cliente.credito ? 'Crédito' : 'Contado'})`
       : '';
   }
 
   writeValue(obj: any): void {
     this.searchControl.setValue(obj);
     if (obj === null) {
+      // this.searchControl.setValue(obj);
       this.searchControl.reset();
     }
   }

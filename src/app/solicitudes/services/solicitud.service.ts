@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
+
+import { Observable } from 'rxjs';
+
 import * as _ from 'lodash';
 
 import { SolicitudDeDeposito } from '../models/solicitudDeDeposito';
@@ -16,7 +18,7 @@ export class SolicitudService {
 
   get(id: string): Observable<SolicitudDeDeposito> {
     const url = `${this.apiUrl}/${id}`;
-    return this.http.get<SolicitudDeDeposito>(url).shareReplay();
+    return this.http.get<SolicitudDeDeposito>(url);
   }
 
   pendientes(filtro: {} = {}): Observable<SolicitudDeDeposito[]> {
@@ -98,6 +100,6 @@ export class SolicitudService {
 
   buscarDupicada(id: string): Observable<any> {
     const url = `${this.apiUrl}/buscarDuplicada/${id}`;
-    return this.http.get<any>(url).shareReplay();
+    return this.http.get<any>(url);
   }
 }

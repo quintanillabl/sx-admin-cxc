@@ -1,9 +1,9 @@
+
+import {of as observableOf,  Observable ,  BehaviorSubject } from 'rxjs';
 import { CollectionViewer, DataSource } from '@angular/cdk/collections';
-import { Observable } from 'rxjs/Observable';
 
 import { Cliente } from '../../models';
 import { ClienteService } from '../../services/cliente.service';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { catchError, finalize, delay } from 'rxjs/operators';
 
 export class ClientesDataSource implements DataSource<Cliente> {
@@ -39,7 +39,7 @@ export class ClientesDataSource implements DataSource<Cliente> {
       .list(filter)
       .pipe(
         // delay(3000),
-        catchError(() => Observable.of([])),
+        catchError(() => observableOf([])),
         finalize(() => this.loadingSubject.next(false))
       )
       .subscribe(clientes => this.clientesSubject.next(clientes));

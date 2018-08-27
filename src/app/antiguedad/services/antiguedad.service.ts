@@ -1,7 +1,7 @@
+
+import {throwError as observableThrowError,  Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-
-import { Observable } from 'rxjs/Observable';
 import { catchError } from 'rxjs/operators';
 
 import { ConfigService } from 'app/utils/config.service';
@@ -17,7 +17,7 @@ export class AntiguedadService {
       .get<AntiguedadDeSaldo[]>(
         this.config.buildApiUrl('cuentasPorCobrar/antiguedad')
       )
-      .pipe(catchError(error => Observable.throw(error)));
+      .pipe(catchError(error => observableThrowError(error)));
   }
 
   cxc(clienteId: string): Observable<Cliente[]> {
@@ -25,7 +25,7 @@ export class AntiguedadService {
     const url = `${clieUrl}/${clienteId}/cxc`;
     return this.http
       .get<Cliente[]>(url)
-      .pipe(catchError(error => Observable.throw(error)));
+      .pipe(catchError(error => observableThrowError(error)));
   }
 
   print(command: {
@@ -41,7 +41,7 @@ export class AntiguedadService {
     const headers = new HttpHeaders().set('Content-type', 'application/pdf');
     return this.http
       .get(url, { headers: headers, params: params, responseType: 'blob' })
-      .pipe(catchError(error => Observable.throw(error)));
+      .pipe(catchError(error => observableThrowError(error)));
   }
 
   antiguedadPorCliente(cliente, fecha): Observable<any> {
@@ -52,7 +52,7 @@ export class AntiguedadService {
     const headers = new HttpHeaders().set('Content-type', 'application/pdf');
     return this.http
       .get(url, { headers: headers, responseType: 'blob', params: params })
-      .pipe(catchError(error => Observable.throw(error)));
+      .pipe(catchError(error => observableThrowError(error)));
   }
 
   reporteDeCobranzaCOD(sucursal, fecha): Observable<any> {
@@ -65,7 +65,7 @@ export class AntiguedadService {
     const headers = new HttpHeaders().set('Content-type', 'application/pdf');
     return this.http
       .get(url, { headers: headers, responseType: 'blob', params: params })
-      .pipe(catchError(error => Observable.throw(error)));
+      .pipe(catchError(error => observableThrowError(error)));
   }
 
   clientesSuspendidosCre(): Observable<any> {
@@ -75,7 +75,7 @@ export class AntiguedadService {
     const headers = new HttpHeaders().set('Content-type', 'application/pdf');
     return this.http
       .get(url, { headers: headers, responseType: 'blob' })
-      .pipe(catchError(error => Observable.throw(error)));
+      .pipe(catchError(error => observableThrowError(error)));
   }
 
   facturasConNotaDevolucion(command: any): Observable<any> {
@@ -90,7 +90,7 @@ export class AntiguedadService {
     const headers = new HttpHeaders().set('Content-type', 'application/pdf');
     return this.http
       .get(url, { headers: headers, responseType: 'blob', params: params })
-      .pipe(catchError(error => Observable.throw(error)));
+      .pipe(catchError(error => observableThrowError(error)));
   }
 
   exceptionesDescuentos(command: any): Observable<any> {
@@ -105,6 +105,6 @@ export class AntiguedadService {
     const headers = new HttpHeaders().set('Content-type', 'application/pdf');
     return this.http
       .get(url, { headers: headers, responseType: 'blob', params: params })
-      .pipe(catchError(error => Observable.throw(error)));
+      .pipe(catchError(error => observableThrowError(error)));
   }
 }

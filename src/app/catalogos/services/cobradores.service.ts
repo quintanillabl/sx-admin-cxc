@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import {throwError as observableThrowError,  Observable } from 'rxjs';
 
 import { Cobrador } from '../models/cobrador';
 import { ConfigService } from 'app/utils/config.service';
@@ -16,27 +16,27 @@ export class CobradoresService {
 
   list(): Observable<Cobrador[]> {
     return this.http
-      .get(this.apiUrl)
-      .pipe(catchError(error => Observable.throw(error)));
+      .get<Cobrador[]>(this.apiUrl)
+      .pipe(catchError(error => observableThrowError(error)));
   }
 
   save(cobrador: Cobrador): Observable<Cobrador> {
     return this.http
-      .post(this.apiUrl, cobrador)
-      .pipe(catchError(error => Observable.throw(error)));
+      .post<Cobrador>(this.apiUrl, cobrador)
+      .pipe(catchError(error => observableThrowError(error)));
   }
 
   update(cobrador: Cobrador): Observable<Cobrador> {
     const url = `${this.apiUrl}/${cobrador.id}`;
     return this.http
-      .put(url, cobrador)
-      .pipe(catchError(error => Observable.throw(error)));
+      .put<Cobrador>(url, cobrador)
+      .pipe(catchError(error => observableThrowError(error)));
   }
 
   delete(cobrador: Cobrador) {
     const url = `${this.apiUrl}/${cobrador.id}`;
     return this.http
       .delete(url)
-      .pipe(catchError(error => Observable.throw(error)));
+      .pipe(catchError(error => observableThrowError(error)));
   }
 }

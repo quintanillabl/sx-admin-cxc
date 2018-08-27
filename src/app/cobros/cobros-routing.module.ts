@@ -13,11 +13,16 @@ const routes: Routes = [
     data: { cartera: { clave: 'CRE', descripcion: 'CREDITO' } },
     children: [
       { path: 'facturas', component: fromContainers.FacturasComponent },
-      { path: 'cobros', component: fromContainers.CobrosComponent },
       {
-        path: 'cobros/:id',
-        component: fromContainers.CobroComponent,
-        resolve: { cobro: CobroResolver }
+        path: 'cobros',
+        canActivate: [fromGuards.CobrosGuard],
+        component: fromContainers.CobrosComponent
+      },
+      {
+        path: 'cobros/:cobroId',
+        canActivate: [fromGuards.CobrosGuard, fromGuards.CobroExistsGuard],
+        component: fromContainers.CobroComponent
+        // resolve: { cobro: CobroResolver }
       },
       {
         path: 'revisiones',
@@ -111,6 +116,16 @@ const routes: Routes = [
         path: 'mejoresClientes/:bonificacionId',
         canActivate: [fromGuards.BonificacionMCExistsGuard],
         component: fromContainers.BonificacionMCComponent
+      },
+      {
+        path: 'cobros',
+        canActivate: [fromGuards.CobrosGuard],
+        component: fromContainers.CobrosComponent
+      },
+      {
+        path: 'cobros/:cobroId',
+        canActivate: [fromGuards.CobrosGuard, fromGuards.CobroExistsGuard],
+        component: fromContainers.CobroComponent
       }
     ]
   },

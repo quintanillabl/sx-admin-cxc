@@ -1,10 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Observable } from 'rxjs/Observable';
+import { Store, select } from '@ngrx/store';
+import * as fromStore from '../../store';
+import * as fromActions from '../../store/actions/cobros.actions';
 
-import { Cobro } from '../../models/cobro';
-import { CobrosService } from '../../services';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Observable, Subject } from 'rxjs';
+
+import { Cobro, CobroFilter } from '../../models/cobro';
+import { Cartera } from '../../models/cartera';
 
 @Component({
   selector: 'sx-cobros',
@@ -12,53 +15,30 @@ import { Router, ActivatedRoute } from '@angular/router';
 })
 export class CobrosComponent implements OnInit {
   cobros$: Observable<Cobro[]>;
-  term = '';
-  cartera: { clave: string; descripcion: string };
-  _disponibles = true;
+  search$ = new Subject();
+  filter = '';
+  cobrosFilter$: Observable<CobroFilter>;
+  cartera$: Observable<Cartera>;
 
-  constructor(
-    private servie: CobrosService,
-    private router: Router,
-    private route: ActivatedRoute
-  ) {}
+  constructor(private store: Store<fromStore.CobranzaState>) {}
 
   ngOnInit() {
-    this.route.parent.data.subscribe(data => {
-      // console.log('Parent data: ', data);
-      this.cartera = data.cartera;
-      this.load();
-    });
+    this.cobros$ = this.store.pipe(select(fromStore.getAllCobros));
+    this.cartera$ = this.store.pipe(select(fromStore.getCartera));
+    this.filter = localStorage.getItem('sx-cxc.cre.cobros.filter');
+    this.cobrosFilter$ = this.store.pipe(select(fromStore.getCobrosFilter));
   }
 
-  load() {
-    if (this.disponibles) {
-      this.cobros$ = this.servie.disponibles({
-        cartera: this.cartera.clave,
-        term: this.term
-      });
+  onSearch(event: string) {
+    if (event.length > 0) {
+      localStorage.setItem('sx-cxc.cre.cobros.filter', event);
     } else {
-      this.cobros$ = this.servie.list({
-        cartera: this.cartera.clave,
-        term: this.term
-      });
+      localStorage.removeItem('sx-cxc.cre.cobros.filter');
     }
+    this.filter = event;
   }
 
-  onSearch(event) {
-    this.term = event;
-    this.load();
-  }
-
-  onSelect(cobro: Cobro) {
-    const path = `cobranza/${this.cartera.clave.toLowerCase()}/cobros`;
-    this.router.navigate([path, cobro.id]);
-  }
-
-  get disponibles() {
-    return this._disponibles;
-  }
-  set disponibles(val) {
-    this._disponibles = val;
-    this.load();
+  onFilter(event: CobroFilter) {
+    this.store.dispatch(new fromActions.SetCobrosFilter(event));
   }
 }

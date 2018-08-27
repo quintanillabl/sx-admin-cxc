@@ -1,10 +1,12 @@
+
+import {of as observableOf,  Observable } from 'rxjs';
+
+import {switchMap, map,  catchError } from 'rxjs/operators';
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DatePipe, CurrencyPipe } from '@angular/common';
 
 import { Cliente } from '../../models';
-import { catchError } from 'rxjs/operators';
 import { ClienteService } from '../../services';
 import { ITdDataTableColumn } from '@covalent/core';
 
@@ -66,17 +68,17 @@ export class ClienteNotasComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.cliente$ = this.route.parent.data.map(data => data.cliente);
+    this.cliente$ = this.route.parent.data.pipe(map(data => data.cliente));
     this.tipo = this.route.snapshot.data.tipo;
     this.load();
   }
 
   load() {
-    this.notas$ = this.cliente$.switchMap(cliente => {
+    this.notas$ = this.cliente$.pipe(switchMap(cliente => {
       return this.service
         .notas(cliente, { term: this.term, tipo: this.tipo })
-        .pipe(catchError(err => Observable.of(err)));
-    });
+        .pipe(catchError(err => observableOf(err)));
+    }));
   }
 
   onSelect(nota) {

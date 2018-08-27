@@ -6,7 +6,8 @@ import { RevisionesService } from './revisiones.service';
 import { ComisionesService } from './comisions.service';
 import { FacturasService } from './facturas.service';
 import { BonificacionesMCService } from './bonificacionesMC.service';
-
+import { CxCService } from './cxc.service';
+import { CfdiService } from './cfdi.service';
 
 export const services: any[] = [
   CobrosService,
@@ -16,7 +17,9 @@ export const services: any[] = [
   RevisionesService,
   ComisionesService,
   FacturasService,
-  BonificacionesMCService
+  BonificacionesMCService,
+  CxCService,
+  CfdiService
 ];
 
 export * from './cobros.service';
@@ -27,5 +30,5 @@ export * from './revisiones.service';
 export * from './comisions.service';
 export * from './facturas.service';
 export * from './bonificacionesMC.service';
-
-
+export * from './cxc.service';
+export * from './cfdi.service';

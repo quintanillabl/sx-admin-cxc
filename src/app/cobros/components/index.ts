@@ -16,6 +16,15 @@ import { ComisionesTableComponent } from './comisiones-table/comisiones-table.co
 import { ReporteDeComisionesComponent } from './reporte-de-comisiones/reporte-de-comisiones.component';
 import { FacturasTable2Component } from './facturas-table2/facturas-table2.component';
 import { MejoresClientesTableComponent } from './mejores-clientes-table/mejores-clientes-table.component';
+import { CobroFormComponent } from './cobro-form/cobro-form.component';
+import { CxCSelectorComponent } from './cxc-selector/cxc-selector.component';
+import { CxCSelectorDialogComponent } from './cxc-selector/cxc-selector-dialog.component';
+import { CxCTableComponent } from './cxc-table/cxc-table.component';
+import { CfdiPrintComponent } from './cfdis-actions/cfdi-print.component';
+import { CfdiXmlComponent } from './cfdis-actions/cfdi-xml.component';
+import { CobrosFilterComponent } from './cobros-filter/cobros-filter.component';
+import { CobrosFilterDialogComponent } from './cobros-filter/cobros-filter-dialog.component';
+import { CobrosFilterLabelComponent } from './cobros-filter/cobros-filter-label.component';
 
 export const components: any[] = [
   CobrosTableComponent,
@@ -35,14 +44,25 @@ export const components: any[] = [
   ComisionesTableComponent,
   ReporteDeComisionesComponent,
   FacturasTable2Component,
-  MejoresClientesTableComponent
+  MejoresClientesTableComponent,
+  CobroFormComponent,
+  CxCSelectorDialogComponent,
+  CxCSelectorComponent,
+  CxCTableComponent,
+  CfdiPrintComponent,
+  CfdiXmlComponent,
+  CobrosFilterComponent,
+  CobrosFilterDialogComponent,
+  CobrosFilterLabelComponent
 ];
 export const entryComponents: any[] = [
   FacturasSelectorComponent,
   RevisionFormComponent,
   ReporteDeRevisionComponent,
   GeneraComisionesComponent,
-  ReporteDeComisionesComponent
+  ReporteDeComisionesComponent,
+  CxCSelectorDialogComponent,
+  CobrosFilterDialogComponent
 ];
 
 export * from './cobros-table/cobros-table.component';
@@ -63,3 +83,14 @@ export * from './comisiones-table/comisiones-table.component';
 export * from './reporte-de-comisiones/reporte-de-comisiones.component';
 export * from './facturas-table2/facturas-table2.component';
 export * from './mejores-clientes-table/mejores-clientes-table.component';
+
+export * from './cobro-form/cobro-form.component';
+export * from './cxc-selector/cxc-selector.component';
+export * from './cxc-selector/cxc-selector-dialog.component';
+export * from './cxc-table/cxc-table.component';
+
+export * from './cfdis-actions/cfdi-print.component';
+export * from './cfdis-actions/cfdi-xml.component';
+export * from './cobros-filter/cobros-filter.component';
+export * from './cobros-filter/cobros-filter-dialog.component';
+export * from './cobros-filter/cobros-filter-label.component';

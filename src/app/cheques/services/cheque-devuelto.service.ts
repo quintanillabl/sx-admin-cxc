@@ -1,7 +1,6 @@
+import { throwError as observableThrowError, Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-
-import { Observable } from 'rxjs/Observable';
 import { catchError } from 'rxjs/operators';
 
 import { ConfigService } from '../../utils/config.service';
@@ -17,7 +16,7 @@ export class ChequeDevueltoService {
 
   list(): Observable<ChequeDevuelto[]> {
     return this.http
-      .get<ChequeDevuelto>(this.apiUrl)
-      .pipe(catchError(error => Observable.throw(error)));
+      .get<ChequeDevuelto[]>(this.apiUrl)
+      .pipe(catchError(error => observableThrowError(error)));
   }
 }

@@ -1,6 +1,10 @@
+import { Cliente } from '../../clientes/models';
+import { Periodo } from '../../_core/models/periodo';
+
 export interface Cobro {
   id?: string;
-  cliente: { id: string; nombre: string };
+  cliente: Partial<Cliente>;
+  nombre: string;
   sucursal: { id: string; nombre: string };
   tipo: string;
   fecha: string;
@@ -26,6 +30,8 @@ export interface Cobro {
   comentario?: string;
   pendientesDeAplicar?: Array<any>;
   fechaDeAplicacion?: string;
+  selected?: boolean;
+  recibo?: string;
 }
 
 export interface CobroTarjeta {
@@ -40,4 +46,25 @@ export interface CobroCheque {
   banco: { id: string };
   numero: string;
   numeroDeCuenta: string;
+}
+
+export interface CobroFilter {
+  fechaInicial?: Date;
+  fechaFinal?: Date;
+  cliente?: Partial<Cliente>;
+  registros?: number;
+  pendientes?: boolean;
+}
+
+export function build(
+  registros: number = 50,
+  pendientes: boolean = true
+): CobroFilter {
+  const periodo = Periodo.fromNow(30);
+  return {
+    fechaInicial: periodo.fechaInicial,
+    fechaFinal: periodo.fechaFinal,
+    registros,
+    pendientes
+  };
 }

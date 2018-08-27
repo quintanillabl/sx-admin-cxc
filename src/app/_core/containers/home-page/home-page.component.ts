@@ -1,5 +1,6 @@
+
+import {of as observableOf,  Observable } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'sx-home-page',
@@ -13,8 +14,8 @@ export class HomePageComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {
-    this.header$ = Observable.of('SIIPAPX CxC');
-    this.application$ = Observable.of({
+    this.header$ = observableOf('SIIPAPX CxC');
+    this.application$ = observableOf({
       name: 'SIIPAPX CxC',
       descripcion: 'Módulo de cuentas por cobrar de SIIPAPX',
       image: '/assets/images/logo_papelsa.jpg'

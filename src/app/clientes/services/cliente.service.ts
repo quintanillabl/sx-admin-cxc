@@ -1,7 +1,7 @@
+
+import {of as observableOf,  Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
-
-import { Observable } from 'rxjs/Observable';
 import { catchError } from 'rxjs/operators';
 
 import * as _ from 'lodash';
@@ -30,27 +30,27 @@ export class ClienteService {
     });
     return this.http
       .get<Cliente[]>(this.apiUrl, { params: params })
-      .pipe(catchError(error => Observable.of(error)));
+      .pipe(catchError(error => observableOf(error)));
   }
 
   save(cliente: Cliente): Observable<Cliente> {
     return this.http
       .post<Cliente>(this.apiUrl, cliente)
-      .pipe(catchError(error => Observable.of(error)));
+      .pipe(catchError(error => observableOf(error)));
   }
 
   update(cliente: Cliente): Observable<Cliente> {
     const url = `${this.apiUrl}/${cliente.id}`;
     return this.http
       .put<Cliente>(url, cliente)
-      .pipe(catchError(error => Observable.of(error)));
+      .pipe(catchError(error => observableOf(error)));
   }
 
   delete(cliente: Cliente) {
     const url = `${this.apiUrl}/${cliente.id}`;
     return this.http
       .delete(url)
-      .pipe(catchError(error => Observable.of(error)));
+      .pipe(catchError(error => observableOf(error)));
   }
 
   facturas(cliente: Cliente, filtro?: any): Observable<Cliente[]> {
@@ -73,7 +73,7 @@ export class ClienteService {
 
   saldarCxc(cxcId) {
     const url = this.config.buildApiUrl(`cuentasPorCobrar/saldar/${cxcId}`);
-    return this.http.put(url, {}).pipe(catchError(err => Observable.of(err)));
+    return this.http.put(url, {}).pipe(catchError(err => observableOf(err)));
   }
 
   notas(cliente: Cliente, filtro?: any): Observable<any[]> {

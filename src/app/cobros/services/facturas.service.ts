@@ -1,7 +1,7 @@
+
+import {of as observableOf,  Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-
-import { Observable } from 'rxjs/Observable';
 
 import { ConfigService } from '../../utils/config.service';
 import { catchError } from 'rxjs/operators';
@@ -26,7 +26,7 @@ export class FacturasService {
     const url = `${this.apiUrl}/search`;
     return this.http
       .get<CuentaPorCobrar[]>(url, { params: params })
-      .pipe(catchError(err => Observable.of(err)));
+      .pipe(catchError(err => observableOf(err)));
   }
 
   imprimirCfdi(cfdi: any) {
@@ -59,11 +59,11 @@ export class FacturasService {
     };
     return this.http
       .put<any>(url, command)
-      .pipe(catchError(err => Observable.of(err)));
+      .pipe(catchError(err => observableOf(err)));
   }
 
   saldarCxc(cxcId: string) {
     const url = `${this.apiUrl}/saldar/${cxcId}`;
-    return this.http.put(url, {}).pipe(catchError(err => Observable.of(err)));
+    return this.http.put(url, {}).pipe(catchError(err => observableOf(err)));
   }
 }

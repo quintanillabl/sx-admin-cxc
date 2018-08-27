@@ -15,7 +15,7 @@ import {
   tap,
   filter
 } from 'rxjs/operators';
-import { of } from 'rxjs/observable/of';
+import { of } from 'rxjs';
 import { BonificacionesMCService } from '../../services';
 
 @Injectable()

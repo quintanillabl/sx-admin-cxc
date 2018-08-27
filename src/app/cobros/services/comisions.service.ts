@@ -1,6 +1,7 @@
+
+import {throwError as observableThrowError, of as observableOf,  Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
 
 import { ConfigService } from '../../utils/config.service';
 import { catchError } from 'rxjs/operators';
@@ -20,7 +21,7 @@ export class ComisionesService {
       .set('fechaFinal', filtro.fechaFinal);
     return this.http
       .get<any[]>(url, { params: params })
-      .pipe(catchError(err => Observable.of(err)));
+      .pipe(catchError(err => observableOf(err)));
   }
 
   generar(command: any): Observable<any[]> {
@@ -31,7 +32,7 @@ export class ComisionesService {
       .set('tipo', command.tipo);
     return this.http
       .get<any[]>(url, { params: params })
-      .pipe(catchError(err => Observable.of(err)));
+      .pipe(catchError(err => observableOf(err)));
   }
 
   reporte(command: any): Observable<any> {
@@ -44,6 +45,6 @@ export class ComisionesService {
     const headers = new HttpHeaders().set('Content-type', 'application/pdf');
     return this.http
       .get(url, { headers: headers, responseType: 'blob', params: params })
-      .pipe(catchError(error => Observable.throw(error)));
+      .pipe(catchError(error => observableThrowError(error)));
   }
 }

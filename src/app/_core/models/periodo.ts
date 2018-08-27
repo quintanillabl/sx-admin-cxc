@@ -27,6 +27,12 @@ export class Periodo {
     }
   }
 
+  static fromNow(days: number): Periodo {
+    const f1 = moment().subtract(days, 'days');
+    const f2 = moment();
+    return new Periodo(f1.toDate(), f2.toDate());
+  }
+
   static monthToDay(): Periodo {
     const now = moment();
     const f1 = moment(now).startOf('month');

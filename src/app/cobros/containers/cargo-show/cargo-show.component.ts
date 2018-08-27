@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs/Observable';
 import { MatSnackBar } from '@angular/material';
 
 import { NotaDeCargo } from '../../models/notaDeCargo';
@@ -10,6 +9,9 @@ import {
   TdLoadingService,
   TdDialogService
 } from '@covalent/core';
+
+import { Observable, empty } from 'rxjs';
+import { switchMap, catchError, finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'sx-cargo-show',
@@ -39,9 +41,11 @@ export class CargoShowComponent implements OnInit {
 
   ngOnInit() {
     this.route.paramMap
-      .switchMap(params => {
-        return this.service.get(params.get('id'));
-      })
+      .pipe(
+        switchMap(params => {
+          return this.service.get(params.get('id'));
+        })
+      )
       .subscribe(nota => (this.nota = nota));
   }
 
@@ -61,7 +65,7 @@ export class CargoShowComponent implements OnInit {
         this._loadingService.register('processing');
         this.service
           .delete(nota.id)
-          .finally(() => this._loadingService.resolve('processing'))
+          .pipe(finalize(() => this._loadingService.resolve('processing')))
           .subscribe(data => {
             console.log('Nota de cargo eliminada');
             this.router.navigate(['../../'], { relativeTo: this.route });
@@ -72,20 +76,17 @@ export class CargoShowComponent implements OnInit {
 
   print(nota) {
     this._loadingService.register('processing');
-    this.service
-      .print(nota)
-      .delay(1000)
-      .subscribe(
-        res => {
-          const blob = new Blob([res], {
-            type: 'application/pdf'
-          });
-          this._loadingService.resolve('processing');
-          const fileURL = window.URL.createObjectURL(blob);
-          window.open(fileURL, '_blank');
-        },
-        error2 => console.log(error2)
-      );
+    this.service.print(nota).subscribe(
+      res => {
+        const blob = new Blob([res], {
+          type: 'application/pdf'
+        });
+        this._loadingService.resolve('processing');
+        const fileURL = window.URL.createObjectURL(blob);
+        window.open(fileURL, '_blank');
+      },
+      error2 => console.log(error2)
+    );
   }
 
   mostrarXml(nota) {
@@ -120,8 +121,10 @@ export class CargoShowComponent implements OnInit {
     this._loadingService.register('processing');
     this.service
       .enviarPorEmail(nota.cfdi, target)
-      .finally(() => this._loadingService.resolve('processing'))
-      .catch(error2 => this.handelError2(error2))
+      .pipe(
+        finalize(() => this._loadingService.resolve('processing')),
+        catchError(error2 => this.handelError2(error2))
+      )
       .subscribe((val: any) => {
         console.log('Val: ', val);
         this.toast('Factura enviada a: ' + val.target, '');
@@ -137,7 +140,7 @@ export class CargoShowComponent implements OnInit {
       message: message,
       closeButton: 'Cerrar'
     });
-    return Observable.empty();
+    return empty();
   }
 
   toast(message: string, action: string) {

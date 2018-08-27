@@ -5,9 +5,8 @@ import { Store } from '@ngrx/store';
 import * as fromStore from '../store';
 import * as revisionActions from '../store/actions/revision.actions';
 
-import { Observable } from 'rxjs/Observable';
+import { Observable ,  of } from 'rxjs';
 import { tap, filter, take, switchMap, catchError } from 'rxjs/operators';
-import { of } from 'rxjs/observable/of';
 
 @Injectable()
 export class RevisionGuard implements CanActivate {

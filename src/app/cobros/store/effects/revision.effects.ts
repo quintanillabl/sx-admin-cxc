@@ -5,7 +5,7 @@ import { RevisionesService } from '../../services';
 import * as revisionActions from '../actions/revision.actions';
 
 import { map, switchMap, catchError, tap, filter } from 'rxjs/operators';
-import { of } from 'rxjs/observable/of';
+import { of } from 'rxjs';
 
 @Injectable()
 export class RevisionEffects {

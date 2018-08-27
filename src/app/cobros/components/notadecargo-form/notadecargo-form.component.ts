@@ -17,7 +17,10 @@ import {
   FormArray,
   FormControl
 } from '@angular/forms';
-import { Subject } from 'rxjs/Subject';
+
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+
 import * as _ from 'lodash';
 
 import { NotaDeCargo } from '../../models/notaDeCargo';
@@ -89,7 +92,9 @@ export class NotadecargoFormComponent implements OnInit, OnChanges, OnDestroy {
     // Listen to import
     this.form
       .get('cargo')
-      .valueChanges.takeUntil(this.destroy$)
+      .valueChanges.pipe(
+        takeUntil(this.destroy$)
+      )
       .subscribe(importe => {
         this.actualizar();
       });
@@ -112,7 +117,9 @@ export class NotadecargoFormComponent implements OnInit, OnChanges, OnDestroy {
   private observarTipoDeCalculo() {
     this.form
       .get('tipoDeCalculo')
-      .valueChanges.takeUntil(this.destroy$)
+      .valueChanges.pipe(
+        takeUntil(this.destroy$)
+      )
       .subscribe((tipo: string) => {
         switch (tipo) {
           case 'PORCENTAJE':

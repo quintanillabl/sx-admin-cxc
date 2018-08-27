@@ -1,7 +1,6 @@
+import { throwError as observableThrowError, Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-
-import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 import { Vendedor } from '../models/vendedor';
@@ -16,27 +15,27 @@ export class VendedoresService {
 
   list(): Observable<Vendedor[]> {
     return this.http
-      .get(this.apiUrl)
-      .pipe(catchError(error => Observable.throw(error)));
+      .get<Vendedor[]>(this.apiUrl)
+      .pipe(catchError(error => observableThrowError(error)));
   }
 
   save(vendedor: Vendedor): Observable<Vendedor> {
     return this.http
-      .post(this.apiUrl, vendedor)
-      .pipe(catchError(error => Observable.throw(error)));
+      .post<Vendedor>(this.apiUrl, vendedor)
+      .pipe(catchError(error => observableThrowError(error)));
   }
 
   update(vendedor: Vendedor): Observable<Vendedor> {
     const url = `${this.apiUrl}/${vendedor.id}`;
     return this.http
-      .put(url, vendedor)
-      .pipe(catchError(error => Observable.throw(error)));
+      .put<Vendedor>(url, vendedor)
+      .pipe(catchError(error => observableThrowError(error)));
   }
 
   delete(vendedor: Vendedor) {
     const url = `${this.apiUrl}/${vendedor.id}`;
     return this.http
       .delete(url)
-      .pipe(catchError(error => Observable.throw(error)));
+      .pipe(catchError(error => observableThrowError(error)));
   }
 }

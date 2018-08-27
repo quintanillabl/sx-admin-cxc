@@ -3,9 +3,8 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect } from '@ngrx/effects';
 import * as fromCobradores from '../actions/cobradores.actions';
 
-import { Observable } from 'rxjs';
+import { Observable ,  of } from 'rxjs';
 import { map, switchMap, catchError } from 'rxjs/operators';
-import { of } from 'rxjs/observable/of';
 
 import { Cobrador } from '../../models/cobrador';
 import { CobradoresService } from '../../services';

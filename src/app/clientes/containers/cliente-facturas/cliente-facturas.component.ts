@@ -1,14 +1,15 @@
+
+import {of as observableOf,  Observable ,  BehaviorSubject } from 'rxjs';
+
+import {switchMap, map, debounceTime, distinctUntilChanged,  catchError } from 'rxjs/operators';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs/Observable';
 import { DatePipe, CurrencyPipe } from '@angular/common';
-import { catchError } from 'rxjs/operators';
 
 import { ITdDataTableColumn } from '@covalent/core';
 
 import { Cliente } from '../../models';
 import { ClienteService } from '../../services';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { ReportesService } from '../../../reportes/services';
 
 @Component({
@@ -73,10 +74,10 @@ export class ClienteFacturasComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.cliente$ = this.route.parent.data.map(data => data.cliente);
-    this.search$
-      .debounceTime(400)
-      .distinctUntilChanged()
+    this.cliente$ = this.route.parent.data.pipe(map(data => data.cliente));
+    this.search$.pipe(
+      debounceTime(400),
+      distinctUntilChanged(),)
       .subscribe(term => {
         this.term = term;
         this.load();
@@ -84,11 +85,11 @@ export class ClienteFacturasComponent implements OnInit {
   }
 
   load() {
-    this.facturas$ = this.cliente$.switchMap(cliente => {
+    this.facturas$ = this.cliente$.pipe(switchMap(cliente => {
       return this.service
         .facturas(cliente, { term: this.term })
-        .pipe(catchError(err => Observable.of(err)));
-    });
+        .pipe(catchError(err => observableOf(err)));
+    }));
   }
 
   onSearch(term) {

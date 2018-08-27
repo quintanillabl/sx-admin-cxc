@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { DatePipe, CurrencyPipe } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs/Observable';
+
+import { Observable, empty } from 'rxjs';
+import { catchError, finalize } from 'rxjs/operators';
 
 import {
   ITdDataTableColumn,
@@ -107,7 +109,7 @@ export class BonificacionesComponent implements OnInit {
         tipo: 'BONIFICACION',
         cartera: this.cartera.clave
       })
-      .catch(error => this.handelError2(error));
+      .pipe(catchError(error => this.handelError2(error)));
   }
 
   sort(sortEvent: ITdDataTableSortChangeEvent): void {
@@ -157,6 +159,6 @@ export class BonificacionesComponent implements OnInit {
       message: message,
       closeButton: 'Cerrar'
     });
-    return Observable.empty();
+    return empty();
   }
 }
