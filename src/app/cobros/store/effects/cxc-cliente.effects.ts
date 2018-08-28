@@ -17,6 +17,7 @@ import { CxCService } from '../../services';
 export class CxCClienteEffects {
   constructor(private actions$: Actions, private service: CxCService) {}
 
+  /*
   @Effect()
   loadCuentasPorCliente$ = this.actions$.pipe(
     ofType<fromActions.LoadCuentasPorCliente>(
@@ -32,7 +33,7 @@ export class CxCClienteEffects {
           )
         );
     })
-  );
+  );*/
 
   @Effect()
   setCliente$ = this.actions$.pipe(

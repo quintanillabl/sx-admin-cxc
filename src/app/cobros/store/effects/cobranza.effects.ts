@@ -10,6 +10,7 @@ import { RouterNavigationAction } from '@ngrx/router-store';
 export class CobranzaEffects {
   constructor(private actions$: Actions) {}
 
+  /*
   @Effect()
   routerState$ = this.actions$.pipe(
     ofType<RouterNavigationAction>('ROUTER_NAVIGATION'),
@@ -26,7 +27,7 @@ export class CobranzaEffects {
         });
       } else if (url.startsWith('/cobranza/che')) {
         return new fromActions.SetCartera({
-          cartera: { clave: 'CON', descripcion: 'CHEQUE_DEVUELTO' }
+          cartera: { clave: 'CHE', descripcion: 'CHEQUE_DEVUELTO' }
         });
       } else if (url.startsWith('/cobranza/jur')) {
         return new fromActions.SetCartera({
@@ -37,4 +38,5 @@ export class CobranzaEffects {
       }
     })
   );
+  */
 }

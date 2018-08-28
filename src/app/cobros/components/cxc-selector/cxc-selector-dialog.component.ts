@@ -67,7 +67,7 @@ export class CxCSelectorDialogComponent implements OnInit {
 
   ngOnInit() {
     this.service
-      .cuentasPorCobrar(this.cliente)
+      .cuentasPorCobrar(this.cliente, this.cartera)
       .pipe(
         tap(() => (this.procesando = true)),
         finalize(() => (this.procesando = false))

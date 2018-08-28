@@ -49,7 +49,7 @@ export class CobroExistsGuard implements CanActivate {
       map(action => !!action.payload),
       catchError(error => {
         console.error('No se puede activar la ruta error: ', error);
-        this.store.dispatch(new fromRoot.Back());
+        // this.store.dispatch(new fromRoot.Back());
         return of(false);
       })
     );

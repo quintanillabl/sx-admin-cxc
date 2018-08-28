@@ -1,4 +1,5 @@
-import { CobranzaComponent } from './cobranza/cobranza.component';
+import { CobranzaCreComponent } from './cobranza-cre/cobranza-cre.component';
+import { CobranzaCheComponent } from './cobranza-che/cobranza-che.component';
 import { CobrosComponent } from './cobros/cobros.component';
 import { CobroComponent } from './cobro/cobro.component';
 import { DevolucionesComponent } from './devoluciones/devoluciones.component';
@@ -14,9 +15,12 @@ import { ComisionesComponent } from './comisiones/comisiones.component';
 import { FacturasComponent } from './facturas/facturas.component';
 import { MejoresClientesComponent } from './mejores-clientes/mejores-clientes.component';
 import { BonificacionMCComponent } from './bonificacionMC/bonificacionMC.component';
+import { CobranzaConComponent } from './cobranza-con/cobranza-con.component';
 
 export const containers: any[] = [
-  CobranzaComponent,
+  CobranzaCreComponent,
+  CobranzaConComponent,
+  CobranzaCheComponent,
   CobrosComponent,
   CobroComponent,
   DevolucionesComponent,
@@ -34,7 +38,10 @@ export const containers: any[] = [
   BonificacionMCComponent
 ];
 
-export * from './cobranza/cobranza.component';
+export * from './cobranza-cre/cobranza-cre.component';
+export * from './cobranza-con/cobranza-con.component';
+export * from './cobranza-che/cobranza-che.component';
+export * from './cobranza-che/cobranza-che.component';
 export * from './cobros/cobros.component';
 export * from './cobro/cobro.component';
 export * from './devoluciones/devoluciones.component';

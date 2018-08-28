@@ -41,4 +41,8 @@ export class CobrosComponent implements OnInit {
   onFilter(event: CobroFilter) {
     this.store.dispatch(new fromActions.SetCobrosFilter(event));
   }
+
+  onSelect(event) {
+    console.log('Selected: ', event);
+  }
 }

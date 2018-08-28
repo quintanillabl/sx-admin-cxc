@@ -32,6 +32,7 @@ export interface Cobro {
   fechaDeAplicacion?: string;
   selected?: boolean;
   recibo?: string;
+  cfdi?: any;
 }
 
 export interface CobroTarjeta {

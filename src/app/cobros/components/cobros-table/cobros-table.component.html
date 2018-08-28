@@ -1,7 +1,17 @@
 <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
   <ng-container matColumnDef="nombre">
     <th mat-header-cell *matHeaderCellDef mat-sort-header>Nombre</th>
-    <td mat-cell *matCellDef="let row">{{row.nombre}}</td>
+    <td mat-cell *matCellDef="let row">
+      <span>{{row.nombre}}</span>
+      <!-- <a *ngIf="row.tipo === 'COD'" [routerLink]="[row.id]">{{row.nombre}}</a> -->
+    </td>
+    <td mat-footer-cell *matFooterCellDef> </td>
+  </ng-container>
+  <ng-container matColumnDef="sucursal">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Sucursal</th>
+    <td mat-cell *matCellDef="let row">
+      <span>{{row.sucursal.nombre}}</span>
+    </td>
     <td mat-footer-cell *matFooterCellDef> </td>
   </ng-container>
   <ng-container matColumnDef="tipo">
@@ -64,4 +74,4 @@
   <tr mat-row *matRowDef="let req; columns: displayColumns" class="cursor-pointer" [routerLink]="[req.id]"></tr>
   <tr mat-footer-row *matFooterRowDef="displayColumns"></tr>
 </table>
-<mat-paginator [pageSizeOptions]="[10, 50, 100, 200]" showFirstLastButtons></mat-paginator>
+<mat-paginator [pageSize]="20" [pageSizeOptions]="[20, 30, 40, 50, 100, 200]" showFirstLastButtons></mat-paginator>

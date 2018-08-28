@@ -2,7 +2,7 @@ import { Action } from '@ngrx/store';
 import { Update } from '@ngrx/entity';
 
 import { Cobro, CobroFilter } from '../../models/cobro';
-import { CuentaPorCobrar } from '../../models';
+import { CuentaPorCobrar, AplicacionDeCobro } from '../../models';
 
 export enum CobroActionTypes {
   GetCobro = '[Cobro] GetCobro One Cobro',
@@ -22,6 +22,7 @@ export enum CobroActionTypes {
   DeleteCobroSuccess = '[Cobro] Delete Cobro Success',
   ClearCobros = '[Cobro] Clear Cobros',
   AgregarAplicaciones = '[Cobro] Aplicar Cobros',
+  EliminarAplicacion = '[Cobro] Eliminar aplicacion de Cobros',
   GenerarRecibo = '[Cobro] Generar recibo electronico',
   SaldarRecibo = '[Cobro] Saldar recibo electronico',
   PrintRecibo = '[Cobro] Print recibo electronico',
@@ -40,6 +41,19 @@ export class LoadCobrosFail implements Action {
 export class LoadCobrosSuccess implements Action {
   readonly type = CobroActionTypes.LoadCobrosSuccess;
   constructor(public payload: Cobro[]) {}
+}
+
+export class GetCobro implements Action {
+  readonly type = CobroActionTypes.GetCobro;
+  constructor(public payload: { cobroId: string }) {}
+}
+export class GetCobroFail implements Action {
+  readonly type = CobroActionTypes.GetCobroFail;
+  constructor(public payload: any) {}
+}
+export class GetCobroSuccess implements Action {
+  readonly type = CobroActionTypes.GetCobroSuccess;
+  constructor(public payload: { cobro: Cobro }) {}
 }
 
 export class AddCobro implements Action {
@@ -91,7 +105,16 @@ export class AgregarAplicaciones implements Action {
   constructor(
     public payload: {
       cobro: Cobro;
-      cuentas: CuentaPorCobrar[]
+      cuentas: CuentaPorCobrar[];
+    }
+  ) {}
+}
+export class EliminarAplicacion implements Action {
+  readonly type = CobroActionTypes.EliminarAplicacion;
+  constructor(
+    public payload: {
+      cobro: Cobro;
+      aplicacion: AplicacionDeCobro;
     }
   ) {}
 }
@@ -128,6 +151,9 @@ export type CobroActions =
   | LoadCobros
   | LoadCobrosFail
   | LoadCobrosSuccess
+  | GetCobro
+  | GetCobroFail
+  | GetCobroSuccess
   | AddCobro
   | AddCobroFail
   | AddCobroSuccess
@@ -139,6 +165,7 @@ export type CobroActions =
   | DeleteCobroSuccess
   | ClearCobros
   | AgregarAplicaciones
+  | EliminarAplicacion
   | GenerarRecibo
   | PrintRecibo
   | PrintReciboFail

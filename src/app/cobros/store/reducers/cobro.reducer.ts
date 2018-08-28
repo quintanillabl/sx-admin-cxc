@@ -14,7 +14,6 @@ export const adapter: EntityAdapter<Cobro> = createEntityAdapter<Cobro>();
 export const initialState: State = adapter.getInitialState({
   loading: false,
   loaded: false,
-  cartera: 'CRE',
   filter: build(50, true)
 });
 
@@ -81,7 +80,11 @@ export function reducer(state = initialState, action: CobroActions): State {
     }
 
     case CobroActionTypes.ClearCobros: {
-      return adapter.removeAll(state);
+      return adapter.removeAll({
+        ...state,
+        loaded: false,
+        loading: false
+      });
     }
 
     case CobroActionTypes.SetCobrosFilter: {

@@ -18,12 +18,16 @@ export class CxCService {
     this.apiUrl = config.buildApiUrl('cuentasPorCobrar');
   }
 
-  cuentasPorCobrar(cliente: Cliente): Observable<CuentaPorCobrar[]> {
+  cuentasPorCobrar(
+    cliente: Cliente,
+    cartera: string
+  ): Observable<CuentaPorCobrar[]> {
+    const params = new HttpParams().set('cartera', cartera);
     const url = this.config.buildApiUrl(
       `cuentasPorCobrar/pendientes/${cliente.id}`
     );
     return this.http
-      .get<CuentaPorCobrar[]>(url)
+      .get<CuentaPorCobrar[]>(url, { params })
       .pipe(catchError(err => of(err)));
   }
 }

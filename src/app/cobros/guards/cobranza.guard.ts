@@ -6,31 +6,29 @@ import { Observable, of } from 'rxjs';
 import { tap, filter, take, switchMap, catchError } from 'rxjs/operators';
 
 import * as fromStore from '../store';
-import * as fromActions from '../store/actions/cobros.actions';
+import * as fromActions from '../store/actions/conbranza.actions';
 import { Cartera } from '../models/cartera';
 
 @Injectable()
-export class CobrosGuard implements CanActivate {
+export class CobranzaGuard implements CanActivate {
   constructor(private store: Store<fromStore.CobranzaState>) {}
 
   canActivate(route: ActivatedRouteSnapshot): Observable<boolean> {
-    const cartera: Cartera = route.parent.data.cartera;
-    console.log('Cartera: ', cartera);
-    console.log('Router: ', route);
-    return this.checkStore(cartera).pipe(
+    const cartera: Cartera = route.data.cartera;
+    return this.checkCartera(cartera).pipe(
       switchMap(() => of(true)),
       catchError(() => of(false))
     );
   }
 
-  checkStore(cartera: Cartera): Observable<boolean> {
-    return this.store.select(fromStore.getCobrosLoaded).pipe(
-      tap(loaded => {
-        if (!loaded) {
-          this.store.dispatch(new fromStore.LoadCobros());
+  checkCartera(cartera: Cartera): Observable<Cartera> {
+    return this.store.select(fromStore.getCartera).pipe(
+      tap(targetCartera => {
+        if (!targetCartera || targetCartera.clave !== cartera.clave) {
+          this.store.dispatch(new fromActions.SetCartera({ cartera }));
         }
       }),
-      filter(loaded => loaded), // Waiting for loaded
+      filter((res: Cartera) => res.clave === cartera.clave), // Waiting for cartera set
       take(1) // End the stream
     );
   }

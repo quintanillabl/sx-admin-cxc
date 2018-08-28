@@ -5,7 +5,7 @@ export interface AplicacionDeCobro {
   id?: string;
   cuentaPorCobrar: Partial<CuentaPorCobrar>;
   cobro: Partial<Cobro>;
-  import: number;
+  importe: number;
   fecha: string;
   formaDePago: string;
   recibo: string;

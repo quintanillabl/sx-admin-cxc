@@ -12,7 +12,7 @@
     <sx-cobro-form [cobro]="cobro"></sx-cobro-form>
   </div>
   <mat-divider></mat-divider>
-  <sx-aplicaciones-table [aplicaciones]="cobro.aplicaciones"></sx-aplicaciones-table>
+  <sx-aplicaciones-table [aplicaciones]="cobro.aplicaciones" (delete)="onDelete(cobro, $event)"></sx-aplicaciones-table>
   <mat-divider></mat-divider>
   <mat-card-actions>
     <button type="button" mat-button [routerLink]="['../']">

@@ -1,32 +1,30 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { CobrosComponent } from './containers';
 import * as fromContainers from './containers';
-import { CobroResolver } from './services';
 import * as fromGuards from './guards';
 
 const routes: Routes = [
   {
     path: 'cre',
-    component: fromContainers.CobranzaComponent,
+    component: fromContainers.CobranzaCreComponent,
     data: { cartera: { clave: 'CRE', descripcion: 'CREDITO' } },
+    canActivate: [fromGuards.CobranzaGuard],
     children: [
       { path: 'facturas', component: fromContainers.FacturasComponent },
       {
         path: 'cobros',
         canActivate: [fromGuards.CobrosGuard],
+        // canDeactivate: [fromGuards.CobrosExitGuard],
         component: fromContainers.CobrosComponent
       },
       {
         path: 'cobros/:cobroId',
         canActivate: [fromGuards.CobrosGuard, fromGuards.CobroExistsGuard],
         component: fromContainers.CobroComponent
-        // resolve: { cobro: CobroResolver }
       },
       {
         path: 'revisiones',
-        // canActivate: [fromGuards.RevisionGuard],
         component: fromContainers.RevisionesComponent
       },
       { path: 'devoluciones', component: fromContainers.DevolucionesComponent },
@@ -70,8 +68,9 @@ const routes: Routes = [
   },
   {
     path: 'con',
-    component: fromContainers.CobranzaComponent,
+    component: fromContainers.CobranzaConComponent,
     data: { cartera: { clave: 'CON', descripcion: 'CONTADO' } },
+    canActivate: [fromGuards.CobranzaGuard],
     children: [
       { path: 'facturas', component: fromContainers.FacturasComponent },
       { path: 'devoluciones', component: fromContainers.DevolucionesComponent },
@@ -120,6 +119,7 @@ const routes: Routes = [
       {
         path: 'cobros',
         canActivate: [fromGuards.CobrosGuard],
+        // canDeactivate: [fromGuards.CobrosExitGuard],
         component: fromContainers.CobrosComponent
       },
       {
@@ -131,14 +131,19 @@ const routes: Routes = [
   },
   {
     path: 'che',
-    component: fromContainers.CobranzaComponent,
+    component: fromContainers.CobranzaCheComponent,
     data: { cartera: { clave: 'CHE', descripcion: 'CHEQUES DEVUELTOS' } },
+    canActivate: [fromGuards.CobranzaGuard],
     children: [
-      { path: 'cobros', component: fromContainers.CobrosComponent },
       {
-        path: 'cobros/:id',
-        component: fromContainers.CobroComponent,
-        resolve: { cobro: CobroResolver }
+        path: 'cobros',
+        canActivate: [fromGuards.CobrosGuard],
+        component: fromContainers.CobrosComponent
+      },
+      {
+        path: 'cobros/:cobroId',
+        canActivate: [fromGuards.CobroExistsGuard],
+        component: fromContainers.CobroComponent
       },
       { path: 'facturas', component: fromContainers.FacturasComponent },
       {

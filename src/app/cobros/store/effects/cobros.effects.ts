@@ -127,6 +127,20 @@ export class CobrosEffects {
   );
 
   @Effect()
+  eliminarAplicacion$ = this.actions$.pipe(
+    ofType<fromActions.EliminarAplicacion>(CobroActionTypes.EliminarAplicacion),
+    map(action => action.payload),
+    switchMap(command => {
+      return this.service
+        .eliminarAcplicacion(command.aplicacion)
+        .pipe(
+          map(res => new fromActions.UpdateCobroSuccess(res)),
+          catchError(error => of(new fromActions.UpdateCobroFail(error)))
+        );
+    })
+  );
+
+  @Effect()
   generarReciboCobro$ = this.actions$.pipe(
     ofType<fromActions.GenerarRecibo>(CobroActionTypes.GenerarRecibo),
     map(action => action.payload),

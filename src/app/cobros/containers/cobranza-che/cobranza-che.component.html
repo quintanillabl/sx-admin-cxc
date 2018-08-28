@@ -1,10 +1,10 @@
 <td-layout-nav-list #navList color="primary" [opened]="media.registerQuery('gt-sm') | async" [mode]="(media.registerQuery('gt-sm') | async) ? 'side' : 'over'"
-                    [sidenavWidth]="(media.registerQuery('gt-xs') | async) ? '275px' : '100%'">
+  [sidenavWidth]="(media.registerQuery('gt-xs') | async) ? '275px' : '100%'" *ngIf="cartera$ | async as cartera">
   <div td-sidenav-toolbar-content layout="row" layout-align="start center">
     <button mat-icon-button tdLayoutToggle>
       <mat-icon>menu</mat-icon>
     </button>
-    <span [routerLink]="['/']" class="cursor-pointer">SX-CXC</span>
+    <span [routerLink]="['/']" class="cursor-pointer">SIIPAPX CxC</span>
   </div>
   <div td-toolbar-content layout="row" layout-align="start center" flex>
     <button mat-icon-button tdLayoutNavListOpen [hideWhenOpened]="true">
@@ -14,7 +14,7 @@
     <span flex></span>
     <span layout>
       <span>Cartera: </span>
-      <span class="pad-left">Cheques devueltos</span>
+      <span class="pad-left">{{cartera.descripcion}}</span>
     </span>
   </div>
   <mat-nav-list td-sidenav-content [tdLayoutNavListClose]="!media.query('gt-sm')">
@@ -33,10 +33,24 @@
       <p matLine> Reporte de cobranza </p>
     </mat-list-item>
     <mat-divider [inset]="true"></mat-divider>
+
+    <mat-list-item (click)="estadoDeCuentaGeneralChe()" *ngIf="cartera.clave == 'CHE'">
+      <mat-icon matListAvatar>insert_chart</mat-icon>
+      <h3 matLine> Estado de Cta </h3>
+      <p matLine> Estado de cta general </p>
+    </mat-list-item>
+
+    <mat-list-item (click)="estadoDeCuentaDetChe()" *ngIf="cartera.clave == 'CHE'">
+      <mat-icon matListAvatar>insert_chart</mat-icon>
+      <h3 matLine> Estado de Cta (DET)</h3>
+      <p matLine> Estado de cta Detalle </p>
+    </mat-list-item>
+
+    <mat-divider [inset]="true"></mat-divider>
   </mat-nav-list>
-  <div>
+  <ng-template tdLoading [tdLoadingUntil]="!(loading$ | async)" tdLoadingStrategy="overlay">
     <router-outlet></router-outlet>
-  </div>
+  </ng-template>
 
   <td-layout-footer>
     <sx-footer></sx-footer>

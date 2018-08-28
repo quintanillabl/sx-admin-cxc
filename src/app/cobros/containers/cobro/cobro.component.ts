@@ -8,7 +8,7 @@ import * as fromActions from '../../store/actions/cobros.actions';
 
 import { Observable } from 'rxjs';
 
-import { Cobro, CuentaPorCobrar } from '../../models';
+import { Cobro, CuentaPorCobrar, AplicacionDeCobro } from '../../models';
 
 import * as _ from 'lodash';
 
@@ -42,6 +42,19 @@ export class CobroComponent implements OnInit {
       cuentas
     };
     this.store.dispatch(new fromActions.AgregarAplicaciones(command));
+  }
+
+  onDelete(cobro: Cobro, aplicacion: AplicacionDeCobro) {
+    if (!cobro.cfdi) {
+      this.confirm(
+        'Cobros',
+        `Eliminar aplicación de $ ${aplicacion.importe}`
+      ).subscribe(res => {
+        this.store.dispatch(
+          new fromActions.EliminarAplicacion({ cobro, aplicacion })
+        );
+      });
+    }
   }
 
   saldar(cobro: Cobro) {

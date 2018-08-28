@@ -10,7 +10,7 @@
     <sx-cobros-filter (change)="onFilter($event)" [filter]="cobrosFilter$ | async" [cartera]="cartera$ | async"></sx-cobros-filter>
   </div>
   <mat-divider></mat-divider>
-  <sx-cobros-table [cobros]="cobros$ | async" [filter]="filter"></sx-cobros-table>
+  <sx-cobros-table [cobros]="cobros$ | async" [filter]="filter" (select)="onSelect($event)"></sx-cobros-table>
   <mat-card-footer *ngIf="cobrosFilter$ | async as cobrosFilter">
     <sx-cobros-filter-label [filter]="cobrosFilter"></sx-cobros-filter-label>
   </mat-card-footer>

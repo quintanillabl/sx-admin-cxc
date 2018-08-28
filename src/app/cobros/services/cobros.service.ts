@@ -7,7 +7,7 @@ import { ConfigService } from '../../utils/config.service';
 import { Cobro, CobroFilter } from '../models/cobro';
 import { catchError } from 'rxjs/operators';
 import { Cliente } from '../../clientes/models';
-import { CuentaPorCobrar } from '../models';
+import { CuentaPorCobrar, AplicacionDeCobro } from '../models';
 
 @Injectable()
 export class CobrosService {
@@ -146,6 +146,13 @@ export class CobrosService {
     };
     return this.http
       .put<Cobro>(url, command)
+      .pipe(catchError(err => observableOf(err)));
+  }
+
+  eliminarAcplicacion(aplicacion: AplicacionDeCobro): Observable<Cobro> {
+    const url = `${this.apiUrl}/eliminarAplicacion/${aplicacion.id}`;
+    return this.http
+      .put<Cobro>(url, {})
       .pipe(catchError(err => observableOf(err)));
   }
 

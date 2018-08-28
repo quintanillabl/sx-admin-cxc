@@ -29,6 +29,7 @@ export class CobrosTableComponent implements OnInit, OnChanges {
 
   displayColumns = [
     'nombre',
+    'sucursal',
     'tipo',
     'fecha',
     'formaDePago',
