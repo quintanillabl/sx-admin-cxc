@@ -163,6 +163,13 @@ export class CobrosService {
       .pipe(catchError(err => observableOf(err)));
   }
 
+  timbradoBatch(cobros: Cobro[]): Observable<Cobro[]> {
+    const url = `${this.apiUrl}/timbradoBatch`;
+    return this.http
+      .put<Cobro[]>(url, { cobros })
+      .pipe(catchError(err => observableOf(err)));
+  }
+
   reporteDeCobranza(fecha: Date, cartera: string) {
     const url = `${this.apiUrl}/reporteDeCobranza`;
     const params = new HttpParams()

@@ -219,4 +219,18 @@ export class CobrosEffects {
       window.open(fileURL, '_blank');
     })
   );
+
+  @Effect()
+  timbradoBatch$ = this.actions$.pipe(
+    ofType<fromActions.TimbradoBatch>(CobroActionTypes.TimbradoBatch),
+    map(action => action.payload),
+    switchMap(res => {
+      return this.service
+        .timbradoBatch(res.cobros)
+        .pipe(
+          map(cobros => new fromActions.UpsertCobros(cobros)),
+          catchError(error => of(new fromActions.UpdateCobroFail(error)))
+        );
+    })
+  );
 }

@@ -19,6 +19,7 @@ export const initialState: State = adapter.getInitialState({
 
 export function reducer(state = initialState, action: CobroActions): State {
   switch (action.type) {
+    case CobroActionTypes.TimbradoBatch:
     case CobroActionTypes.SaldarRecibo:
     case CobroActionTypes.PrintRecibo:
     case CobroActionTypes.GenerarRecibo:
@@ -92,6 +93,13 @@ export function reducer(state = initialState, action: CobroActions): State {
         ...state,
         filter: action.payload
       };
+    }
+
+    case CobroActionTypes.UpsertCobros: {
+      return adapter.upsertMany(action.payload, {
+        ...state,
+        loading: false
+      });
     }
 
     default: {

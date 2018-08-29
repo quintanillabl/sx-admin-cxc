@@ -33,6 +33,7 @@ export interface Cobro {
   selected?: boolean;
   recibo?: string;
   cfdi?: any;
+  sucursalNombre?: string;
 }
 
 export interface CobroTarjeta {

@@ -8,6 +8,7 @@ import { Observable, Subject } from 'rxjs';
 
 import { Cobro, CobroFilter } from '../../models/cobro';
 import { Cartera } from '../../models/cartera';
+import { TdDialogService } from '@covalent/core';
 
 @Component({
   selector: 'sx-cobros',
@@ -19,8 +20,12 @@ export class CobrosComponent implements OnInit {
   filter = '';
   cobrosFilter$: Observable<CobroFilter>;
   cartera$: Observable<Cartera>;
+  selected: Cobro[] = [];
 
-  constructor(private store: Store<fromStore.CobranzaState>) {}
+  constructor(
+    private store: Store<fromStore.CobranzaState>,
+    private dialogService: TdDialogService
+  ) {}
 
   ngOnInit() {
     this.cobros$ = this.store.pipe(select(fromStore.getAllCobros));
@@ -43,6 +48,37 @@ export class CobrosComponent implements OnInit {
   }
 
   onSelect(event) {
-    console.log('Selected: ', event);
+    this.selected = event;
+  }
+
+  isRecibosBatch() {
+    return (
+      this.selected.length > 0 &&
+      !this.selected.find(item => item.disponible > 0)
+    );
+  }
+
+  onRecibosBatch(cobros: Cobro[]) {
+    this.confirm(
+      'Recibo electrónico de pago',
+      `Generar CFDI para ${cobros.length} cobros`
+    ).subscribe(res => {
+      if (res) {
+        this.store.dispatch(new fromActions.TimbradoBatch({ cobros }));
+      }
+    });
+  }
+
+  confirm(title: string, message: string): Observable<any> {
+    const acceptButton = 'Aceptar';
+    const cancelButton = 'Cancelar';
+    return this.dialogService
+      .openConfirm({
+        title,
+        message,
+        acceptButton,
+        cancelButton
+      })
+      .afterClosed();
   }
 }

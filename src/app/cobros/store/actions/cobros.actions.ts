@@ -14,6 +14,7 @@ export enum CobroActionTypes {
   AddCobro = '[Cobro] Add Cobro',
   AddCobroFail = '[Cobro] Add Cobro Fail',
   AddCobroSuccess = '[Cobro] Add Cobro Success',
+  UpsertCobros = '[Cobro] Upsert many Cobros',
   UpdateCobro = '[Cobro] Update Cobro',
   UpdateCobroFail = '[Cobro] Update Cobro Fail',
   UpdateCobroSuccess = '[Cobro] Update Cobro Success',
@@ -24,6 +25,7 @@ export enum CobroActionTypes {
   AgregarAplicaciones = '[Cobro] Aplicar Cobros',
   EliminarAplicacion = '[Cobro] Eliminar aplicacion de Cobros',
   GenerarRecibo = '[Cobro] Generar recibo electronico',
+  TimbradoBatch = '[Cobro] Timbrado batch de recibos electronicos',
   SaldarRecibo = '[Cobro] Saldar recibo electronico',
   PrintRecibo = '[Cobro] Print recibo electronico',
   PrintReciboFail = '[Cobro] Print recibo electronico Fail',
@@ -67,6 +69,12 @@ export class AddCobroFail implements Action {
 export class AddCobroSuccess implements Action {
   readonly type = CobroActionTypes.AddCobroSuccess;
   constructor(public payload: Cobro) {}
+}
+
+export class UpsertCobros implements Action {
+  readonly type = CobroActionTypes.UpsertCobros;
+
+  constructor(public payload: Cobro[]) {}
 }
 
 export class UpdateCobro implements Action {
@@ -124,6 +132,11 @@ export class GenerarRecibo implements Action {
   constructor(public payload: Cobro) {}
 }
 
+export class TimbradoBatch implements Action {
+  readonly type = CobroActionTypes.TimbradoBatch;
+  constructor(public payload: { cobros: Cobro[] }) {}
+}
+
 export class PrintRecibo implements Action {
   readonly type = CobroActionTypes.PrintRecibo;
   constructor(public payload: Cobro) {}
@@ -154,6 +167,7 @@ export type CobroActions =
   | GetCobro
   | GetCobroFail
   | GetCobroSuccess
+  | UpsertCobros
   | AddCobro
   | AddCobroFail
   | AddCobroSuccess
@@ -167,6 +181,7 @@ export type CobroActions =
   | AgregarAplicaciones
   | EliminarAplicacion
   | GenerarRecibo
+  | TimbradoBatch
   | PrintRecibo
   | PrintReciboFail
   | PrintReciboSuccess

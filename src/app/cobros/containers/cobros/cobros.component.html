@@ -5,9 +5,17 @@
     </span>
     <span flex></span>
     <td-search-box class="push-right-sm" placeholder="Filtrar" flex (searchDebounce)="onSearch($event)" [alwaysVisible]="true"
-      autocomplete="off" [value]="filter">
+      autocomplete="off" [value]="filter" autocomplete="off">
     </td-search-box>
     <sx-cobros-filter (change)="onFilter($event)" [filter]="cobrosFilter$ | async" [cartera]="cartera$ | async"></sx-cobros-filter>
+    <span>
+      <button mat-icon-button [matMenuTriggerFor]="toolbarMenu">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+      <mat-menu #toolbarMenu="matMenu">
+        <button mat-menu-item [disabled]="!isRecibosBatch()" (click)="onRecibosBatch(selected)"> Generar recibos de pago</button>
+      </mat-menu>
+    </span>
   </div>
   <mat-divider></mat-divider>
   <sx-cobros-table [cobros]="cobros$ | async" [filter]="filter" (select)="onSelect($event)"></sx-cobros-table>
