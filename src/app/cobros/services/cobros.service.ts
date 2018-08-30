@@ -7,7 +7,7 @@ import { ConfigService } from '../../utils/config.service';
 import { Cobro, CobroFilter } from '../models/cobro';
 import { catchError } from 'rxjs/operators';
 import { Cliente } from '../../clientes/models';
-import { CuentaPorCobrar, AplicacionDeCobro } from '../models';
+import { CuentaPorCobrar, AplicacionDeCobro, Cfdi } from '../models';
 
 @Injectable()
 export class CobrosService {
@@ -190,17 +190,32 @@ export class CobrosService {
       headers: headers,
       responseType: 'blob'
     });
-    /*
-      .subscribe(
-        res => {
-          const blob = new Blob([res], {
-            type: 'application/pdf'
-          });
-          const fileURL = window.URL.createObjectURL(blob);
-          window.open(fileURL, '_blank');
-        },
-        error => console.log('Error ', error)
-      );
-      */
+  }
+
+  descargarXml(cfdi: any) {
+    const endpoint = `cfdis/descargarXml/${cfdi.id}`;
+    const url = this.config.buildApiUrl(endpoint);
+    const headers = new HttpHeaders().set('Content-type', 'text/xml');
+    return this.http.get(url, {
+      headers: headers,
+      responseType: 'blob'
+    });
+  }
+
+  enviarRecibo(cobro, target: string): Observable<any> {
+    const endpoint = `cfdis/enviarEmail/${cobro.cfdi.id}`;
+    const params = new HttpParams().set('target', target);
+    const url = this.config.buildApiUrl(endpoint);
+    return this.http.put(url, {}, { params: params });
+  }
+
+  envioBatch(cobros: Cobro[], target: string): Observable<any[]> {
+    const endpoint = `cfdis/envioBatchNormal`;
+    const url = this.config.buildApiUrl(endpoint);
+    const command = {
+      target,
+      facturas: cobros.map(item => item.cfdi.id)
+    };
+    return this.http.put<any[]>(url, command);
   }
 }

@@ -26,6 +26,10 @@ export enum CobroActionTypes {
   EliminarAplicacion = '[Cobro] Eliminar aplicacion de Cobros',
   GenerarRecibo = '[Cobro] Generar recibo electronico',
   TimbradoBatch = '[Cobro] Timbrado batch de recibos electronicos',
+  EnvioDeReciboBatch = '[Cobro] Envio batch de recibos electronicos',
+  EnvioDeReciboBatchFail = '[Cobro] Envio batch de recibos electronicos fail',
+  EnvioDeReciboBatchSuccess = '[Cobro] Envio batch de recibos electronicos success',
+  EnvioDeRecibo = '[Cobro] Envio  de recibos electronicos',
   SaldarRecibo = '[Cobro] Saldar recibo electronico',
   PrintRecibo = '[Cobro] Print recibo electronico',
   PrintReciboFail = '[Cobro] Print recibo electronico Fail',
@@ -160,6 +164,24 @@ export class SetCobrosFilter implements Action {
   constructor(public payload: CobroFilter) {}
 }
 
+export class EnvioDeReciboBatch implements Action {
+  readonly type = CobroActionTypes.EnvioDeReciboBatch;
+  constructor(public payload: { cobros: Cobro[]; target?: string }) {}
+}
+export class EnvioDeReciboBatchFail implements Action {
+  readonly type = CobroActionTypes.EnvioDeReciboBatchFail;
+  constructor(public payload: any) {}
+}
+export class EnvioDeReciboBatchSuccess implements Action {
+  readonly type = CobroActionTypes.EnvioDeReciboBatchSuccess;
+  constructor(public payload: any[]) {}
+}
+
+export class EnvioDeRecibo implements Action {
+  readonly type = CobroActionTypes.EnvioDeRecibo;
+  constructor(public payload: { cobro: Cobro; target?: string }) {}
+}
+
 export type CobroActions =
   | LoadCobros
   | LoadCobrosFail
@@ -186,4 +208,8 @@ export type CobroActions =
   | PrintReciboFail
   | PrintReciboSuccess
   | SaldarRecibo
-  | SetCobrosFilter;
+  | SetCobrosFilter
+  | EnvioDeRecibo
+  | EnvioDeReciboBatch
+  | EnvioDeReciboBatchFail
+  | EnvioDeReciboBatchSuccess;

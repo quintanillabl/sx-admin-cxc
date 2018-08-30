@@ -14,6 +14,9 @@
       </button>
       <mat-menu #toolbarMenu="matMenu">
         <button mat-menu-item [disabled]="!isRecibosBatch()" (click)="onRecibosBatch(selected)"> Generar recibos de pago</button>
+        <button mat-menu-item [disabled]="!isEnvioBatch()" (click)="envioBatch(selected)"> <mat-icon>email</mat-icon> Envio
+          batch
+        </button>
       </mat-menu>
     </span>
   </div>

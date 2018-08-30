@@ -30,7 +30,7 @@
     <ng-container *ngIf="cobro?.cfdi">
       <button mat-button (click)="printRecibo(cobro)"><mat-icon>print</mat-icon> Recibo: {{cobro.cfdi.folio}}</button>
       <sx-cfdi-xml [cfdi]="cobro.cfdi"></sx-cfdi-xml>
-      <button mat-button type="button">
+      <button mat-button type="button" (click)="mandarPorCorreo(cobro)">
         <mat-icon>email</mat-icon> Email
       </button>
     </ng-container>

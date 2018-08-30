@@ -1,5 +1,5 @@
 export interface Cliente {
-  id: string;
+  id?: string;
   nombre: string;
   clave: string;
   rfc: string;
@@ -10,6 +10,7 @@ export interface Cliente {
   cfdiMail?: string;
   activo?: boolean;
   chequeDevuelto?: number;
+  cfdiMailValidado?: boolean;
 }
 
 export interface LineaDeCredito {

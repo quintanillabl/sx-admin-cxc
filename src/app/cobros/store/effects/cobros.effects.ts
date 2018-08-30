@@ -22,6 +22,7 @@ import { CobroActionTypes } from '../actions/cobros.actions';
 import { CobrosService } from '../../services';
 
 import { TdDialogService } from '@covalent/core';
+import { MatSnackBar } from '@angular/material';
 
 @Injectable()
 export class CobrosEffects {
@@ -29,7 +30,8 @@ export class CobrosEffects {
     private actions$: Actions,
     private service: CobrosService,
     private store: Store<fromStore.CobranzaState>,
-    private dialogService: TdDialogService
+    private dialogService: TdDialogService,
+    private snackBar: MatSnackBar
   ) {}
 
   @Effect()
@@ -170,9 +172,14 @@ export class CobrosEffects {
 
   @Effect({ dispatch: false })
   updateFail$ = this.actions$.pipe(
-    ofType<fromActions.UpdateCobroFail | fromActions.PrintReciboFail>(
+    ofType<
+      | fromActions.UpdateCobroFail
+      | fromActions.PrintReciboFail
+      | fromActions.EnvioDeReciboBatchFail
+    >(
       CobroActionTypes.UpdateCobroFail,
-      CobroActionTypes.PrintReciboFail
+      CobroActionTypes.PrintReciboFail,
+      CobroActionTypes.EnvioDeReciboBatchFail
     ),
     map(action => action.payload),
     tap(response => {
@@ -231,6 +238,49 @@ export class CobrosEffects {
           map(cobros => new fromActions.UpsertCobros(cobros)),
           catchError(error => of(new fromActions.UpdateCobroFail(error)))
         );
+    })
+  );
+
+  @Effect()
+  envioPorCorreo$ = this.actions$.pipe(
+    ofType<fromActions.EnvioDeRecibo>(CobroActionTypes.EnvioDeRecibo),
+    map(action => action.payload),
+    switchMap(res => {
+      return this.service
+        .enviarRecibo(res.cobro, res.target)
+        .pipe(
+          map(cfdi => new fromActions.EnvioDeReciboBatchSuccess([cfdi])),
+          catchError(error => of(new fromActions.EnvioDeReciboBatchFail(error)))
+        );
+    })
+  );
+
+  @Effect()
+  envioBatch$ = this.actions$.pipe(
+    ofType<fromActions.EnvioDeReciboBatch>(CobroActionTypes.EnvioDeReciboBatch),
+    map(action => action.payload),
+    switchMap(res => {
+      return this.service
+        .envioBatch(res.cobros, res.target)
+        .pipe(
+          map(
+            (cfdis: any[]) => new fromActions.EnvioDeReciboBatchSuccess(cfdis)
+          ),
+          catchError(error => of(new fromActions.EnvioDeReciboBatchFail(error)))
+        );
+    })
+  );
+
+  @Effect({ dispatch: false })
+  envioBatchSuccess$ = this.actions$.pipe(
+    ofType<fromActions.EnvioDeReciboBatchSuccess>(
+      CobroActionTypes.EnvioDeReciboBatchSuccess
+    ),
+    map(action => action.payload),
+    tap(res => {
+      this.snackBar.open(`Recibos enviados ${res.length} `, 'Cerrar', {
+        duration: 10000
+      });
     })
   );
 }

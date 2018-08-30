@@ -19,6 +19,8 @@ export const initialState: State = adapter.getInitialState({
 
 export function reducer(state = initialState, action: CobroActions): State {
   switch (action.type) {
+    case CobroActionTypes.EnvioDeReciboBatch:
+    case CobroActionTypes.EnvioDeRecibo:
     case CobroActionTypes.TimbradoBatch:
     case CobroActionTypes.SaldarRecibo:
     case CobroActionTypes.PrintRecibo:
@@ -33,6 +35,8 @@ export function reducer(state = initialState, action: CobroActions): State {
       };
     }
 
+    case CobroActionTypes.EnvioDeReciboBatchSuccess:
+    case CobroActionTypes.EnvioDeReciboBatchFail:
     case CobroActionTypes.PrintReciboFail:
     case CobroActionTypes.PrintReciboSuccess:
     case CobroActionTypes.DeleteCobroFail:

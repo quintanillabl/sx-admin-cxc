@@ -37,7 +37,7 @@ export class CobrosFilterDialogComponent implements OnInit {
       pendientes: [false],
       registros: [
         50,
-        [Validators.required, Validators.min(10), Validators.max(100)]
+        [Validators.required, Validators.min(10), Validators.max(500)]
       ]
     });
   }

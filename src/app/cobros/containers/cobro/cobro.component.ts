@@ -77,6 +77,26 @@ export class CobroComponent implements OnInit {
     });
   }
 
+  mandarPorCorreo(cobro: Cobro): void {
+    this.dialogService
+      .openPrompt({
+        message: 'Mandar la Cfdi de pago (PDF y XML) al clente',
+        disableClose: true,
+        title: 'Email',
+        value: cobro.cliente.cfdiMail,
+        cancelButton: 'Cancelar',
+        acceptButton: 'Enviar'
+      })
+      .afterClosed()
+      .subscribe((newValue: string) => {
+        if (newValue) {
+          this.store.dispatch(
+            new fromActions.EnvioDeRecibo({ cobro: cobro, target: newValue })
+          );
+        }
+      });
+  }
+
   confirm(title: string, message: string): Observable<any> {
     const acceptButton = 'Aceptar';
     const cancelButton = 'Cancelar';

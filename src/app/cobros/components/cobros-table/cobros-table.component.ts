@@ -99,7 +99,7 @@ export class CobrosTableComponent implements OnInit, OnChanges, OnDestroy {
 
   isAllSelected() {
     const numSelected = this.selection.selected.length;
-    const numRows = this.dataSource.data.length;
+    const numRows = this.dataSource.filteredData.length;
     return numSelected === numRows;
   }
 
@@ -107,6 +107,6 @@ export class CobrosTableComponent implements OnInit, OnChanges, OnDestroy {
   masterToggle() {
     this.isAllSelected()
       ? this.selection.clear()
-      : this.dataSource.data.forEach(row => this.selection.select(row));
+      : this.dataSource.filteredData.forEach(row => this.selection.select(row));
   }
 }

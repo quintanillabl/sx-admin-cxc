@@ -15,8 +15,6 @@ export class CobrosGuard implements CanActivate {
 
   canActivate(route: ActivatedRouteSnapshot): Observable<boolean> {
     const cartera: Cartera = route.parent.data.cartera;
-    console.log('Cartera: ', cartera);
-    console.log('Router: ', route);
     return this.checkStore(cartera).pipe(
       switchMap(() => of(true)),
       catchError(() => of(false))

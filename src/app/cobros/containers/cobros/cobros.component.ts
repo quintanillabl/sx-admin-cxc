@@ -9,6 +9,7 @@ import { Observable, Subject } from 'rxjs';
 import { Cobro, CobroFilter } from '../../models/cobro';
 import { Cartera } from '../../models/cartera';
 import { TdDialogService } from '@covalent/core';
+import { Cliente } from '../../../clientes/models';
 
 @Component({
   selector: 'sx-cobros',
@@ -54,7 +55,8 @@ export class CobrosComponent implements OnInit {
   isRecibosBatch() {
     return (
       this.selected.length > 0 &&
-      !this.selected.find(item => item.disponible > 0)
+      !this.selected.find(item => item.disponible > 0) &&
+      !this.selected.find(item => item.recibo != null)
     );
   }
 
@@ -65,6 +67,25 @@ export class CobrosComponent implements OnInit {
     ).subscribe(res => {
       if (res) {
         this.store.dispatch(new fromActions.TimbradoBatch({ cobros }));
+      }
+    });
+  }
+
+  isEnvioBatch() {
+    return (
+      this.selected.length > 0 &&
+      this.selected.find(item => item.recibo !== null)
+    );
+  }
+
+  envioBatch(cobros: Cobro[]) {
+    const selected: Cobro[] = cobros.filter(item => item.recibo);
+    this.confirm(
+      'Envío de correo electrónico',
+      `Enviar ${selected.length} recibos`
+    ).subscribe(res => {
+      if (res) {
+        this.store.dispatch(new fromActions.EnvioDeReciboBatch({ cobros }));
       }
     });
   }
