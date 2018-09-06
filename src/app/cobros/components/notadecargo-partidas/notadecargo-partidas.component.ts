@@ -16,6 +16,7 @@ import { FormGroup } from '@angular/forms';
 })
 export class NotadecargoPartidasComponent implements OnInit {
   @Input() parent: FormGroup;
+  @Input() cartera: string;
 
   @Input() partidas = [];
 
@@ -31,6 +32,8 @@ export class NotadecargoPartidasComponent implements OnInit {
   }
 
   get invalid() {
-    return this.parent.get('partidas').value.length === 0;
+    return (
+      this.parent.get('partidas').value.length === 0 && this.cartera !== 'CHE'
+    );
   }
 }

@@ -80,7 +80,7 @@ export class NotadecargoFormComponent implements OnInit, OnChanges, OnDestroy {
       formaDePago: ['POR DEFINIR', Validators.required],
       usoDeCfdi: ['G03', Validators.required],
       cargo: [{ value: null, disabled: false }, [Validators.required]],
-      total: [{ value: null, disabled: true }, [Validators.required]],
+      total: [{ value: 0, disabled: false }, [Validators.required]],
       comentario: null,
       partidas: this.fb.array([])
     });

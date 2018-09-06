@@ -27,18 +27,18 @@
       <mat-divider [inset]="true" *ngIf="!last"></mat-divider>
     </ng-template>
     <h3 matSubheader>Reportes</h3>
-    <mat-list-item (click)="reporteDeCobranza()">
+    <mat-list-item (click)="reporteDeCobranza(cartera)">
       <mat-icon matListAvatar>insert_chart</mat-icon>
       <h3 matLine> Cobranza </h3>
-      <p matLine> Reporte de cobranza </p>
+      <p matLine> Reporte de cobranza {{cartera.clave}}</p>
     </mat-list-item>
     <mat-divider [inset]="true"></mat-divider>
 
-    <mat-list-item (click)="estadoDeCuentaGeneralChe()" *ngIf="cartera.clave == 'CHE'">
+    <!-- <mat-list-item (click)="estadoDeCuentaGeneralChe()" *ngIf="cartera.clave == 'CHE'">
       <mat-icon matListAvatar>insert_chart</mat-icon>
       <h3 matLine> Estado de Cta </h3>
       <p matLine> Estado de cta general </p>
-    </mat-list-item>
+    </mat-list-item> -->
 
     <mat-divider [inset]="true"></mat-divider>
   </mat-nav-list>

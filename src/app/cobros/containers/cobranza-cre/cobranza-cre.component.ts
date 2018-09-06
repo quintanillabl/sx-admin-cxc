@@ -86,7 +86,7 @@ export class CobranzaCreComponent implements OnInit, OnDestroy {
 
   reporteDeCobranza(cartera: Cartera) {
     const dialogRef = this.dialog.open(FechaDialogComponent, {
-      data: { title: 'Reporte de cobranza' }
+      data: { title: `Reporte de cobranza ${cartera.clave}` }
     });
     dialogRef.afterClosed().subscribe(fecha => {
       if (fecha) {
