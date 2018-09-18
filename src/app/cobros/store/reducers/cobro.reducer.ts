@@ -14,7 +14,7 @@ export const adapter: EntityAdapter<Cobro> = createEntityAdapter<Cobro>();
 export const initialState: State = adapter.getInitialState({
   loading: false,
   loaded: false,
-  filter: build(50, true)
+  filter: build(200, true)
 });
 
 export function reducer(state = initialState, action: CobroActions): State {

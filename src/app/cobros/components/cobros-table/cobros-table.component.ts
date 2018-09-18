@@ -75,6 +75,7 @@ export class CobrosTableComponent implements OnInit, OnChanges, OnDestroy {
         ? changes.filter.currentValue
         : '';
       this.dataSource.filter = text.toLowerCase();
+      this.selection.clear();
     }
   }
 
