@@ -19,16 +19,18 @@
       <mat-icon>arrow_back</mat-icon> Cobros
     </button>
 
-    <sx-cxc-selector [disabled]="cobro.disponible <= 0" [cliente]="cobro.cliente" [cartera]="cobro.tipo" [maximoPermitido]="cobro.disponible"
-      (select)="aplicar(cobro, $event)" title="Agregar facturas"></sx-cxc-selector>
-    <button (click)="saldar(cobro)" mat-button [disabled]="!disponibleSaldable(cobro)">Saldar</button>
+    <sx-cxc-selector [disabled]="cobro.disponible <= 0" [cliente]="cobro.cliente" [cartera]="cobro.tipo"
+      [maximoPermitido]="cobro.disponible" (select)="aplicar(cobro, $event)" title="Agregar facturas"></sx-cxc-selector>
+    <!-- <button (click)="saldar(cobro)" mat-button [disabled]="!disponibleSaldable(cobro)">Saldar</button> -->
 
-    <ng-container *ngIf="cobro.disponible <= 0 && !cobro.cfdi ">
+    <ng-container *ngIf="cobro.aplicado> 0 && !cobro.cfdi ">
       <button mat-button (click)="generarRecibo(cobro)"> Generar recibo (CFDI)</button>
     </ng-container>
 
     <ng-container *ngIf="cobro?.cfdi">
-      <button mat-button (click)="printRecibo(cobro)"><mat-icon>print</mat-icon> Recibo: {{cobro.cfdi.folio}}</button>
+      <button mat-button (click)="printRecibo(cobro)">
+        <mat-icon>print</mat-icon> Recibo: {{cobro.cfdi.folio}}
+      </button>
       <sx-cfdi-xml [cfdi]="cobro.cfdi"></sx-cfdi-xml>
       <button mat-button type="button" (click)="mandarPorCorreo(cobro)">
         <mat-icon>email</mat-icon> Email
