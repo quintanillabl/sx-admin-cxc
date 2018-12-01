@@ -1,53 +1,58 @@
 <mat-card>
   <ng-container *ngIf="nota">
-
     <mat-card-title class="tc-indigo-800">
-      <span>{{nota.tipo}}: {{nota.folio}}</span>
-      <span>({{nota.nombre}})</span>
+      <span>{{ nota.tipo }}: {{ nota.folio }}</span>
+      <span>({{ nota.nombre }})</span>
     </mat-card-title>
 
     <mat-divider></mat-divider>
     <div layout>
-
       <mat-list flex>
         <mat-list-item>
-          <span mat-line>Fecha: {{nota.fecha | date:'dd/MM/yyyy'}}</span>
-
+          <span mat-line>Fecha: {{ nota.fecha | date: 'dd/MM/yyyy' }}</span>
         </mat-list-item>
         <mat-divider [inset]="true"></mat-divider>
         <mat-list-item>
+          <span mat-line> Cartera: {{ nota.tipoCartera }} </span>
           <span mat-line>
-            Cartera: {{nota.tipoCartera}}
+            Serie: {{ nota.serie }} Folio: {{ nota.folio }}
           </span>
-          <span mat-line>
-            Serie: {{nota.serie}} Folio: {{nota.folio}}
-          </span>
-
         </mat-list-item>
         <mat-divider [inset]="true"></mat-divider>
-        <mat-list-item>Total: {{nota.total | currency}}</mat-list-item>
+        <mat-list-item
+          >Total: {{ nota.total | currency }} ({{ nota.moneda }})
+          <span *ngIf="nota.moneda !== 'MXN'" class="pad-left"
+            >T.C: {{ nota.tc }}</span
+          >
+        </mat-list-item>
         <mat-divider [inset]="true"></mat-divider>
         <mat-list-item>
-          <span mat-line>
-            Disponible: {{nota.disponible | currency}}
-          </span>
-          <span mat-line>
-            Cobro: {{nota?.cobro?.id}}
-          </span>
-
+          <span mat-line> Disponible: {{ nota.disponible | currency }} </span>
+          <span mat-line> Cobro: {{ nota?.cobro?.id }} </span>
         </mat-list-item>
         <mat-divider [inset]="true"></mat-divider>
-        <mat-list-item>UUID: {{nota?.cfdi?.uuid}}</mat-list-item>
+        <mat-list-item>UUID: {{ nota?.cfdi?.uuid }}</mat-list-item>
         <mat-divider [inset]="true"></mat-divider>
-        <mat-list-item>Comentario: {{nota?.comentario}}</mat-list-item>
+        <mat-list-item>Comentario: {{ nota?.comentario }}</mat-list-item>
         <mat-divider [inset]="true"></mat-divider>
       </mat-list>
-
-
     </div>
 
-    <mat-card-actions *tdLoading="'procesando'; mode:'indeterminate'; type:'circle'; strategy:'overlay'; color:'accent'">
-      <button mat-button *ngIf="!nota.cfdi && !nota?.cfdi?.uuid" (click)="timbrar(nota)" color="accent">
+    <mat-card-actions
+      *tdLoading="
+        'procesando';
+        mode: 'indeterminate';
+        type: 'circle';
+        strategy: 'overlay';
+        color: 'accent'
+      "
+    >
+      <button
+        mat-button
+        *ngIf="!nota.cfdi && !nota?.cfdi?.uuid"
+        (click)="timbrar(nota)"
+        color="accent"
+      >
         Timbrar
         <mat-icon>notifications_active</mat-icon>
       </button>
@@ -55,17 +60,32 @@
         Imprimir
         <mat-icon>print</mat-icon>
       </button>
-      <button mat-button type="button" (click)="mostrarXml(nota)" *ngIf="nota?.cfdi">
+      <button
+        mat-button
+        type="button"
+        (click)="mostrarXml(nota)"
+        *ngIf="nota?.cfdi"
+      >
         <mat-icon>dvr</mat-icon> Ver XML
       </button>
-      <button mat-button type="button" (click)="mandarPorCorreo(nota)" *ngIf="nota?.cfdi">
+      <button
+        mat-button
+        type="button"
+        (click)="mandarPorCorreo(nota)"
+        *ngIf="nota?.cfdi"
+      >
         <mat-icon>email</mat-icon> Email
       </button>
 
-      <button mat-button type="button" (click)="delete(nota)" color="warn" *ngIf="!nota.cfdi">
+      <button
+        mat-button
+        type="button"
+        (click)="delete(nota)"
+        color="warn"
+        *ngIf="!nota.cfdi"
+      >
         <mat-icon>delete</mat-icon> Eliminar
       </button>
     </mat-card-actions>
-
   </ng-container>
 </mat-card>

@@ -23,7 +23,7 @@
       [maximoPermitido]="cobro.disponible" (select)="aplicar(cobro, $event)" title="Agregar facturas"></sx-cxc-selector>
     <!-- <button (click)="saldar(cobro)" mat-button [disabled]="!disponibleSaldable(cobro)">Saldar</button> -->
 
-    <ng-container *ngIf="cobro.aplicado> 0 && !cobro.cfdi ">
+    <ng-container *ngIf="cobro.aplicado> 0 && !cobro.cfdi  && cobro.formaDePago !== 'DEVOLUCION' && cobro.formaDePago !== 'BONIFICACION'">
       <button mat-button (click)="generarRecibo(cobro)"> Generar recibo (CFDI)</button>
     </ng-container>
 

@@ -183,6 +183,19 @@ export class CobrosService {
     });
   }
 
+  reporteDeRecibosPendientes(fechaInicial: Date, fechaFinal: Date) {
+    const url = `${this.apiUrl}/reporteDeRecibosPendientes`;
+    const params = new HttpParams()
+      .set('fechaInicial', fechaInicial.toISOString())
+      .set('fechaFinal', fechaFinal.toISOString());
+    const headers = new HttpHeaders().set('Content-type', 'application/pdf');
+    return this.http.get(url, {
+      headers: headers,
+      params: params,
+      responseType: 'blob'
+    });
+  }
+
   imprimirRecibo(cobro: Cobro): Observable<any> {
     const url = `${this.apiUrl}/imprimirRecibo/${cobro.id}`;
     const headers = new HttpHeaders().set('Content-type', 'application/pdf');

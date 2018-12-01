@@ -9,7 +9,7 @@ import * as fromStore from '../../store';
 import { Observable, combineLatest } from 'rxjs';
 import { merge } from 'rxjs/operators';
 
-import { FechaDialogComponent } from 'app/_shared/components';
+import { FechaDialogComponent, PeriodoDialogComponent } from 'app/_shared/components';
 import { CobrosService } from '../../services';
 
 import * as _ from 'lodash';
@@ -92,6 +92,27 @@ export class CobranzaConComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed().subscribe(fecha => {
       if (fecha) {
         this.service.reporteDeCobranza(fecha, cartera.clave).subscribe(
+          res => {
+            const blob = new Blob([res], {
+              type: 'application/pdf'
+            });
+            // this.loadingService.resolve('saving');
+            const fileURL = window.URL.createObjectURL(blob);
+            window.open(fileURL, '_blank');
+          },
+          error2 => console.log(error2)
+        );
+      }
+    });
+  }
+
+  reporteDeRecibosPendientes() {
+    const dialogRef = this.dialog.open(PeriodoDialogComponent, {
+      data: { title: `Reporte de recibos CFDI pendientes` }
+    });
+    dialogRef.afterClosed().subscribe(periodo => {
+      if (periodo) {
+        this.service.reporteDeRecibosPendientes(periodo.fechaInicial, periodo.fechaFinal).subscribe(
           res => {
             const blob = new Blob([res], {
               type: 'application/pdf'

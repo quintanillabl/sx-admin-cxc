@@ -77,6 +77,18 @@ export class DevolucionesComponent implements OnInit {
       format: date => this.datePipe.transform(date, 'dd/MM/yyyy')
     },
     {
+      name: 'venta.moneda',
+      label: 'Mon',
+      numeric: false,
+      width: 100
+    },
+    {
+      name: 'venta.tipoDeCambio',
+      label: 'T.C.',
+      numeric: true,
+      width: 100
+    },
+    {
       name: 'total',
       label: 'Total',
       numeric: true,
@@ -134,12 +146,12 @@ export class DevolucionesComponent implements OnInit {
         this.data = res;
         this.filteredData = res;
         this.filteredTotal = res.length;
+        console.log('Data: ', res);
       });
   }
 
   search(term) {
     if (term !== undefined) {
-      console.log('Search: ', term);
       this.term = term;
       this.load();
     }
