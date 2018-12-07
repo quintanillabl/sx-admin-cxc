@@ -66,8 +66,8 @@ export class BonificacionFormComponent implements OnInit, OnDestroy {
         baseDelCalculo: 'Saldo',
         fecha: [{ value: new Date(), disabled: true }],
         cartera: [this.cartera, Validators.required],
-        moneda: [{ value: 'MXN', disabled: true }, Validators.required],
-        tipoDeCambio: [{ value: 1.0, disabled: true }],
+        moneda: [{ value: 'MXN', disabled: false }, Validators.required],
+        tc: [{ value: 1.0, disabled: false }],
         importe: [
           { value: 0.0, disabled: true },
           [Validators.required, Validators.min(1.0)]
