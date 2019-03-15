@@ -1,7 +1,6 @@
 import {
   Component,
   OnInit,
-  ChangeDetectionStrategy,
   Input,
   Output,
   EventEmitter,
@@ -18,31 +17,36 @@ import {
 } from '@covalent/core';
 
 @Component({
-  selector: 'sx-facturas-table2',
-  templateUrl: './facturas-table2.component.html',
+  selector: 'sx-juridicos-table',
+  templateUrl: './juridicos-table.component.html',
   providers: [DatePipe, CurrencyPipe]
   // changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class FacturasTable2Component implements OnInit, OnChanges {
+export class JuridicosTableComponent implements OnInit, OnChanges {
   columns: ITdDataTableColumn[] = [
-    { name: 'sucursal', label: 'Sucursal', sortable: true, width: 120 },
-    { name: 'nombre', label: 'Cliente', sortable: true, width: 300 },
-    { name: 'tipo', label: 'Tipo', sortable: true, width: 60 },
+    { name: 'nombre', label: 'Cliente', sortable: true, width: 250 },
+    { name: 'cxc.tipo', label: 'Tipo', sortable: true, width: 60 },
     {
-      name: 'documento',
+      name: 'cxc.documento',
       label: 'Docto',
       filter: true,
       sortable: true,
       width: 90
     },
     {
-      name: 'fecha',
+      name: 'cxc.fecha',
       label: 'Fecha',
       width: 110,
       format: date => this.datePipe.transform(date, 'dd/MM/yyyy')
     },
     {
-      name: 'total',
+      name: 'traspaso',
+      label: 'Traspaso',
+      width: 110,
+      format: date => this.datePipe.transform(date, 'dd/MM/yyyy')
+    },
+    {
+      name: 'importe',
       label: 'Total',
       width: 110,
       numeric: true,
@@ -51,7 +55,7 @@ export class FacturasTable2Component implements OnInit, OnChanges {
       format: value => this.currencyPipe.transform(value, 'USD')
     },
     {
-      name: 'pagos',
+      name: 'cxc.pagos',
       label: 'Pagos',
       numeric: true,
       sortable: true,
@@ -60,7 +64,7 @@ export class FacturasTable2Component implements OnInit, OnChanges {
       format: value => this.currencyPipe.transform(value, 'USD')
     },
     {
-      name: 'saldo',
+      name: 'cxc.saldo',
       label: 'Saldo',
       width: 110,
       sortable: true,
@@ -69,13 +73,13 @@ export class FacturasTable2Component implements OnInit, OnChanges {
       format: value => this.currencyPipe.transform(value, 'USD')
     },
     {
-      name: 'vencimiento',
+      name: 'cxc.vencimiento',
       label: 'Vto',
       width: 110,
       format: date => this.datePipe.transform(date, 'dd/MM/yyyy')
     },
     {
-      name: 'atraso',
+      name: 'cxc.atraso',
       label: 'Atraso',
       width: 90
     },
@@ -94,8 +98,6 @@ export class FacturasTable2Component implements OnInit, OnChanges {
   @Input() data: any[] = [];
 
   @Output() selection = new EventEmitter();
-  @Output() print = new EventEmitter();
-  @Output() download = new EventEmitter();
 
   filteredData: any[] = this.data;
   filteredTotal: number = this.data.length;
@@ -104,7 +106,8 @@ export class FacturasTable2Component implements OnInit, OnChanges {
   fromRow = 1;
   currentPage = 1;
   pageSize = 10;
-  sortBy = 'documento';
+  sortBy = 'fecha';
+
   @Input() selectedRows: any[] = [];
   sortOrder: TdDataTableSortingOrder = TdDataTableSortingOrder.Descending;
 

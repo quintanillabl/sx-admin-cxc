@@ -102,4 +102,8 @@ export class CobrosComponent implements OnInit {
       })
       .afterClosed();
   }
+
+  reload() {
+    this.store.dispatch(new fromStore.LoadCobros());
+  }
 }

@@ -4,11 +4,13 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { finalize, catchError, tap } from 'rxjs/operators';
 
-import { FacturasService } from '../../services';
+import { FacturasService, JuridicoService } from '../../services';
 import { CuentaPorCobrar } from '../../models/cuentaPorCobrar';
 
 import * as _ from 'lodash';
 import { TdDialogService, TdLoadingService } from '@covalent/core';
+import { MatDialog } from '@angular/material';
+import { ToJuridicoDialogComponent } from 'app/cobros/components';
 
 @Component({
   selector: 'sx-factras',
@@ -38,10 +40,15 @@ import { TdDialogService, TdLoadingService } from '@covalent/core';
           <mat-icon>more_vert</mat-icon>
         </button>
         <mat-menu #toolbarMenu="matMenu" >
+          <button mat-menu-item (click)="load()">
+            <mat-icon>refresh</mat-icon> Re cargar
+          </button>
           <button mat-menu-item (click)="envioBatch()" [disabled]="selected.length<= 0">
             <mat-icon>email</mat-icon> Enviar
           </button>
           <button class="actions" mat-menu-item (click)="saldar()"> Saldar </button>
+          <button class="actions" *ngIf="cartera.clave !== 'JUR'"
+            mat-menu-item (click)="mandarJuridico()"> Mandar a Jurídico </button>
         </mat-menu>
         </span>
     </div>
@@ -84,7 +91,9 @@ export class FacturasComponent implements OnInit {
     private service: FacturasService,
     private route: ActivatedRoute,
     private dialogService: TdDialogService,
-    private loadingService: TdLoadingService
+    private loadingService: TdLoadingService,
+    private dialog: MatDialog,
+    private juridicoService: JuridicoService
   ) {}
 
   ngOnInit() {
@@ -229,6 +238,34 @@ export class FacturasComponent implements OnInit {
                   this.load();
                 });
             });
+          }
+        });
+    }
+  }
+
+  mandarJuridico() {
+    const facturas = this.selected;
+    if (facturas.length > 0) {
+      const cxc = facturas[0];
+      this.dialog
+        .open(ToJuridicoDialogComponent, {
+          data: { cxc },
+          width: '650px'
+        })
+        .afterClosed()
+        .subscribe(res => {
+          if (res) {
+            this.procesando = true;
+            this.juridicoService
+              .save(res)
+              .pipe(finalize(() => (this.procesando = false)))
+              .subscribe(
+                juridico => {
+                  console.log('Juridico : ', juridico);
+                  this.load();
+                },
+                err => console.error('Error: ', err)
+              );
           }
         });
     }

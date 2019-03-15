@@ -175,6 +175,53 @@ const routes: Routes = [
         component: fromContainers.CargoEditComponent
       }
     ]
+  },
+  {
+    path: 'jur',
+    component: fromContainers.CobranzaJurComponent,
+    data: { cartera: { clave: 'JUR', descripcion: 'JURIDICO' } },
+    canActivate: [fromGuards.CobranzaGuard],
+    children: [
+      {
+        path: 'cobros',
+        canActivate: [fromGuards.CobrosGuard],
+        component: fromContainers.CobrosComponent
+      },
+      {
+        path: 'cobros/:cobroId',
+        canActivate: [fromGuards.CobroExistsGuard],
+        component: fromContainers.CobroComponent
+      },
+      { path: 'facturas', component: fromContainers.JuridicosComponent },
+      {
+        path: 'bonificaciones',
+        component: fromContainers.BonificacionesComponent
+      },
+      {
+        path: 'bonificaciones/create',
+        component: fromContainers.BonificacionComponent
+      },
+      {
+        path: 'bonificaciones/show/:id',
+        component: fromContainers.NotaViewComponent
+      },
+      {
+        path: 'cargos',
+        component: fromContainers.CargosComponent
+      },
+      {
+        path: 'cargos/create',
+        component: fromContainers.CargoComponent
+      },
+      {
+        path: 'cargos/show/:id',
+        component: fromContainers.CargoShowComponent
+      },
+      {
+        path: 'cargos/edit/:id',
+        component: fromContainers.CargoEditComponent
+      }
+    ]
   }
 ];
 

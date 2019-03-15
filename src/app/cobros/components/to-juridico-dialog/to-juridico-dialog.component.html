@@ -1,0 +1,72 @@
+<form [formGroup]="form">
+  <h2 mat-dialog-title>
+    Mandar Jurídico documento: {{ cxc.tipo }} {{ cxc.documento }}
+  </h2>
+  <mat-divider></mat-divider>
+  <mat-dialog-content>
+    <div layout class="pad-top">
+      <p>
+        {{ cxc.cliente['nombre'] }}
+      </p>
+    </div>
+    <mat-divider></mat-divider>
+    <div layout class="pad-top pad-bottom">
+      <span flex>Total: {{ cxc.total | currency }}</span>
+      <span flex>Saldo: {{ cxc.saldo | currency }}</span>
+    </div>
+    <mat-divider></mat-divider>
+    <div layout class="pad-top pad-bottom">
+      <span flex>Fecha: {{ cxc.fecha | date: 'dd/MM/yyyy' }}</span>
+      <span flex>Vto: {{ cxc.vencimiento | date: 'dd/MM/yyyy' }}</span>
+      <span flex>Atraso: {{ cxc.atraso }}</span>
+    </div>
+    <mat-divider></mat-divider>
+    <div layout>
+      <mat-form-field flex="40" class="pad-right">
+        <input
+          matInput
+          [matDatepicker]="myDatepicker"
+          placeholder="Fecha"
+          formControlName="traspaso"
+          autocomplete="off"
+        />
+        <mat-datepicker-toggle
+          matSuffix
+          [for]="myDatepicker"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #myDatepicker></mat-datepicker>
+      </mat-form-field>
+      <sx-despacho-field
+        flex
+        [parent]="form"
+        property="despacho"
+      ></sx-despacho-field>
+    </div>
+    <div layout>
+      <sx-upper-case-field
+        formControlName="abogado"
+        placeholder="Abogado"
+        flex
+        class="pad-right"
+      >
+      </sx-upper-case-field>
+      <sx-upper-case-field
+        flex
+        formControlName="comentario"
+        placeholder="Comentario"
+      >
+      </sx-upper-case-field>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button
+      mat-button
+      [disabled]="form.invalid"
+      type="submit"
+      (click)="submit()"
+    >
+      Aceptar
+    </button>
+    <button mat-button mat-dialog-close type="button">Canelar</button>
+  </mat-dialog-actions>
+</form>

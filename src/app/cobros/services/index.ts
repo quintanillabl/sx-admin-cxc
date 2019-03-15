@@ -8,6 +8,7 @@ import { FacturasService } from './facturas.service';
 import { BonificacionesMCService } from './bonificacionesMC.service';
 import { CxCService } from './cxc.service';
 import { CfdiService } from './cfdi.service';
+import { JuridicoService } from './juridico.service';
 
 export const services: any[] = [
   CobrosService,
@@ -19,7 +20,8 @@ export const services: any[] = [
   FacturasService,
   BonificacionesMCService,
   CxCService,
-  CfdiService
+  CfdiService,
+  JuridicoService
 ];
 
 export * from './cobros.service';
@@ -32,3 +34,4 @@ export * from './facturas.service';
 export * from './bonificacionesMC.service';
 export * from './cxc.service';
 export * from './cfdi.service';
+export * from './juridico.service';

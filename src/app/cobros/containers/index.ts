@@ -16,6 +16,8 @@ import { FacturasComponent } from './facturas/facturas.component';
 import { MejoresClientesComponent } from './mejores-clientes/mejores-clientes.component';
 import { BonificacionMCComponent } from './bonificacionMC/bonificacionMC.component';
 import { CobranzaConComponent } from './cobranza-con/cobranza-con.component';
+import { CobranzaJurComponent } from './cobranza-jur/cobranza-jur.component';
+import { JuridicosComponent } from './juridicos/juridicos.component';
 
 export const containers: any[] = [
   CobranzaCreComponent,
@@ -35,7 +37,9 @@ export const containers: any[] = [
   ComisionesComponent,
   FacturasComponent,
   MejoresClientesComponent,
-  BonificacionMCComponent
+  BonificacionMCComponent,
+  CobranzaJurComponent,
+  JuridicosComponent
 ];
 
 export * from './cobranza-cre/cobranza-cre.component';
@@ -57,3 +61,6 @@ export * from './comisiones/comisiones.component';
 export * from './facturas/facturas.component';
 export * from './mejores-clientes/mejores-clientes.component';
 export * from './bonificacionMC/bonificacionMC.component';
+
+export * from './cobranza-jur/cobranza-jur.component';
+export * from './juridicos/juridicos.component';
