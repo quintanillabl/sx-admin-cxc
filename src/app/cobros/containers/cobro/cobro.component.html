@@ -1,35 +1,55 @@
-<mat-card *ngIf="cobro$ | async as cobro">
+<mat-card *ngIf="(cobro$ | async) as cobro">
   <div layout class="pad-left pad-top">
     <button mat-icon-button>
       <mat-icon [routerLink]="['/clientes', cobro.cliente.id]">person</mat-icon>
     </button>
-    <span class="pad-left pad-right mat-title"> {{cobro.nombre}}</span>
+    <span class="pad-left pad-right mat-title"> {{ cobro.nombre }}</span>
     <span flex></span>
-    <span class="pad-left pad-right mat-title">Fecha: {{cobro.fecha | date: 'dd/MM/yyyy'}}</span>
+    <span class="pad-left pad-right mat-title"
+      >Fecha: {{ cobro.fecha | date: 'dd/MM/yyyy' }}</span
+    >
   </div>
   <mat-divider></mat-divider>
   <div class="pad-top pad-left pad-right">
     <sx-cobro-form [cobro]="cobro"></sx-cobro-form>
   </div>
   <mat-divider></mat-divider>
-  <sx-aplicaciones-table [aplicaciones]="cobro.aplicaciones" (delete)="onDelete(cobro, $event)"></sx-aplicaciones-table>
+  <sx-aplicaciones-table
+    [aplicaciones]="cobro.aplicaciones"
+    (delete)="onDelete(cobro, $event)"
+  ></sx-aplicaciones-table>
   <mat-divider></mat-divider>
   <mat-card-actions>
     <button type="button" mat-button [routerLink]="['../']">
       <mat-icon>arrow_back</mat-icon> Cobros
     </button>
 
-    <sx-cxc-selector [disabled]="cobro.disponible <= 0" [cliente]="cobro.cliente" [cartera]="cobro.tipo"
-      [maximoPermitido]="cobro.disponible" (select)="aplicar(cobro, $event)" title="Agregar facturas"></sx-cxc-selector>
+    <sx-cxc-selector
+      [disabled]="cobro.disponible <= 0"
+      [cliente]="cobro.cliente"
+      [cartera]="cobro.tipo"
+      [maximoPermitido]="cobro.disponible"
+      (select)="aplicar(cobro, $event)"
+      title="Agregar facturas"
+    ></sx-cxc-selector>
     <!-- <button (click)="saldar(cobro)" mat-button [disabled]="!disponibleSaldable(cobro)">Saldar</button> -->
 
-    <ng-container *ngIf="cobro.aplicado> 0 && !cobro.cfdi  && cobro.formaDePago !== 'DEVOLUCION' && cobro.formaDePago !== 'BONIFICACION'">
-      <button mat-button (click)="generarRecibo(cobro)"> Generar recibo (CFDI)</button>
+    <ng-container
+      *ngIf="
+        cobro.aplicado > 0 &&
+        !cobro.cfdi &&
+        cobro.formaDePago !== 'DEVOLUCION' &&
+        cobro.formaDePago !== 'BONIFICACION'
+      "
+    >
+      <button mat-button (click)="generarRecibo(cobro)">
+        Generar recibo (CFDI)
+      </button>
     </ng-container>
 
     <ng-container *ngIf="cobro?.cfdi">
       <button mat-button (click)="printRecibo(cobro)">
-        <mat-icon>print</mat-icon> Recibo: {{cobro.cfdi.folio}}
+        <mat-icon>print</mat-icon> Recibo: {{ cobro.cfdi.folio }}
       </button>
       <sx-cfdi-xml [cfdi]="cobro.cfdi"></sx-cfdi-xml>
       <button mat-button type="button" (click)="mandarPorCorreo(cobro)">
