@@ -40,6 +40,10 @@ import { FacturasSelectorBtnComponent } from '../facturas-selector/facturas-sele
 export class BonificacionFormComponent implements OnInit, OnDestroy {
   form: FormGroup;
 
+  autorizado = false;
+
+  usuario: string;
+
   @Input() cartera = 'NO';
 
   @Output() save = new EventEmitter<any>();
@@ -75,6 +79,7 @@ export class BonificacionFormComponent implements OnInit, OnDestroy {
         descuento: [{ value: 0.0, disabled: false }, [Validators.max(99.99)]],
         descuento2: [{ value: 0.0, disabled: false }, [Validators.max(99.99)]],
         comentario: [''],
+        usuario: [null, Validators.required],
         partidas: this.fb.array([])
       },
       { validator: BonoficacionFormValidator }
@@ -215,6 +220,15 @@ export class BonificacionFormComponent implements OnInit, OnDestroy {
     }
     if (event.code === 'F10') {
       // console.log('Salvando con tecla F10')
+    }
+  }
+
+
+  setAutorizo(user) {
+    if (user) {
+      this.autorizado = true;
+      this.usuario = user;
+      this.form.get('usuario').setValue(user);
     }
   }
 }

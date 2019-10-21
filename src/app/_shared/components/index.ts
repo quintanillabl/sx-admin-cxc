@@ -11,6 +11,7 @@ import { DireccionFormComponent } from './direccion-form/direccion-form.componen
 import { UpperCaseFieldComponent } from './upper-case-field/upper-case-field.component';
 import { SucursalFieldComponent } from './sucursal-field/sucursal-field.component';
 import { FilterButtonComponent } from './filter/filter-button.component';
+import { UsuarioSecFieldComponent } from './usuario-sec-field/usuario-sec-field.component';
 
 export const components = [
   DireccionComponent,
@@ -25,13 +26,15 @@ export const components = [
   DireccionFormComponent,
   UpperCaseFieldComponent,
   SucursalFieldComponent,
-  FilterButtonComponent
+  FilterButtonComponent,
+  UsuarioSecFieldComponent
 ];
 
 export const entyComponents: any[] = [
   FechaDialogComponent,
   PeriodoDialogComponent,
-  SucursalFieldComponent
+  SucursalFieldComponent,
+  UsuarioSecFieldComponent
 ];
 
 export * from './direccion/direccion.component';
