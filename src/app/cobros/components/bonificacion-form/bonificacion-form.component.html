@@ -73,11 +73,17 @@
       (seleccionar)="agregarFacturas($event)" [cartera]="cartera">
     </sx-facturas-selector-btn>
   </div>
+  <div layout>
+    <sx-usuario-sec-field  (usuarioFound)="setAutorizo($event)" placeholder="Autoriza"> </sx-usuario-sec-field>
+    <span class="text-center tc-indigo-600" flex>
+      {{usuario?.nombre}}
+    </span>
+  </div>
   <sx-bonificacion-partidas [parent]="form" [partidas]="partidas.value" (delete)="onDeletePartida($event)">
   </sx-bonificacion-partidas>
 
   <mat-card-actions>
-    <button mat-button type="submit" color="primary" [disabled]="form.invalid || form.pristine">
+    <button mat-button type="submit" color="primary" [disabled]="(form.invalid || form.pristine) && autorizado ">
       <mat-icon>save</mat-icon> SALVAR
     </button>
     <button mat-button type="button" (click)="cancelar.emit()">
