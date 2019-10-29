@@ -76,7 +76,7 @@
   <div layout>
     <sx-usuario-sec-field  (usuarioFound)="setAutorizo($event)" placeholder="Autoriza"> </sx-usuario-sec-field>
     <span class="text-center tc-indigo-600" flex>
-      {{usuario?.nombre}}
+      {{usuario}}
     </span>
   </div>
   <sx-bonificacion-partidas [parent]="form" [partidas]="partidas.value" (delete)="onDeletePartida($event)">
