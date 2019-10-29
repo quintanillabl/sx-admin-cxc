@@ -1,7 +1,7 @@
 import { OperadoresService } from './operadores.service';
 import { CobradoresService } from './cobradores.service';
 import { VendedoresService } from './vendedores.service';
-import { DespachosService } from './despachos.services';
+import { DespachosService } from './despachos.service';
 
 export const services: any[] = [
   OperadoresService,
@@ -13,4 +13,4 @@ export const services: any[] = [
 export * from './operadores.service';
 export * from './cobradores.service';
 export * from './vendedores.service';
-export * from './despachos.services';
+export * from './despachos.service';

@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { TdMediaService } from '@covalent/core';
 
 import { Observable } from 'rxjs';
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 import * as fromStore from '../../store';
 
 import { Cliente } from '../../models';
@@ -11,6 +11,7 @@ import { FechaDialogComponent } from '../../../_shared/components';
 import { CobrosService } from '../../../cobros/services';
 import { MatDialog } from '@angular/material';
 import { ClienteService } from '../../services';
+import { EstadoDeCuentaComponent } from '../estado-de-cuenta/estado-de-cuenta.component';
 
 @Component({
   selector: 'sx-cliente',
@@ -39,18 +40,19 @@ export class ClienteComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.cliente$ = this.store.select(fromStore.getSelectedCliente);
+    this.cliente$ = this.store.pipe(select(fromStore.getSelectedCliente));
   }
 
   cambiar() {}
 
   estadoDeCuenta(cliente: Cliente) {
-    const dialogRef = this.dialog.open(FechaDialogComponent, {
-      data: { title: 'Estado de cuenta' }
+    const dialogRef = this.dialog.open(EstadoDeCuentaComponent, {
+      data: {}
     });
-    dialogRef.afterClosed().subscribe(fecha => {
-      if (fecha) {
-        this.service.estadoDeCuenta(cliente, fecha, 'CRE').subscribe(
+    dialogRef.afterClosed().subscribe(data => {
+      if (data) {
+        const { fecha, cartera } = data;
+        this.service.estadoDeCuenta(cliente, fecha, cartera).subscribe(
           res => {
             const blob = new Blob([res], {
               type: 'application/pdf'

@@ -15,6 +15,7 @@ import * as moment from 'moment';
 
 import { ReportesService } from 'app/reportes/services';
 import { Cartera } from '../../models/cartera';
+import { ReporteDeSaldosJurComponent } from 'app/cobros/components';
 
 @Component({
   selector: 'sx-cobranza-jur',
@@ -121,6 +122,26 @@ export class CobranzaJurComponent implements OnInit, OnDestroy {
           const params = { fecha: moment(fecha).format('DD/MM/YYYY') };
           this.reportService.runReport(
             'cxc/cheques/estadoDeCuentaDetChe',
+            params
+          );
+        }
+      });
+  }
+
+  reporteDeSaldosPorAbogado(cartera: Cartera) {
+    this.dialog
+      .open(ReporteDeSaldosJurComponent, {
+        width: '650px'
+      })
+      .afterClosed()
+      .subscribe(data => {
+        if (data) {
+          const params = {
+            ...data,
+            fecha: moment(data.fecha).format('DD/MM/YYYY')
+          };
+          this.reportService.runReport(
+            'cxc/cheques/saldosPorAbogado',
             params
           );
         }

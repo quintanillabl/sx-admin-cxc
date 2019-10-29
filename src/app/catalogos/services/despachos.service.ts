@@ -13,7 +13,7 @@ export class DespachosService {
   private apiUrl: string;
 
   constructor(private http: HttpClient, private config: ConfigService) {
-    this.apiUrl = config.buildApiUrl('despachos');
+    this.apiUrl = config.buildApiUrl('cxc/despachos');
   }
 
   list(): Observable<Despacho[]> {

@@ -1,26 +1,31 @@
 <form [formGroup]="form">
-  <h2 mat-dialog-title>
+  <!-- <h2 mat-dialog-title>
     Mandar Jurídico documento: {{ cxc.tipo }} {{ cxc.documento }}
-  </h2>
-  <mat-divider></mat-divider>
+  </h2> -->
+  <h2>Mandar a JURIDICO {{ facturas.length }} FACTURAS</h2>
+
   <mat-dialog-content>
-    <div layout class="pad-top">
+    <!-- <div layout class="pad-top">
       <p>
         {{ cxc.cliente['nombre'] }}
       </p>
-    </div>
-    <mat-divider></mat-divider>
-    <div layout class="pad-top pad-bottom">
+    </div> -->
+
+    <!--
+      <mat-divider></mat-divider>
+      <div layout class="pad-top pad-bottom">
       <span flex>Total: {{ cxc.total | currency }}</span>
       <span flex>Saldo: {{ cxc.saldo | currency }}</span>
-    </div>
-    <mat-divider></mat-divider>
+    </div> -->
+    <!-- <mat-divider></mat-divider>
     <div layout class="pad-top pad-bottom">
       <span flex>Fecha: {{ cxc.fecha | date: 'dd/MM/yyyy' }}</span>
       <span flex>Vto: {{ cxc.vencimiento | date: 'dd/MM/yyyy' }}</span>
       <span flex>Atraso: {{ cxc.atraso }}</span>
     </div>
     <mat-divider></mat-divider>
+   -->
+
     <div layout>
       <mat-form-field flex="40" class="pad-right">
         <input

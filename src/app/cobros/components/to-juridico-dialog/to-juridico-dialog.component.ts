@@ -9,14 +9,16 @@ import { CuentaPorCobrar } from '../../models';
 })
 export class ToJuridicoDialogComponent implements OnInit {
   form: FormGroup;
-  cxc: CuentaPorCobrar;
+  // cxc: CuentaPorCobrar;
+  facturas: CuentaPorCobrar[];
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private dialoRef: MatDialogRef<ToJuridicoDialogComponent>,
     private fb: FormBuilder
   ) {
-    this.cxc = data.cxc;
+    // this.cxc = data.cxc;
+    this.facturas = data.facturas;
   }
 
   ngOnInit() {
@@ -28,7 +30,7 @@ export class ToJuridicoDialogComponent implements OnInit {
       traspaso: [new Date()],
       despacho: [null, Validators.required],
       abogado: [null, Validators.required],
-      cxc: [this.cxc.id, Validators.required],
+      // cxc: [this.cxc.id, Validators.required],
       comentario: [null]
     });
   }
@@ -38,7 +40,8 @@ export class ToJuridicoDialogComponent implements OnInit {
       const traspaso: Date = this.form.get('traspaso').value;
       const entity = {
         ...this.form.value,
-        traspaso: traspaso.toISOString()
+        traspaso: traspaso.toISOString(),
+        facturas: this.facturas.map(item => item.id)
       };
       this.dialoRef.close(entity);
     }

@@ -47,7 +47,7 @@ import { ToJuridicoDialogComponent } from 'app/cobros/components';
             <mat-icon>email</mat-icon> Enviar
           </button>
           <button class="actions" mat-menu-item (click)="saldar()"> Saldar </button>
-          <button class="actions" *ngIf="cartera.clave !== 'JUR'"
+          <button class="actions" *ngIf="cartera.clave !== 'JUR' "
             mat-menu-item (click)="mandarJuridico()"> Mandar a Jurídico </button>
         </mat-menu>
         </span>
@@ -106,6 +106,7 @@ export class FacturasComponent implements OnInit {
 
   load() {
     // this.facturas$ = this.service.list(this.filtro);
+    this.selected = [];
     this.procesando = true;
     this.service
       .list(this.filtro)
@@ -249,19 +250,20 @@ export class FacturasComponent implements OnInit {
       const cxc = facturas[0];
       this.dialog
         .open(ToJuridicoDialogComponent, {
-          data: { cxc },
+          data: { facturas },
           width: '650px'
         })
         .afterClosed()
-        .subscribe(res => {
-          if (res) {
+        .subscribe(cmd => {
+          if (cmd) {
+            
             this.procesando = true;
             this.juridicoService
-              .save(res)
+              .mandarFacturas(cmd)
               .pipe(finalize(() => (this.procesando = false)))
               .subscribe(
-                juridico => {
-                  console.log('Juridico : ', juridico);
+                res => {
+                  
                   this.load();
                 },
                 err => console.error('Error: ', err)

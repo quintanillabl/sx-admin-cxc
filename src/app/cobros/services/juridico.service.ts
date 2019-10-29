@@ -32,4 +32,11 @@ export class JuridicoService {
       .post<Juridico[]>(this.apiUrl, entity)
       .pipe(catchError(err => observableOf(err)));
   }
+
+  mandarFacturas(command: any) {
+    const url = `${this.apiUrl}/mandarFacturas`;
+    return this.http
+      .put(url, command)
+      .pipe(catchError(err => observableOf(err)));
+  }
 }

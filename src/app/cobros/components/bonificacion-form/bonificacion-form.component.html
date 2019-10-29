@@ -64,10 +64,10 @@
       </textarea>
     </mat-form-field>
     <mat-form-field class="pad-left">
-      <input type="text" placeholder="Saldo facturas" matInput value="{{saldoFacturas | currency: 'USD': 1.2-2}}" [disabled]="true">
+      <input type="text" placeholder="Saldo facturas" matInput value="{{saldoFacturas | currency}}" [disabled]="true">
     </mat-form-field>
     <mat-form-field class="pad-left">
-      <input type="text" placeholder="Total facturas" matInput value="{{totalFacturas | currency: 'USD': 1.2-2}}" [disabled]="true">
+      <input type="text" placeholder="Total facturas" matInput value="{{totalFacturas | currency}}" [disabled]="true">
     </mat-form-field>
     <sx-facturas-selector-btn #insertBtn [disabled]="form.get('cliente').value === null" [cliente]="form.get('cliente').value"
       (seleccionar)="agregarFacturas($event)" [cartera]="cartera">

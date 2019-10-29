@@ -27,6 +27,9 @@ export const containers: any[] = [
   ClienteSociosComponent,
   EstadoDeCuentaComponent
 ];
+
+export const entryComponents: any[] = [EstadoDeCuentaComponent];
+
 export * from './clientes/clientes.component';
 export * from './cliente-edit/cliente-edit.component';
 export * from './clientes-list/clientes-list.component';

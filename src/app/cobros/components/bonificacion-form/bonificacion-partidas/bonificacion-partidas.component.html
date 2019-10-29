@@ -25,9 +25,9 @@
           <td td-data-table-cell>{{row.cuentaPorCobrar.tipo}}</td>
           <td td-data-table-cell>{{row.cuentaPorCobrar.documento}}</td>
           <td td-data-table-cell>{{row.cuentaPorCobrar.fecha | date: 'dd/MM/yyyy'}}</td>
-          <td td-data-table-cell>{{row.cuentaPorCobrar.total | currency: 'USD': 1.2-2}}</td>
-          <td td-data-table-cell>{{row.cuentaPorCobrar.pagos | currency: 'USD': 1.2-2}}</td>
-          <td td-data-table-cell>{{row.cuentaPorCobrar.saldo | currency: 'USD': 1.2-2}}</td>
+          <td td-data-table-cell>{{row.cuentaPorCobrar.total | currency }}</td>
+          <td td-data-table-cell>{{row.cuentaPorCobrar.pagos | currency }}</td>
+          <td td-data-table-cell>{{row.cuentaPorCobrar.saldo | currency }}</td>
           <td td-data-table-cell>
             <button mat-icon-button type="button" (click)="delete.emit(i)" >
               <mat-icon mat-icon-button color="accent" >delete</mat-icon>

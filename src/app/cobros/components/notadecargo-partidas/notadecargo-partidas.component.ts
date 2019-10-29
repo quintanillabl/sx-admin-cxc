@@ -32,8 +32,11 @@ export class NotadecargoPartidasComponent implements OnInit {
   }
 
   get invalid() {
+    return false;
+    /*
     return (
       this.parent.get('partidas').value.length === 0 && this.cartera !== 'CHE'
     );
+    */
   }
 }

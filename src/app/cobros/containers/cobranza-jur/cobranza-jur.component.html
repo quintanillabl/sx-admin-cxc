@@ -1,5 +1,11 @@
-<td-layout-nav-list #navList color="primary" [opened]="media.registerQuery('gt-sm') | async" [mode]="(media.registerQuery('gt-sm') | async) ? 'side' : 'over'"
-  [sidenavWidth]="(media.registerQuery('gt-xs') | async) ? '275px' : '100%'" *ngIf="cartera$ | async as cartera">
+<td-layout-nav-list
+  #navList
+  color="primary"
+  [opened]="media.registerQuery('gt-sm') | async"
+  [mode]="(media.registerQuery('gt-sm') | async) ? 'side' : 'over'"
+  [sidenavWidth]="(media.registerQuery('gt-xs') | async) ? '275px' : '100%'"
+  *ngIf="cartera$ | async as cartera"
+>
   <div td-sidenav-toolbar-content layout="row" layout-align="start center">
     <button mat-icon-button tdLayoutToggle>
       <mat-icon>menu</mat-icon>
@@ -14,41 +20,67 @@
     <span flex></span>
     <span layout>
       <span>Cartera: </span>
-      <span class="pad-left">{{cartera.descripcion}}</span>
+      <span class="pad-left">{{ cartera.descripcion }}</span>
     </span>
   </div>
-  <mat-nav-list td-sidenav-content [tdLayoutNavListClose]="!media.query('gt-sm')">
+  <mat-nav-list
+    td-sidenav-content
+    [tdLayoutNavListClose]="!media.query('gt-sm')"
+  >
     <ng-template let-item let-last="last" ngFor [ngForOf]="navigation">
-      <a mat-list-item [routerLink]="[item.path]" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact: false}">
-        <mat-icon matListAvatar>{{item.icon}}</mat-icon>
-        <h3 matLine> {{item.title}} </h3>
-        <p matLine> {{item.description}} </p>
+      <a
+        mat-list-item
+        [routerLink]="[item.path]"
+        [routerLinkActive]="['active']"
+        [routerLinkActiveOptions]="{ exact: false }"
+      >
+        <mat-icon matListAvatar>{{ item.icon }}</mat-icon>
+        <h3 matLine>{{ item.title }}</h3>
+        <p matLine>{{ item.description }}</p>
       </a>
       <mat-divider [inset]="true" *ngIf="!last"></mat-divider>
     </ng-template>
     <h3 matSubheader>Reportes</h3>
     <mat-list-item (click)="reporteDeCobranza(cartera)">
       <mat-icon matListAvatar>insert_chart</mat-icon>
-      <h3 matLine> Cobranza </h3>
-      <p matLine> Reporte de cobranza {{cartera.clave}}</p>
+      <h3 matLine>Cobranza</h3>
+      <p matLine>Reporte de cobranza {{ cartera.clave }}</p>
+    </mat-list-item>
+    <mat-list-item
+      (click)="reporteDeSaldosPorAbogado(cartera)"
+      *ngIf="cartera.clave == 'JUR'"
+    >
+      <mat-icon matListAvatar>insert_chart</mat-icon>
+      <h3 matLine>Por Abogado</h3>
+      <p matLine>C x C Por Abogado ({{ cartera.clave }})</p>
     </mat-list-item>
     <mat-divider [inset]="true"></mat-divider>
 
-    <mat-list-item (click)="estadoDeCuentaGeneralChe()" *ngIf="cartera.clave == 'CHE'">
+    <mat-list-item
+      (click)="estadoDeCuentaGeneralChe()"
+      *ngIf="cartera.clave == 'CHE'"
+    >
       <mat-icon matListAvatar>insert_chart</mat-icon>
-      <h3 matLine> Estado de Cta </h3>
-      <p matLine> Estado de cta general </p>
+      <h3 matLine>Estado de Cta</h3>
+      <p matLine>Estado de cta general</p>
     </mat-list-item>
 
-    <mat-list-item (click)="estadoDeCuentaDetChe()" *ngIf="cartera.clave == 'CHE'">
+    <mat-list-item
+      (click)="estadoDeCuentaDetChe()"
+      *ngIf="cartera.clave == 'CHE'"
+    >
       <mat-icon matListAvatar>insert_chart</mat-icon>
-      <h3 matLine> Estado de Cta (DET)</h3>
-      <p matLine> Estado de cta Detalle </p>
+      <h3 matLine>Estado de Cta (DET)</h3>
+      <p matLine>Estado de cta Detalle</p>
     </mat-list-item>
 
     <mat-divider [inset]="true"></mat-divider>
   </mat-nav-list>
-  <ng-template tdLoading [tdLoadingUntil]="!(loading$ | async)" tdLoadingStrategy="overlay">
+  <ng-template
+    tdLoading
+    [tdLoadingUntil]="!(loading$ | async)"
+    tdLoadingStrategy="overlay"
+  >
     <router-outlet></router-outlet>
   </ng-template>
 

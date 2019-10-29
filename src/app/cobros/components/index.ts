@@ -28,6 +28,7 @@ import { CobrosFilterLabelComponent } from './cobros-filter/cobros-filter-label.
 import { ToJuridicoDialogComponent } from './to-juridico-dialog/to-juridico-dialog.component';
 import { DespachoFieldComponent } from './despacho-field/despacho-field.component';
 import { JuridicosTableComponent } from './juridicos-table/juridicos-table.component';
+import { ReporteDeSaldosJurComponent } from './reporte-de-saldos-jur/reporte-de-saldos-jur.component';
 
 export const components: any[] = [
   CobrosTableComponent,
@@ -59,7 +60,8 @@ export const components: any[] = [
   CobrosFilterLabelComponent,
   ToJuridicoDialogComponent,
   DespachoFieldComponent,
-  JuridicosTableComponent
+  JuridicosTableComponent,
+  ReporteDeSaldosJurComponent
 ];
 export const entryComponents: any[] = [
   FacturasSelectorComponent,
@@ -69,7 +71,8 @@ export const entryComponents: any[] = [
   ReporteDeComisionesComponent,
   CxCSelectorDialogComponent,
   CobrosFilterDialogComponent,
-  ToJuridicoDialogComponent
+  ToJuridicoDialogComponent,
+  ReporteDeSaldosJurComponent
 ];
 
 export * from './cobros-table/cobros-table.component';
@@ -104,3 +107,5 @@ export * from './cobros-filter/cobros-filter-label.component';
 export * from './to-juridico-dialog/to-juridico-dialog.component';
 export * from './despacho-field/despacho-field.component';
 export * from './juridicos-table/juridicos-table.component';
+
+export * from './reporte-de-saldos-jur/reporte-de-saldos-jur.component';
