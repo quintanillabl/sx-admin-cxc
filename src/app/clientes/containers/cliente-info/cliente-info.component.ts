@@ -48,20 +48,23 @@ export class ClienteInfoComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(res => {
       if (res) {
+        /*
         const target = {
           id: cliente.id,
           credito: res
         };
-        // this.store.dispatch(new fromClientes.UpdateCliente(target));
-
+        this.store.dispatch(new fromClientes.UpdateCliente(target));
+        */
         const { telefonos, ...bean } = cliente;
         const target2 = {
           id: cliente.id,
           ...bean,
           credito: res
         };
-        this.store.dispatch(new fromClientes.UpdateCliente(target2));
         console.log('Actualizando cliente: ', target2);
+        this.store.dispatch(new fromClientes.UpdateCliente(target2));
+
+
 
         /*
         this.creditoService.update(cliente, res).subscribe(rr => {

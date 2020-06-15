@@ -9,7 +9,8 @@
     "build-prod": "ng build --prod --source-map --aot --build-optimizer",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "set-node": "nvm use 8.11.1"
   },
   "private": true,
   "dependencies": {

@@ -1,5 +1,4 @@
-
-import {of as observableOf,  Observable } from 'rxjs';
+import { of as observableOf, Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
@@ -41,6 +40,7 @@ export class ClienteService {
 
   update(cliente: Cliente): Observable<Cliente> {
     const url = `${this.apiUrl}/${cliente.id}`;
+    // console.log('Uodate on server: ', cliente, url);
     return this.http
       .put<Cliente>(url, cliente)
       .pipe(catchError(error => observableOf(error)));
@@ -48,9 +48,7 @@ export class ClienteService {
 
   delete(cliente: Cliente) {
     const url = `${this.apiUrl}/${cliente.id}`;
-    return this.http
-      .delete(url)
-      .pipe(catchError(error => observableOf(error)));
+    return this.http.delete(url).pipe(catchError(error => observableOf(error)));
   }
 
   facturas(cliente: Cliente, filtro?: any): Observable<Cliente[]> {

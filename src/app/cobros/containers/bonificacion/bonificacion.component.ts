@@ -46,7 +46,6 @@ export class BonificacionComponent implements OnInit {
   }
 
   onSave(nota) {
-    // console.log('Salvando nota: ', nota);
     this.loadingService.register('procesando');
     this.service
       .save(nota)

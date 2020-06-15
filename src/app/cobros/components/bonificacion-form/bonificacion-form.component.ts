@@ -60,6 +60,11 @@ export class BonificacionFormComponent implements OnInit, OnDestroy {
   saldoFacturas = 0.0;
   descuentoNeto = 0.0;
 
+  formasDePago = [
+    { clave: '99', descripcion: 'Por definir (99)' },
+    { clave: '15', descripcion: 'Condonación (15)' }
+  ];
+
   constructor(private fb: FormBuilder, private cd: ChangeDetectorRef) {}
 
   private buildForm() {
@@ -80,7 +85,8 @@ export class BonificacionFormComponent implements OnInit, OnDestroy {
         descuento2: [{ value: 0.0, disabled: false }, [Validators.max(99.99)]],
         comentario: [''],
         usuario: [null, Validators.required],
-        partidas: this.fb.array([])
+        partidas: this.fb.array([]),
+        formaDePago: ['99', Validators.required]
       },
       { validator: BonoficacionFormValidator }
     );
@@ -155,7 +161,8 @@ export class BonificacionFormComponent implements OnInit, OnDestroy {
 
   onSubmit() {
     if (this.form.valid) {
-      this.save.emit(this.prepareEntity());
+      const nota = this.prepareEntity();
+      this.save.emit(nota);
     }
   }
 
@@ -223,11 +230,10 @@ export class BonificacionFormComponent implements OnInit, OnDestroy {
     }
   }
 
-
   setAutorizo(user) {
     if (user) {
       this.autorizado = true;
-      this.usuario = user;
+      this.usuario = user.nombre;
       this.form.get('usuario').setValue(user);
     }
   }
