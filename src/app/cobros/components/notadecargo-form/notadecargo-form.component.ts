@@ -6,7 +6,7 @@ import {
   EventEmitter,
   OnDestroy,
   OnChanges,
-  SimpleChanges
+  SimpleChanges,
 } from '@angular/core';
 import {
   FormGroup,
@@ -15,7 +15,7 @@ import {
   AbstractControl,
   ValidatorFn,
   FormArray,
-  FormControl
+  FormControl,
 } from '@angular/forms';
 
 import { Subject } from 'rxjs';
@@ -28,7 +28,7 @@ import { NotaDeCargo } from '../../models/notaDeCargo';
 @Component({
   selector: 'sx-notadecargo-form',
   templateUrl: './notadecargo-form.component.html',
-  styles: []
+  styles: [],
 })
 export class NotadecargoFormComponent implements OnInit, OnChanges, OnDestroy {
   form: FormGroup;
@@ -63,7 +63,7 @@ export class NotadecargoFormComponent implements OnInit, OnChanges, OnDestroy {
   ngOnChanges(changes: SimpleChanges) {
     if (changes.nota) {
       this.form.patchValue(this.nota);
-      this.nota.partidas.forEach(item => {
+      this.nota.partidas.forEach((item) => {
         this.partidas.push(new FormControl(item));
       });
       this.form.get('total').setValue(this.nota.total);
@@ -79,10 +79,12 @@ export class NotadecargoFormComponent implements OnInit, OnChanges, OnDestroy {
       tipoDeCalculo: ['PORCENTAJE', Validators.required],
       formaDePago: ['POR DEFINIR', Validators.required],
       usoDeCfdi: ['G03', Validators.required],
+      moneda: ['MXN', Validators.required],
+      tipoDeCambio: [1.0, Validators.required],
       cargo: [{ value: null, disabled: false }, [Validators.required]],
       total: [{ value: 0, disabled: false }, [Validators.required]],
       comentario: null,
-      partidas: this.fb.array([])
+      partidas: this.fb.array([]),
     });
     this.observarTipoDeCalculo();
     this.subscribers();
@@ -92,10 +94,8 @@ export class NotadecargoFormComponent implements OnInit, OnChanges, OnDestroy {
     // Listen to import
     this.form
       .get('cargo')
-      .valueChanges.pipe(
-        takeUntil(this.destroy$)
-      )
-      .subscribe(importe => {
+      .valueChanges.pipe(takeUntil(this.destroy$))
+      .subscribe((importe) => {
         this.actualizar();
       });
   }
@@ -104,7 +104,7 @@ export class NotadecargoFormComponent implements OnInit, OnChanges, OnDestroy {
     const entity = {
       ...this.form.value,
       tipo: this.cartera,
-      total: this.form.get('total').value
+      total: this.form.get('total').value,
     };
     if (this.nota) {
       const cliente = this.form.get('cliente').value;
@@ -117,9 +117,7 @@ export class NotadecargoFormComponent implements OnInit, OnChanges, OnDestroy {
   private observarTipoDeCalculo() {
     this.form
       .get('tipoDeCalculo')
-      .valueChanges.pipe(
-        takeUntil(this.destroy$)
-      )
+      .valueChanges.pipe(takeUntil(this.destroy$))
       .subscribe((tipo: string) => {
         switch (tipo) {
           case 'PORCENTAJE':
@@ -176,9 +174,9 @@ export class NotadecargoFormComponent implements OnInit, OnChanges, OnDestroy {
 
   agregarFacturas(facturas: Array<any>) {
     if (facturas) {
-      facturas.forEach(item => {
+      facturas.forEach((item) => {
         const det = {
-          cuentaPorCobrar: item
+          cuentaPorCobrar: item,
         };
         this.partidas.push(new FormControl(det));
       });
