@@ -15,7 +15,7 @@ import * as _ from 'lodash';
 @Component({
   selector: 'sx-cobro',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: './cobro.component.html'
+  templateUrl: './cobro.component.html',
 })
 export class CobroComponent implements OnInit {
   cobro$: Observable<Cobro>;
@@ -28,6 +28,7 @@ export class CobroComponent implements OnInit {
 
   ngOnInit() {
     this.cobro$ = this.store.pipe(select(fromStore.getSelectedCobro));
+    // this.cobro$.subscribe((cobro) => console.log('cobro: ', cobro));
   }
 
   aplicar(cobro: Cobro, cuentas: CuentaPorCobrar[]) {
@@ -39,7 +40,7 @@ export class CobroComponent implements OnInit {
   doAplicarSeleccion(cobro: Cobro, cuentas: CuentaPorCobrar[]) {
     const command = {
       cobro,
-      cuentas
+      cuentas,
     };
     this.store.dispatch(new fromActions.AgregarAplicaciones(command));
   }
@@ -49,7 +50,7 @@ export class CobroComponent implements OnInit {
       this.confirm(
         'Cobros',
         `Eliminar aplicación de $ ${aplicacion.importe}`
-      ).subscribe(res => {
+      ).subscribe((res) => {
         this.store.dispatch(
           new fromActions.EliminarAplicacion({ cobro, aplicacion })
         );
@@ -61,7 +62,7 @@ export class CobroComponent implements OnInit {
     this.confirm(
       'Cobros',
       `Saldar el disponible de $ ${cobro.disponible}`
-    ).subscribe(res => {
+    ).subscribe((res) => {
       this.store.dispatch(new fromActions.SaldarRecibo(cobro));
     });
   }
@@ -70,7 +71,7 @@ export class CobroComponent implements OnInit {
     this.confirm(
       'Generar recibo electrónico de pago',
       `Importe: ${event.importe}`
-    ).subscribe(res => {
+    ).subscribe((res) => {
       if (res) {
         this.store.dispatch(new fromActions.GenerarRecibo(event));
       }
@@ -85,7 +86,7 @@ export class CobroComponent implements OnInit {
         title: 'Email',
         value: cobro.cliente.cfdiMail,
         cancelButton: 'Cancelar',
-        acceptButton: 'Enviar'
+        acceptButton: 'Enviar',
       })
       .afterClosed()
       .subscribe((newValue: string) => {
@@ -105,7 +106,7 @@ export class CobroComponent implements OnInit {
         title,
         message,
         acceptButton,
-        cancelButton
+        cancelButton,
       })
       .afterClosed();
   }

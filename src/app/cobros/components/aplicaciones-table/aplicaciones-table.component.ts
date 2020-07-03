@@ -7,7 +7,7 @@ import {
   OnChanges,
   ChangeDetectionStrategy,
   SimpleChanges,
-  ViewChild
+  ViewChild,
 } from '@angular/core';
 import { MatTableDataSource, MatPaginator } from '@angular/material';
 
@@ -19,7 +19,7 @@ import * as _ from 'lodash';
   selector: 'sx-aplicaciones-table',
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './aplicaciones-table.component.html',
-  styleUrls: ['./aplicaciones-table.component.scss']
+  styleUrls: ['./aplicaciones-table.component.scss'],
 })
 export class AplicacionesTableComponent implements OnInit, OnChanges {
   @Input() aplicaciones: AplicacionDeCobro[] = [];
@@ -33,13 +33,14 @@ export class AplicacionesTableComponent implements OnInit, OnChanges {
     'folioDocumento',
     'fechaDocumento',
     'moneda',
+    'tipoDeCambio',
     'fecha',
     'totalDocumento',
     'pagosDocumento',
     'saldoDocumento',
     'uuidDocumento',
     'importe',
-    'operaciones'
+    'operaciones',
   ];
 
   dataSource = new MatTableDataSource<AplicacionDeCobro>([]);
@@ -63,6 +64,13 @@ export class AplicacionesTableComponent implements OnInit, OnChanges {
 
   getTotal(property: string) {
     return _.sumBy(this.dataSource.filteredData, property);
+  }
+
+  getTotalMn(ap: AplicacionDeCobro) {
+    return _.sumBy(
+      this.dataSource.filteredData,
+      (item) => item.tipoDeCambio * item.importe
+    );
   }
 }
 

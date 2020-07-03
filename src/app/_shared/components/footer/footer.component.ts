@@ -8,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
         >Copyright &copy; 2017 Luxsoft Mx. All rights reserved
       </span>
       <span class="fill"></span>
-      <span class="version"> Versión <strong>1.0.53</strong> </span>
+      <span class="version"> Versión <strong>1.0.54</strong> </span>
     </div>
   `,
   styles: [

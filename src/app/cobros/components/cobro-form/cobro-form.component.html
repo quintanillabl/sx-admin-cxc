@@ -1,4 +1,4 @@
-<div layout class=" pad-right">
+<div layout class="pad-right">
   <mat-form-field class="small-field">
     <input
       matInput
@@ -45,16 +45,16 @@
       value="{{ cobro.importe | currency }}"
       [disabled]="true"
       placeholder="Importe"
-      class="tc-indigo-800 "
+      class="tc-indigo-800"
     />
   </mat-form-field>
   <mat-form-field class="pad-left importes">
     <input
       matInput
-      value="{{ cobro.aplicado | currency }}"
+      value="{{ cobro.aplicado | currency: 'USD' }}"
       [disabled]="true"
       placeholder="Aplicado"
-      class="tc-indigo-800 "
+      class="tc-indigo-800"
     />
   </mat-form-field>
   <mat-form-field class="pad-left importes">
@@ -63,7 +63,7 @@
       value="{{ cobro.diferencia | currency }}"
       [disabled]="true"
       placeholder="Diferencia"
-      class="tc-indigo-800 "
+      class="tc-indigo-800"
     />
   </mat-form-field>
   <mat-form-field class="pad-left importes">
@@ -72,7 +72,7 @@
       value="{{ cobro.disponible | currency }}"
       [disabled]="true"
       placeholder="Disponible"
-      class="tc-indigo-800 "
+      class="tc-indigo-800"
     />
   </mat-form-field>
 </div>
